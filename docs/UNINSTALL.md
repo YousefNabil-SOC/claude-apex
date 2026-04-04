@@ -1,8 +1,8 @@
-# Uninstall: How to Remove Pantheon
+# Uninstall: How to Remove Apex
 
 ## Overview
 
-This guide covers clean uninstallation of Pantheon. You can uninstall completely or partially (keep memory/settings, remove code only).
+This guide covers clean uninstallation of Apex. You can uninstall completely or partially (keep memory/settings, remove code only).
 
 ## Full Uninstall (Remove Everything)
 
@@ -48,7 +48,7 @@ bash uninstall.sh
 ### Step 4: Manual Cleanup (if uninstall script missing)
 
 ```bash
-# Remove Pantheon directory
+# Remove Apex directory
 rm -rf ~/.claude
 
 # Verify it's gone
@@ -58,7 +58,7 @@ ls ~/.claude
 
 ### Step 5: Remove Claude Code
 
-If you want to remove Claude Code itself (not just Pantheon):
+If you want to remove Claude Code itself (not just Apex):
 
 ```bash
 # macOS:
@@ -235,7 +235,7 @@ After uninstalling, verify:
 # Reinstall Claude Code
 npm install -g @anthropic-ai/claude-code
 
-# Pantheon will auto-initialize with defaults
+# Apex will auto-initialize with defaults
 claude
 
 # Restore your settings from backup
@@ -250,7 +250,7 @@ claude
 ### From Partial Uninstall
 
 ```bash
-# Pantheon should work as-is (settings preserved)
+# Apex should work as-is (settings preserved)
 claude
 
 # If not, reinstall agents/rules:
@@ -316,9 +316,9 @@ rm -rf ~/claude-backup-20250102
 
 ---
 
-## Keeping Pantheon but Resetting Everything
+## Keeping Apex but Resetting Everything
 
-If you want to keep Claude Code but reset Pantheon to factory defaults:
+If you want to keep Claude Code but reset Apex to factory defaults:
 
 ```bash
 # Option 1: Reset settings only
@@ -338,7 +338,7 @@ rm -rf ~/.claude/rules
 # Option 4: Full reset (keep Claude Code)
 rm -rf ~/.claude
 claude
-# Will reinitialize Pantheon from scratch
+# Will reinitialize Apex from scratch
 ```
 
 ---
@@ -385,14 +385,14 @@ claude
 
 ## Uninstall Scripts
 
-### Uninstall.sh (Included in Pantheon)
+### Uninstall.sh (Included in Apex)
 
 Located at: `~/.claude/uninstall.sh`
 
 ```bash
 #!/bin/bash
 
-echo "=== Claude Pantheon Uninstall ==="
+echo "=== Claude Apex Uninstall ==="
 echo ""
 
 # Backup option
@@ -407,7 +407,7 @@ fi
 read -p "Remove ~/.claude completely? (y/n) " -n 1 -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
   rm -rf ~/.claude
-  echo "✓ Uninstalled Pantheon"
+  echo "✓ Uninstalled Apex"
   echo ""
   echo "To remove Claude Code itself:"
   echo "  macOS: brew uninstall claude-code"
@@ -417,12 +417,12 @@ fi
 
 ### Custom Uninstall Script
 
-Create `~/uninstall-pantheon-custom.sh`:
+Create `~/uninstall-apex-custom.sh`:
 
 ```bash
 #!/bin/bash
 
-echo "=== Custom Pantheon Uninstall ==="
+echo "=== Custom Apex Uninstall ==="
 
 # Remove only specific parts
 read -p "Remove agents? (y/n) " -n 1 -r

@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Claude Pantheon V6 Interactive Installer
+# Claude Apex V6 Interactive Installer
 # Lets users choose what to install
 
-PANTHEON_VERSION="6.0.0"
+APEX_VERSION="6.0.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo ""
 echo "═══════════════════════════════════════════"
-echo "  CLAUDE PANTHEON V${PANTHEON_VERSION} — Interactive Setup"
+echo "  CLAUDE APEX V${APEX_VERSION} — Interactive Setup"
 echo "═══════════════════════════════════════════"
 echo ""
 echo "This installer lets you choose which components to install."
@@ -51,7 +51,7 @@ if ! $INSTALL_AGENTS && ! $INSTALL_COMMANDS && ! $INSTALL_HOOKS && \
 fi
 
 echo "Creating backup..."
-BACKUP_DIR="$HOME/.claude/backups/pre-pantheon-$(date +%Y%m%d-%H%M%S)"
+BACKUP_DIR="$HOME/.claude/backups/pre-apex-$(date +%Y%m%d-%H%M%S)"
 mkdir -p "$BACKUP_DIR"
 [[ -f "$HOME/.claude/settings.json" ]] && cp "$HOME/.claude/settings.json" "$BACKUP_DIR/"
 [[ -f "$HOME/.claude/CLAUDE.md" ]] && cp "$HOME/.claude/CLAUDE.md" "$BACKUP_DIR/"
@@ -287,7 +287,7 @@ echo "════════════════════════�
 
 # --- Post-Install Verification ---
 echo ""
-echo "[PANTHEON] Running post-install verification..."
+echo "[APEX] Running post-install verification..."
 echo ""
 if [ -f "$SCRIPT_DIR/verify.sh" ]; then
   bash "$SCRIPT_DIR/verify.sh"

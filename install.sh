@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Claude Pantheon V6 Installer (Mac/Linux)
+# Claude Apex V6 Installer (Mac/Linux)
 # Non-destructive: backs up everything before changes
 
-PANTHEON_VERSION="6.0.0"
+APEX_VERSION="6.0.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 CARL_DIR="$HOME/.carl"
-BACKUP_DIR="$CLAUDE_DIR/backups/pre-pantheon-$(date +%Y%m%d-%H%M%S)"
+BACKUP_DIR="$CLAUDE_DIR/backups/pre-apex-$(date +%Y%m%d-%H%M%S)"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -23,7 +23,7 @@ failed=0
 banner() {
   echo ""
   echo -e "${CYAN}╔═══════════════════════════════════════════╗${NC}"
-  echo -e "${CYAN}║       CLAUDE PANTHEON V${PANTHEON_VERSION}            ║${NC}"
+  echo -e "${CYAN}║       CLAUDE APEX V${APEX_VERSION}            ║${NC}"
   echo -e "${CYAN}║  1,308 skills. 108 agents. One brain.     ║${NC}"
   echo -e "${CYAN}╚═══════════════════════════════════════════╝${NC}"
   echo ""
@@ -86,7 +86,7 @@ if [[ "$prereq_ok" == false ]]; then
 fi
 
 # --- Confirmation ---
-echo -e "${YELLOW}This will install Claude Pantheon V${PANTHEON_VERSION} to ~/.claude/.${NC}"
+echo -e "${YELLOW}This will install Claude Apex V${APEX_VERSION} to ~/.claude/.${NC}"
 echo "Your existing configuration will be backed up first."
 echo ""
 read -rp "Continue? (y/n): " confirm
@@ -168,20 +168,20 @@ echo ""
 # --- CLAUDE.md Enhancement ---
 echo -e "${CYAN}Checking CLAUDE.md...${NC}"
 if [[ -f "$CLAUDE_DIR/CLAUDE.md" ]]; then
-  if grep -q "Pantheon" "$CLAUDE_DIR/CLAUDE.md" 2>/dev/null; then
-    echo -e "  ${YELLOW}[SKIP]${NC} CLAUDE.md already contains Pantheon section"
+  if grep -q "Apex" "$CLAUDE_DIR/CLAUDE.md" 2>/dev/null; then
+    echo -e "  ${YELLOW}[SKIP]${NC} CLAUDE.md already contains Apex section"
     ((skipped++))
   else
     cat >> "$CLAUDE_DIR/CLAUDE.md" << 'CLAUDEEOF'
 
-## Pantheon V6 Environment
+## Apex V6 Environment
 - Agents: 25 custom specialists in ~/.claude/agents/
 - CARL: 7 domains, 33 JIT rules in ~/.carl/carl.json
 - Orchestration: ~/.claude/ORCHESTRATION-ENGINE.md
 - Health: /healthcheck for 15-system verification
 - Projects: /switch-project for instant context loading
 CLAUDEEOF
-    echo -e "  ${GREEN}[INSTALL]${NC} Appended Pantheon section to CLAUDE.md"
+    echo -e "  ${GREEN}[INSTALL]${NC} Appended Apex section to CLAUDE.md"
     ((installed++))
   fi
 else
@@ -358,7 +358,7 @@ echo ""
 
 # --- Post-Install Verification ---
 echo ""
-echo "[PANTHEON] Running post-install verification..."
+echo "[APEX] Running post-install verification..."
 echo ""
 if [ -f "$SCRIPT_DIR/verify.sh" ]; then
   bash "$SCRIPT_DIR/verify.sh"
@@ -366,7 +366,7 @@ fi
 
 # --- Summary ---
 echo -e "${CYAN}═══════════════════════════════════════════${NC}"
-echo -e "${GREEN}  Claude Pantheon V${PANTHEON_VERSION} installed!${NC}"
+echo -e "${GREEN}  Claude Apex V${APEX_VERSION} installed!${NC}"
 echo -e "${CYAN}═══════════════════════════════════════════${NC}"
 echo ""
 echo -e "  ${GREEN}Installed:${NC} $installed"

@@ -1,12 +1,12 @@
 {
-  "name": "claude-pantheon",
+  "name": "claude-apex",
   "version": "6.0.0",
-  "description": "1,308 skills. 108 agents. One unified intelligence. The most complete Claude Code environment ever built.",
+  "description": "1,308 skills. 108 agents. One unified intelligence. The absolute top of Claude Code.",
   "author": "Yousef Nabil",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YousefNabil-SOC/claude-pantheon"
+    "url": "https://github.com/YousefNabil-SOC/claude-apex"
   },
   "keywords": [
     "claude-code",
@@ -23,6 +23,6 @@
     "claude-code-agents",
     "claude-code-plugins"
   ],
-  "homepage": "https://github.com/YousefNabil-SOC/claude-pantheon",
-  "bugs": "https://github.com/YousefNabil-SOC/claude-pantheon/issues"
+  "homepage": "https://github.com/YousefNabil-SOC/claude-apex",
+  "bugs": "https://github.com/YousefNabil-SOC/claude-apex/issues"
 }

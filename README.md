@@ -6,20 +6,21 @@
 ╚██████╗███████╗██║  ██║╚██████╔╝██████╔╝███████╗
  ╚═════╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
 
-██████╗  █████╗ ███╗   ██╗████████╗██╗  ██╗███████╗ ██████╗ ███╗   ██╗
-██╔══██╗██╔══██╗████╗  ██║╚══██╔══╝██║  ██║██╔════╝██╔═══██╗████╗  ██║
-██████╔╝███████║██╔██╗ ██║   ██║   ███████║█████╗  ██║   ██║██╔██╗ ██║
-██╔═══╝ ██╔══██║██║╚██╗██║   ██║   ██╔══██║██╔══╝  ██║   ██║██║╚██╗██║
-██║     ██║  ██║██║ ╚████║   ██║   ██║  ██║███████╗╚██████╔╝██║ ╚████║
-╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
+ █████╗ ██████╗ ███████╗██╗  ██╗
+██╔══██╗██╔══██╗██╔════╝╚██╗██╔╝
+███████║██████╔╝█████╗   ╚███╔╝
+██╔══██║██╔═══╝ ██╔══╝   ██╔██╗
+██║  ██║██║     ███████╗██╔╝ ██╗
+╚═╝  ╚═╝╚═╝     ╚══════╝╚═╝  ╚═╝
 ```
 
 <div align="center">
 
 **1,308 skills. 108 agents. One unified intelligence.**
 
-*The most complete Claude Code environment ever built.
-Two months of continuous development. 15/15 health checks. Zero compromises.*
+*The absolute top of Claude Code.*
+
+*Two months of continuous development. 15/15 health checks. Zero compromises.*
 
 ![Version](https://img.shields.io/badge/version-6.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -35,7 +36,7 @@ Two months of continuous development. 15/15 health checks. Zero compromises.*
 
 Most Claude Code users run a vanilla setup — maybe a few skills, default settings, no custom agents. They're using 10% of what Claude Code can do. Every session starts cold. Every task is ad-hoc. There's no memory between sessions, no structured execution, no specialist agents, and no way to verify the system is even working.
 
-**Claude Pantheon** is an enterprise-grade environment that took 2+ months to build, test, and integrate. It adds 25 specialist agents, 7 JIT rule domains, structured execution loops, memory consolidation, inter-terminal communication, and a decision engine that automatically routes any request to the right combination of tools. Every component was tested individually and as part of the whole. The system verifies itself with 15 automated health checks.
+**Claude Apex** is an enterprise-grade environment that took 2+ months to build, test, and integrate. It adds 25 specialist agents, 7 JIT rule domains, structured execution loops, memory consolidation, inter-terminal communication, and a decision engine that automatically routes any request to the right combination of tools. Every component was tested individually and as part of the whole. The system verifies itself with 15 automated health checks.
 
 One-command install. Non-destructive — your existing setup stays intact. Everything is backed up before any changes. Works on Windows, Mac, and Linux.
 
@@ -43,7 +44,7 @@ One-command install. Non-destructive — your existing setup stays intact. Every
 
 ## Quick Demo
 
-After installing Pantheon, this is what `/healthcheck` looks like:
+After installing Apex, this is what `/healthcheck` looks like:
 
 ```
 System Health Check V6
@@ -195,13 +196,13 @@ Yes. The installer is non-destructive by design:
 
 Already have agents, skills, or hooks? No problem.
 
-Pantheon is designed to work alongside your existing Claude Code setup, not replace it:
+Apex is designed to work alongside your existing Claude Code setup, not replace it:
 
-**Existing agents are NEVER overwritten.** If you already have an architect.md agent, Pantheon skips it and keeps yours. You only get agents you are missing.
+**Existing agents are NEVER overwritten.** If you already have an architect.md agent, Apex skips it and keeps yours. You only get agents you are missing.
 
-**Existing skills stay untouched.** If you have 500 skills from another plugin, Pantheon adds its custom skills alongside them. No conflicts, no duplicates.
+**Existing skills stay untouched.** If you have 500 skills from another plugin, Apex adds its custom skills alongside them. No conflicts, no duplicates.
 
-**Settings.json is MERGED, not replaced.** Pantheon adds MCP servers and hooks to your existing configuration. It never removes or changes anything that is already there.
+**Settings.json is MERGED, not replaced.** Apex adds MCP servers and hooks to your existing configuration. It never removes or changes anything that is already there.
 
 **Everything is backed up first.** Before any changes, the installer creates a timestamped backup of your entire ~/.claude/ directory. If anything goes wrong, run uninstall.sh to restore instantly.
 
@@ -209,7 +210,7 @@ Pantheon is designed to work alongside your existing Claude Code setup, not repl
 
 **Conflict detection is built in.** The verification script checks for corrupted JSON files, missing critical components, and configuration conflicts. If anything is wrong, it tells you exactly what to fix.
 
-The bottom line: your environment gets Pantheon capabilities added on top of what you already have. Nothing is lost. Nothing is overwritten. Nothing breaks.
+The bottom line: your environment gets Apex capabilities added on top of what you already have. Nothing is lost. Nothing is overwritten. Nothing breaks.
 
 ---
 
@@ -220,7 +221,7 @@ The bottom line: your environment gets Pantheon capabilities added on top of wha
 **Step 1:** Paste this into your Claude Code terminal:
 
 ```
-Clone https://github.com/YousefNabil-SOC/claude-pantheon and install it to my Claude Code environment. Read the CLAUDE.md in the repo for installation instructions. Back up my existing config first.
+Clone https://github.com/YousefNabil-SOC/claude-apex and install it to my Claude Code environment. Read the CLAUDE.md in the repo for installation instructions. Back up my existing config first.
 ```
 
 Wait for it to finish. Then restart Claude Code.
@@ -228,7 +229,7 @@ Wait for it to finish. Then restart Claude Code.
 **Step 2:** Open a new Claude Code session and paste this:
 
 ```
-I just installed Claude Pantheon. Please complete the setup by running these plugin installations for me:
+I just installed Claude Apex. Please complete the setup by running these plugin installations for me:
 1. Add the everything-claude-code marketplace and install it
 2. Add the oh-my-claudecode marketplace and install it
 3. Run the OMC setup
@@ -242,7 +243,7 @@ Both steps include automatic verification. You will see a detailed report of wha
 ### Option 2 — One Command (Mac/Linux)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/install.sh | bash
 ```
 
 The installer runs a 30+ point verification automatically.
@@ -250,7 +251,7 @@ The installer runs a 30+ point verification automatically.
 ### Option 3 — One Command (Windows PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.ps1 | iex
+irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/install.ps1 | iex
 ```
 
 The installer runs a 30+ point verification automatically.
@@ -258,8 +259,8 @@ The installer runs a 30+ point verification automatically.
 ### Option 4 — Interactive (All Platforms)
 
 ```bash
-git clone https://github.com/YousefNabil-SOC/claude-pantheon.git
-cd claude-pantheon
+git clone https://github.com/YousefNabil-SOC/claude-apex.git
+cd claude-apex
 bash install-interactive.sh
 ```
 
@@ -269,10 +270,10 @@ Verification runs automatically after installation completes.
 
 ### Verify Your Installation
 
-Already installed Pantheon? Run the verification anytime:
+Already installed Apex? Run the verification anytime:
 
 ```bash
-cd claude-pantheon
+cd claude-apex
 bash verify.sh
 ```
 
@@ -282,7 +283,7 @@ This runs 30+ checks covering agents, commands, hooks, skills, configuration, MC
 
 ## Before vs After
 
-| Capability | Without Pantheon | With Pantheon |
+| Capability | Without Apex | With Apex |
 |-----------|-----------------|---------------|
 | Agent orchestration | You manually pick agents | OMC autopilot self-organizes 19 agents |
 | Execution structure | No structure, plans drift | PAUL enforces Plan-Apply-Unify with quality gates |
@@ -329,7 +330,7 @@ template: research
 
 ## What Gets Installed
 
-Pantheon installs these components to your `~/.claude/` directory:
+Apex installs these components to your `~/.claude/` directory:
 
 **From this repository (original work):**
 - 25 custom agent definitions
@@ -366,7 +367,7 @@ and run these commands:
 /oh-my-claudecode:omc-setup
 ```
 
-Without these plugins, you get the core Pantheon experience (25 agents,
+Without these plugins, you get the core Apex experience (25 agents,
 custom commands, hooks, CARL, orchestration engine). With them, you get
 the FULL 1,308 skills + 108 agents experience.
 
@@ -376,7 +377,7 @@ the FULL 1,308 skills + 108 agents experience.
 
 | Guide | Description |
 |-------|-------------|
-| [Getting Started](docs/GETTING-STARTED.md) | Your first 5 minutes with Pantheon |
+| [Getting Started](docs/GETTING-STARTED.md) | Your first 5 minutes with Apex |
 | [Architecture](docs/ARCHITECTURE.md) | How the 5-layer system works |
 | [Agents Guide](docs/AGENTS-GUIDE.md) | Working with 25 specialist agents |
 | [CARL Guide](docs/CARL-GUIDE.md) | JIT rule loading explained |
@@ -388,7 +389,7 @@ the FULL 1,308 skills + 108 agents experience.
 | [Customization](docs/CUSTOMIZATION.md) | Add your own agents, skills, and rules |
 | [Windows Guide](docs/WINDOWS-GUIDE.md) | Windows-specific setup notes |
 | [Troubleshooting](docs/TROUBLESHOOTING.md) | Common issues and fixes |
-| [Uninstall](docs/UNINSTALL.md) | How to cleanly remove Pantheon |
+| [Uninstall](docs/UNINSTALL.md) | How to cleanly remove Apex |
 | [FAQ](docs/FAQ.md) | Frequently asked questions |
 
 ---
@@ -421,7 +422,7 @@ If this helped you, consider giving it a star. It means a lot.
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=YousefNabil-SOC/claude-pantheon&type=Date)](https://star-history.com/#YousefNabil-SOC/claude-pantheon&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=YousefNabil-SOC/claude-apex&type=Date)](https://star-history.com/#YousefNabil-SOC/claude-apex&Date)
 
 ---
 

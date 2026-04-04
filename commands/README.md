@@ -4,7 +4,7 @@ Place `.md` files in `~/.claude/commands/` to create slash commands.
 
 | Command | Description |
 |---------|-------------|
-| `/healthcheck` | Verify all Pantheon systems are operational (15 checks) |
+| `/healthcheck` | Verify all Apex systems are operational (15 checks) |
 | `/switch-project` | Instant context switching between projects |
 | `/templates` | Pre-built task workflows for recurring work |
 

@@ -10,7 +10,7 @@ ls ~/.claude/agents/
 
 # Auto-select agent for task
 /paul:plan "Your task here"
-# Pantheon suggests optimal agent(s)
+# Apex suggests optimal agent(s)
 
 # Manually trigger agent
 agent:code-reviewer "Review my PR"
@@ -162,11 +162,11 @@ agent:my-agent "Test prompt"
 ## Auto-Selection vs Manual Triggering
 
 ### Auto-Selection (Recommended)
-Pantheon picks the best agent:
+Apex picks the best agent:
 
 ```
 /paul:plan "Refactor authentication"
-# Pantheon suggests: architect + tdd-guide + security-reviewer
+# Apex suggests: architect + tdd-guide + security-reviewer
 ```
 
 **Advantages**:

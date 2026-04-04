@@ -125,7 +125,7 @@ What's next? Run: /paul:plan
 /paul:plan
 ```
 
-Pantheon asks:
+Apex asks:
 ```
 1. Current state: Describe the auth module?
 2. Goal state: What should it do?

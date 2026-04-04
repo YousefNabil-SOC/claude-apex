@@ -1,4 +1,4 @@
-# Customization: Make Pantheon Yours
+# Customization: Make Apex Yours
 
 ## Adding Custom Agents
 
@@ -448,7 +448,7 @@ git config core.hooksPath ~/.claude/hooks
 # Add Slack webhook
 /update-config integrations.slack.webhook_url "https://hooks.slack.com/..."
 
-# Now Pantheon posts to Slack on:
+# Now Apex posts to Slack on:
 # - Task completion
 # - Errors
 # - Phase completion (PAUL)

@@ -1,6 +1,6 @@
 # Configuration Templates
 
-These files are templates for configuring Claude Pantheon. The installer places them in the correct locations.
+These files are templates for configuring Claude Apex. The installer places them in the correct locations.
 
 | File | Installs To | Purpose |
 |------|-------------|---------|

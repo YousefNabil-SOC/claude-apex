@@ -464,4 +464,4 @@ direct: "Your task"
 
 ---
 
-**Next**: [CUSTOMIZATION.md](./CUSTOMIZATION.md) → Extend Pantheon with custom agents, domains, and rules
+**Next**: [CUSTOMIZATION.md](./CUSTOMIZATION.md) → Extend Apex with custom agents, domains, and rules

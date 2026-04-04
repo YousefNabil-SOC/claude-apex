@@ -1,12 +1,12 @@
-# Claude Pantheon V6 Installer (Windows PowerShell)
+# Claude Apex V6 Installer (Windows PowerShell)
 # Non-destructive: backs up everything before changes
 
 $ErrorActionPreference = "Stop"
-$PANTHEON_VERSION = "6.0.0"
+$APEX_VERSION = "6.0.0"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ClaudeDir = Join-Path $env:USERPROFILE ".claude"
 $CarlDir = Join-Path $env:USERPROFILE ".carl"
-$BackupDir = Join-Path $ClaudeDir "backups\pre-pantheon-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+$BackupDir = Join-Path $ClaudeDir "backups\pre-apex-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
 
 $installed = 0
 $skipped = 0
@@ -14,7 +14,7 @@ $skipped = 0
 function Write-Banner {
     Write-Host ""
     Write-Host "===============================================" -ForegroundColor Cyan
-    Write-Host "       CLAUDE PANTHEON V$PANTHEON_VERSION" -ForegroundColor Cyan
+    Write-Host "       CLAUDE APEX V$APEX_VERSION" -ForegroundColor Cyan
     Write-Host "  1,308 skills. 108 agents. One brain." -ForegroundColor Cyan
     Write-Host "===============================================" -ForegroundColor Cyan
     Write-Host ""
@@ -32,7 +32,7 @@ function Test-Prereq {
     }
 }
 
-function Install-PantheonFile {
+function Install-ApexFile {
     param($Source, $Dest, $Label)
     if (Test-Path $Dest) {
         Write-Host "  [SKIP] $Label (already exists)" -ForegroundColor Yellow
@@ -63,7 +63,7 @@ if (-not $ok) {
 }
 
 # --- Confirmation ---
-Write-Host "This will install Claude Pantheon V$PANTHEON_VERSION to ~/.claude/." -ForegroundColor Yellow
+Write-Host "This will install Claude Apex V$APEX_VERSION to ~/.claude/." -ForegroundColor Yellow
 Write-Host "Your existing configuration will be backed up first."
 $confirm = Read-Host "Continue? (y/n)"
 if ($confirm -ne "y" -and $confirm -ne "Y") {
@@ -86,21 +86,21 @@ Write-Host "  [OK] Backup saved to $BackupDir" -ForegroundColor Green
 Write-Host "`nInstalling agents..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path "$ClaudeDir\agents" -Force | Out-Null
 Get-ChildItem "$ScriptDir\agents\*.md" | Where-Object { $_.Name -ne "README.md" } | ForEach-Object {
-    Install-PantheonFile $_.FullName "$ClaudeDir\agents\$($_.Name)" $_.Name
+    Install-ApexFile $_.FullName "$ClaudeDir\agents\$($_.Name)" $_.Name
 }
 
 # --- Install Commands ---
 Write-Host "`nInstalling commands..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path "$ClaudeDir\commands" -Force | Out-Null
 Get-ChildItem "$ScriptDir\commands\*.md" | Where-Object { $_.Name -ne "README.md" } | ForEach-Object {
-    Install-PantheonFile $_.FullName "$ClaudeDir\commands\$($_.Name)" $_.Name
+    Install-ApexFile $_.FullName "$ClaudeDir\commands\$($_.Name)" $_.Name
 }
 
 # --- Install Hooks ---
 Write-Host "`nInstalling hooks..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path "$ClaudeDir\hooks" -Force | Out-Null
 Get-ChildItem "$ScriptDir\hooks\*" | Where-Object { $_.Name -ne "README.md" } | ForEach-Object {
-    Install-PantheonFile $_.FullName "$ClaudeDir\hooks\$($_.Name)" $_.Name
+    Install-ApexFile $_.FullName "$ClaudeDir\hooks\$($_.Name)" $_.Name
 }
 
 # --- Install Skills ---
@@ -133,8 +133,8 @@ if (Test-Path "$CarlDir\carl.json") {
 
 # --- Config ---
 Write-Host "`nInstalling config..." -ForegroundColor Cyan
-Install-PantheonFile "$ScriptDir\config\orchestration-engine.md" "$ClaudeDir\ORCHESTRATION-ENGINE.md" "orchestration-engine.md"
-Install-PantheonFile "$ScriptDir\config\capability-registry.md" "$ClaudeDir\CAPABILITY-REGISTRY.md" "capability-registry.md"
+Install-ApexFile "$ScriptDir\config\orchestration-engine.md" "$ClaudeDir\ORCHESTRATION-ENGINE.md" "orchestration-engine.md"
+Install-ApexFile "$ScriptDir\config\capability-registry.md" "$ClaudeDir\CAPABILITY-REGISTRY.md" "capability-registry.md"
 
 # --- Configure MCP Servers ---
 Write-Host "`nConfiguring MCP servers..." -ForegroundColor Cyan
@@ -263,7 +263,7 @@ Write-Host "===========================================================" -Foregr
 
 # --- Post-Install Verification ---
 Write-Host ""
-Write-Host "[PANTHEON] Running post-install verification..."
+Write-Host "[APEX] Running post-install verification..."
 $verifyScript = Join-Path $ScriptDir "verify.sh"
 if (Test-Path $verifyScript) {
     & bash $verifyScript
@@ -272,7 +272,7 @@ if (Test-Path $verifyScript) {
 # --- Summary ---
 Write-Host ""
 Write-Host "===============================================" -ForegroundColor Cyan
-Write-Host "  Claude Pantheon V$PANTHEON_VERSION installed!" -ForegroundColor Green
+Write-Host "  Claude Apex V$APEX_VERSION installed!" -ForegroundColor Green
 Write-Host "===============================================" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Installed: $installed" -ForegroundColor Green

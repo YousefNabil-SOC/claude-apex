@@ -1,10 +1,10 @@
-# Claude Pantheon V6 — Installation Instructions for Claude Code
+# Claude Apex V6 — Installation Instructions for Claude Code
 
-You are reading this because a user asked you to install Claude Pantheon.
+You are reading this because a user asked you to install Claude Apex.
 Follow these steps to install the complete environment.
 
 ## What This Is
-Claude Pantheon is a comprehensive Claude Code environment with 1,308 skills,
+Claude Apex is a comprehensive Claude Code environment with 1,308 skills,
 108 agents, 12 MCP servers, 7 CARL domains, structured execution (PAUL),
 multi-agent orchestration (OMC), inter-terminal communication (Claude Peers),
 and memory consolidation (Dream). It is the most complete Claude Code
@@ -16,32 +16,32 @@ Execute these steps in order. Skip any step where the component already exists.
 
 ### Step 1: Backup existing configuration
 ```bash
-mkdir -p ~/.claude/backups/pre-pantheon-$(date +%Y%m%d)
-cp ~/.claude/settings.json ~/.claude/backups/pre-pantheon-$(date +%Y%m%d)/ 2>/dev/null
-cp ~/.claude/CLAUDE.md ~/.claude/backups/pre-pantheon-$(date +%Y%m%d)/ 2>/dev/null
-cp -r ~/.claude/agents/ ~/.claude/backups/pre-pantheon-$(date +%Y%m%d)/agents-bak/ 2>/dev/null
-cp -r ~/.claude/hooks/ ~/.claude/backups/pre-pantheon-$(date +%Y%m%d)/hooks-bak/ 2>/dev/null
+mkdir -p ~/.claude/backups/pre-apex-$(date +%Y%m%d)
+cp ~/.claude/settings.json ~/.claude/backups/pre-apex-$(date +%Y%m%d)/ 2>/dev/null
+cp ~/.claude/CLAUDE.md ~/.claude/backups/pre-apex-$(date +%Y%m%d)/ 2>/dev/null
+cp -r ~/.claude/agents/ ~/.claude/backups/pre-apex-$(date +%Y%m%d)/agents-bak/ 2>/dev/null
+cp -r ~/.claude/hooks/ ~/.claude/backups/pre-apex-$(date +%Y%m%d)/hooks-bak/ 2>/dev/null
 ```
 
-### Step 2: Install Pantheon agents (25 custom agents)
+### Step 2: Install Apex agents (25 custom agents)
 Copy all .md files from this repo's agents/ directory to ~/.claude/agents/
 Skip any file that already exists with the same name.
 
-### Step 3: Install Pantheon commands
+### Step 3: Install Apex commands
 Copy all .md files from this repo's commands/ directory to ~/.claude/commands/
 Skip any file that already exists.
 
-### Step 4: Install Pantheon hooks
+### Step 4: Install Apex hooks
 Copy all files from this repo's hooks/ directory to ~/.claude/hooks/
 Make them executable: chmod +x ~/.claude/hooks/*.sh
 Skip any file that already exists.
 
-### Step 5: Install Pantheon skills
+### Step 5: Install Apex skills
 Copy skills/dream-consolidation/ to ~/.claude/skills/dream-consolidation/
 Copy skills/autoresearch/ to ~/.claude/skills/autoresearch/
 Skip if they already exist.
 
-### Step 6: Install Pantheon config
+### Step 6: Install Apex config
 Copy config/carl-domains.json to ~/.carl/carl.json (create ~/.carl/ if needed)
 Copy config/orchestration-engine.md to ~/.claude/ORCHESTRATION-ENGINE.md
 Copy config/capability-registry.md to ~/.claude/CAPABILITY-REGISTRY.md
@@ -139,10 +139,10 @@ IMPORTANT: Do NOT overwrite existing MCP server entries. Only ADD missing ones.
 IMPORTANT: For servers requiring API keys (exa, github, firecrawl, supabase),
 set the value to "USER_MUST_SET_THIS" and tell the user they need to add their own keys.
 
-### Step 9: Add Pantheon section to CLAUDE.md
+### Step 9: Add Apex section to CLAUDE.md
 
-If ~/.claude/CLAUDE.md exists and does NOT contain "Pantheon", append
-the Pantheon configuration section from this repo's config/claude-md-template.md.
+If ~/.claude/CLAUDE.md exists and does NOT contain "Apex", append
+the Apex configuration section from this repo's config/claude-md-template.md.
 
 If ~/.claude/CLAUDE.md does not exist, copy config/claude-md-template.md as the starting point.
 
@@ -188,7 +188,7 @@ Installation 85% complete! One last step to get the FULL environment.
 Paste this message into a NEW Claude Code session (restart first):
 
 ```
-I just installed Claude Pantheon. Please complete the setup by running these plugin installations for me:
+I just installed Claude Apex. Please complete the setup by running these plugin installations for me:
 1. Add the everything-claude-code marketplace and install it
 2. Add the oh-my-claudecode marketplace and install it
 3. Run the OMC setup

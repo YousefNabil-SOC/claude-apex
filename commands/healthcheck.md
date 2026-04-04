@@ -1,6 +1,6 @@
 ---
 name: healthcheck
-description: Verify all Pantheon V6 systems are operational. Run at session start or when things feel broken.
+description: Verify all Apex V6 systems are operational. Run at session start or when things feel broken.
 ---
 
 # System Health Check V6

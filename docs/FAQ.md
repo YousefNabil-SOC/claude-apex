@@ -2,9 +2,9 @@
 
 ## General Questions
 
-### Q: What is Claude Pantheon?
+### Q: What is Claude Apex?
 
-**A**: Pantheon is a comprehensive Claude Code V6 environment with 1,308 skills, 108 agents, 12 MCP servers, and 19 plugins. It's a professional-grade orchestration system for automating complex development workflows.
+**A**: Apex is a comprehensive Claude Code V6 environment with 1,308 skills, 108 agents, 12 MCP servers, and 19 plugins. It's a professional-grade orchestration system for automating complex development workflows.
 
 Think of it as:
 - **CARL**: Smart rule system that loads just-in-time context (7 domains)
@@ -14,17 +14,17 @@ Think of it as:
 - **Peers**: Multi-terminal communication for team coordination
 - **Memory System**: 3-tier persistence with auto-consolidation
 
-### Q: Do I need Claude Code to use Pantheon?
+### Q: Do I need Claude Code to use Apex?
 
-**A**: Yes. Pantheon is an extension/configuration of Claude Code. You need Claude Code installed first.
+**A**: Yes. Apex is an extension/configuration of Claude Code. You need Claude Code installed first.
 
 Install order:
 1. Claude Code: `npm install -g @anthropic-ai/claude-code`
-2. Pantheon: Follow [GETTING-STARTED.md](./GETTING-STARTED.md)
+2. Apex: Follow [GETTING-STARTED.md](./GETTING-STARTED.md)
 
-### Q: Is Pantheon free?
+### Q: Is Apex free?
 
-**A**: Pantheon itself is free (open-source). You pay for:
+**A**: Apex itself is free (open-source). You pay for:
 - Claude API calls (via Anthropic account)
 - Optional: MCP integrations (GitHub, Supabase, etc.)
 
@@ -37,18 +37,18 @@ Install order:
 - Day 2: `/paul:plan` → `/paul:apply` → `/paul:unify`
 - Week 2: Customize agents and CARL domains
 
-### Q: Can I use Pantheon with existing Claude Code projects?
+### Q: Can I use Apex with existing Claude Code projects?
 
-**A**: Yes. Pantheon coexists with existing projects. You can:
+**A**: Yes. Apex coexists with existing projects. You can:
 - Keep old projects as-is
-- Gradually add Pantheon to new projects
-- Mix Pantheon and non-Pantheon workflows
+- Gradually add Apex to new projects
+- Mix Apex and non-Apex workflows
 
 ---
 
 ## Installation & Setup
 
-### Q: Can I install Pantheon on Windows?
+### Q: Can I install Apex on Windows?
 
 **A**: Yes. Use Git Bash (includes Unix shell). See [WINDOWS-GUIDE.md](./WINDOWS-GUIDE.md) for full setup.
 
@@ -58,7 +58,7 @@ WSL2 also works but is optional.
 
 **A**: Install Git for Windows from https://git-scm.com/download/win (includes Git Bash).
 
-Pantheon doesn't work in PowerShell alone (needs Unix shell).
+Apex doesn't work in PowerShell alone (needs Unix shell).
 
 ### Q: Can I install on macOS?
 
@@ -80,11 +80,11 @@ Then follow [GETTING-STARTED.md](./GETTING-STARTED.md).
 
 ### Q: Do I need Docker?
 
-**A**: No. Pantheon runs natively. Docker is optional if you use container-based agents.
+**A**: No. Apex runs natively. Docker is optional if you use container-based agents.
 
 ### Q: How much disk space do I need?
 
-**A**: Minimum 500MB for Pantheon + Node.js dependencies.
+**A**: Minimum 500MB for Apex + Node.js dependencies.
 
 If you use all plugins: 1-2GB.
 
@@ -92,7 +92,7 @@ If you use all plugins: 1-2GB.
 
 ## Configuration & Customization
 
-### Q: Can I customize Pantheon?
+### Q: Can I customize Apex?
 
 **A**: Completely. See [CUSTOMIZATION.md](./CUSTOMIZATION.md).
 
@@ -103,7 +103,7 @@ You can:
 - Create project templates
 - Set custom shortcuts
 
-### Q: Can I use Pantheon for team projects?
+### Q: Can I use Apex for team projects?
 
 **A**: Yes. Use **Claude Peers** for multi-terminal coordination.
 
@@ -114,9 +114,9 @@ One team member can:
 - Execute in Terminals 2-3 (in parallel)
 - All coordinate via shared memory
 
-### Q: Can I integrate Pantheon with my existing tools?
+### Q: Can I integrate Apex with my existing tools?
 
-**A**: Yes, via MCP servers. Pantheon integrates with:
+**A**: Yes, via MCP servers. Apex integrates with:
 - GitHub (PRs, issues, code search)
 - Vercel (deployments)
 - Supabase (database)
@@ -125,7 +125,7 @@ One team member can:
 
 Add integrations in `~/.claude/settings.json`.
 
-### Q: Can I use Pantheon offline?
+### Q: Can I use Apex offline?
 
 **A**: Partially. You can:
 - Read documentation offline
@@ -189,7 +189,7 @@ Quick reference:
 
 ### Q: Can multiple agents work together?
 
-**A**: Yes. Pantheon chains agents:
+**A**: Yes. Apex chains agents:
 ```bash
 autopilot: "Task"
 # Runs: analyst → planner → tdd-guide → code-reviewer → e2e-runner
@@ -203,7 +203,7 @@ agent:code-reviewer "Review output"
 
 ### Q: What if an agent fails?
 
-**A**: Pantheon falls back to manual mode. See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
+**A**: Apex falls back to manual mode. See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
 
 Check: `/healthcheck` to see agent status.
 
@@ -266,7 +266,7 @@ Example:
 
 **A**:
 - **PAUL**: *You* decide structure. 3+ phases you define. Better for custom workflows.
-- **autopilot**: Pantheon decides structure. 5 fixed stages (research → plan → implement → review → verify).
+- **autopilot**: Apex decides structure. 5 fixed stages (research → plan → implement → review → verify).
 
 Use PAUL when you want control. Use autopilot when you want hands-off.
 
@@ -338,7 +338,7 @@ consolidate memory
 nano ~/.claude/memory/MEMORY.md
 ```
 
-Pantheon respects your edits.
+Apex respects your edits.
 
 ### Q: What if I lose my memory?
 
@@ -451,7 +451,7 @@ trigger_keywords:
 
 ### Q: How many domains can I have?
 
-**A**: Unlimited. Pantheon loads matching domains on every task.
+**A**: Unlimited. Apex loads matching domains on every task.
 
 Keep them focused (5-10 keywords per domain).
 
@@ -530,7 +530,7 @@ See Contributing section in README.md.
 
 ## Compatibility & Versions
 
-### Q: What Claude Code versions work with Pantheon?
+### Q: What Claude Code versions work with Apex?
 
 **A**: Claude Code V6+.
 
@@ -540,7 +540,7 @@ claude --version
 # Should show: v6.x or higher
 ```
 
-### Q: Can I use Pantheon with older Claude Code?
+### Q: Can I use Apex with older Claude Code?
 
 **A**: No. V6 requires:
 - Extended thinking support
@@ -552,15 +552,15 @@ Upgrade to V6:
 npm install -g @anthropic-ai/claude-code@latest
 ```
 
-### Q: Will Pantheon work on M1 Mac?
+### Q: Will Apex work on M1 Mac?
 
 **A**: Yes. Node.js and Git support M1 natively.
 
-### Q: Does Pantheon work on Windows ARM?
+### Q: Does Apex work on Windows ARM?
 
 **A**: Yes. Windows 11 ARM is supported (via node-arm64).
 
-### Q: Can I use Pantheon in Docker?
+### Q: Can I use Apex in Docker?
 
 **A**: Yes. Create Dockerfile:
 ```dockerfile
@@ -571,15 +571,15 @@ ENTRYPOINT ["claude"]
 
 Then:
 ```bash
-docker build -t pantheon .
-docker run -it pantheon
+docker build -t apex .
+docker run -it apex
 ```
 
 ---
 
 ## Billing & Costs
 
-### Q: How much does Pantheon cost to run?
+### Q: How much does Apex cost to run?
 
 **A**: Only Claude API charges (Anthropic).
 
@@ -587,7 +587,7 @@ docker run -it pantheon
 - Sonnet: $3/M input tokens
 - Opus: $15/M input tokens
 
-Pantheon optimizes model selection (uses Haiku when possible).
+Apex optimizes model selection (uses Haiku when possible).
 
 ### Q: Can I monitor token usage?
 
@@ -615,7 +615,7 @@ Pantheon optimizes model selection (uses Haiku when possible).
 # Set max tokens per session:
 /update-config context.maxTokensPerSession 50000
 
-# Pantheon will warn before exceeding
+# Apex will warn before exceeding
 ```
 
 ---
@@ -628,12 +628,12 @@ Pantheon optimizes model selection (uses Haiku when possible).
 ```
 ~/.claude/memory/          # Your memories
 ~/.claude/settings.json    # Your config
-~/claude-pantheon/         # Your projects
+~/claude-apex/         # Your projects
 ```
 
 Nothing is sent to Anthropic except API calls (text you submit).
 
-### Q: Is Pantheon secure?
+### Q: Is Apex secure?
 
 **A**: Yes. Security features:
 - CARL loads rules locally (no remote fetch)
@@ -641,7 +641,7 @@ Nothing is sent to Anthropic except API calls (text you submit).
 - Git credentials stored securely (via git-credential)
 - No telemetry (unless you enable it)
 
-### Q: Can I use Pantheon with proprietary code?
+### Q: Can I use Apex with proprietary code?
 
 **A**: Yes. Everything stays local. No code is sent to Anthropic except:
 - Text you paste into Claude
@@ -653,7 +653,7 @@ Memory files are never sent anywhere.
 
 ## Uninstalling
 
-### Q: How do I uninstall Pantheon?
+### Q: How do I uninstall Apex?
 
 **A**: See [UNINSTALL.md](./UNINSTALL.md).
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-Claude Pantheon has a sophisticated 3-tier memory system that auto-saves context, consolidates learnings, and persists across sessions:
+Claude Apex has a sophisticated 3-tier memory system that auto-saves context, consolidates learnings, and persists across sessions:
 
 ```
 ┌─────────────────────────────────────────┐
@@ -26,7 +26,7 @@ Claude Pantheon has a sophisticated 3-tier memory system that auto-saves context
 ## Auto-Save (Always On)
 
 ### What Gets Auto-Saved
-After every major task, Pantheon auto-saves to `MEMORY.md`:
+After every major task, Apex auto-saves to `MEMORY.md`:
 - Task description
 - Key decisions made
 - Artifacts created (file paths)
@@ -175,7 +175,7 @@ consolidate memory --verbose
 
 ### Auto-Trigger (Happens at Session End)
 ```bash
-# At end of session, Pantheon runs:
+# At end of session, Apex runs:
 consolidate memory --auto
 
 # Creates: memory/consolidation-<date>.log
@@ -310,7 +310,7 @@ Logs tool failures and fallbacks:
 
 ### 4. Update MEMORY.md at Session End
 ```bash
-# At end of session, Pantheon prompts:
+# At end of session, Apex prompts:
 # "Update MEMORY.md? (y/n)"
 # → Review and save key learnings
 ```
@@ -321,7 +321,7 @@ Logs tool failures and fallbacks:
 ```bash
 /switch-project [YOUR_PROJECT]
 
-# Pantheon loads:
+# Apex loads:
 # 1. ~/.claude/memory/MEMORY.md (global)
 # 2. ~/.claude/projects/[YOUR_PROJECT]/SESSION-MEMORY.md (project-specific)
 # 3. ~/.claude/projects/[YOUR_PROJECT]/lessons.md (project learnings)

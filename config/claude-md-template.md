@@ -1,4 +1,4 @@
-# Claude Code — Project Configuration (Pantheon V6)
+# Claude Code — Project Configuration (Apex V6)
 
 ## Identity
 - Owner: [YOUR_NAME]
@@ -33,7 +33,7 @@ After every production deploy:
 3. Set production alias if applicable
 4. Verify with Playwright screenshot
 
-## Pantheon V6 Environment
+## Apex V6 Environment
 - Agents: 25 custom specialists in ~/.claude/agents/
 - CARL: 7 domains, 33 JIT rules in ~/.carl/carl.json
 - Orchestration: ~/.claude/ORCHESTRATION-ENGINE.md

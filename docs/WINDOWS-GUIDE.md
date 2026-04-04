@@ -2,7 +2,7 @@
 
 ## Overview
 
-Pantheon runs on Windows via Git Bash or Windows Subsystem for Linux (WSL). This guide covers Windows-specific setup, path handling, and common issues.
+Apex runs on Windows via Git Bash or Windows Subsystem for Linux (WSL). This guide covers Windows-specific setup, path handling, and common issues.
 
 ## Prerequisites
 
@@ -45,7 +45,7 @@ git --version # Should show: git version 2.x
 # Open Git Bash from Start Menu
 # Or right-click folder → "Git Bash Here"
 
-cd "/c/Claude code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
 claude
 ```
 
@@ -54,7 +54,7 @@ claude
 # Open Windows Terminal (Microsoft Store)
 # Click dropdown → "Git Bash"
 
-cd "/c/Claude code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
 claude
 ```
 
@@ -130,7 +130,7 @@ cd "/c/Claude code"
 echo $HOME
 # Output: /c/Users/yourname
 
-# Pantheon config:
+# Apex config:
 ls $HOME/.claude/settings.json
 ```
 
@@ -145,7 +145,7 @@ ls $HOME/.claude/settings.json
 
 ---
 
-## Multi-Terminal Pantheon on Windows
+## Multi-Terminal Apex on Windows
 
 ### Using Windows Terminal (Recommended)
 
@@ -166,17 +166,17 @@ Windows Terminal allows multiple tabs/panes in one window:
 **Step 3: Navigate in each tab**
 ```bash
 # Tab 1 (Planner):
-cd "/c/Claude code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
 claude
 set_summary "Planner: Creating sprint structure"
 
 # Tab 2 (Executor 1):
-cd "/c/Claude code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
 claude
 set_summary "Executor 1: Implementing Story 1"
 
 # Tab 3 (Executor 2):
-cd "/c/Claude code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
 claude
 set_summary "Executor 2: Implementing Story 2"
 ```
@@ -203,7 +203,7 @@ If you don't have Windows Terminal:
 
 **Step 2: Navigate in each**
 ```bash
-cd "/c/Claude code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
 claude
 ```
 
@@ -228,12 +228,12 @@ Windows uses CRLF (`\r\n`) for line endings. Unix uses LF (`\n`). This can cause
 git config --global core.autocrlf true
 
 # For existing repo, normalize:
-cd "/c/Claude code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
 git rm -r --cached .
 git reset --hard HEAD
 ```
 
-### For Pantheon Files
+### For Apex Files
 
 If you see "LF will be replaced by CRLF" warnings:
 
@@ -274,7 +274,7 @@ wsl --install -d Ubuntu-22.04
 **Step 3: Access files from WSL**
 ```bash
 # From WSL bash, access Windows files:
-cd /mnt/c/Users/yourname/projects/claude-pantheon
+cd /mnt/c/Users/yourname/projects/claude-apex
 claude
 ```
 
@@ -287,11 +287,11 @@ claude
 | Docker support | No | Yes |
 | Linux tools | Limited | Full |
 | File access | `/c/Users/...` | `/mnt/c/Users/...` |
-| Recommendation | Pantheon use | Advanced users |
+| Recommendation | Apex use | Advanced users |
 
 ---
 
-## Windows-Specific Pantheon Issues
+## Windows-Specific Apex Issues
 
 ### Issue 1: Permission Denied on Scripts
 
@@ -387,8 +387,8 @@ New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" `
 # Then restart Windows
 
 # Option 2: Use shorter paths
-cd "/c/Claude code/claude-pantheon"
-# NOT: "/c/Users/yourname/Documents/Projects/Development/ActiveProjects/Claude/Code/claude-pantheon"
+cd "/c/Claude code/claude-apex"
+# NOT: "/c/Users/yourname/Documents/Projects/Development/ActiveProjects/Claude/Code/claude-apex"
 ```
 
 ---
@@ -441,7 +441,7 @@ source ~/.bashrc
 
 ## Windows Firewall & Network
 
-### Pantheon Peers on Network
+### Apex Peers on Network
 
 If you have multiple machines and want Peers to work across network:
 
@@ -482,11 +482,11 @@ list_peers
 
 ## Antivirus & Performance
 
-### If Pantheon Runs Slowly
+### If Apex Runs Slowly
 
 Windows Defender or other antivirus may scan Node.js processes:
 
-**Fix: Exclude Pantheon from scanning**
+**Fix: Exclude Apex from scanning**
 ```powershell
 # Run as Administrator in PowerShell:
 Add-MpPreference -ExclusionPath "C:\Claude code"
@@ -513,4 +513,4 @@ This speeds up `npm install` and `npm run build` significantly.
 
 ---
 
-**Next**: [UNINSTALL.md](./UNINSTALL.md) → How to uninstall Pantheon cleanly
+**Next**: [UNINSTALL.md](./UNINSTALL.md) → How to uninstall Apex cleanly

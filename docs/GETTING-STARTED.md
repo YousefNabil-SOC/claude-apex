@@ -1,4 +1,4 @@
-# Getting Started with Claude Pantheon
+# Getting Started with Claude Apex
 
 ## Your First 5 Minutes
 
@@ -36,7 +36,7 @@ Start with a simple task:
 autopilot: Write a TypeScript function to validate email addresses
 ```
 
-Watch Pantheon:
+Watch Apex:
 1. Classify task (coding)
 2. Load relevant skills (typescript, testing)
 3. Activate OMC autopilot mode
@@ -108,7 +108,7 @@ Choose your path:
 ```
 autopilot: Add user authentication to [YOUR_PROJECT]
 ```
-Pantheon handles: analysis → design → TDD (test-first) → code review → verification.
+Apex handles: analysis → design → TDD (test-first) → code review → verification.
 
 ### Scenario 2: Debug failing test
 ```
@@ -144,7 +144,7 @@ See [keybindings-help skill](../skills/keybindings-help.md) to customize.
 
 ## Safety Guardrails
 
-Pantheon includes:
+Apex includes:
 - PII detection (auto-redaction for sensitive data)
 - Prompt injection detection (via AIDefence MCP)
 - Rate limiting (5 req/sec per agent)

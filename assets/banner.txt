@@ -13,4 +13,4 @@
 ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 
 1,308 skills. 108 agents. One unified intelligence.
-Claude Pantheon V6 — The most complete Claude Code environment ever built.
+Claude Apex V6 — The most complete Claude Code environment ever built.

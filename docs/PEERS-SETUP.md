@@ -279,7 +279,7 @@ taskkill /PID <PID> /F
 # Use Unix-style paths in messages/shared files
 ❌ C:\Users\YOU\Claude code\project
 ✅ /c/Users/YOU/Claude code/project
-✅ ~/claude-pantheon
+✅ ~/claude-apex
 ```
 
 ## Shared Memory Best Practices

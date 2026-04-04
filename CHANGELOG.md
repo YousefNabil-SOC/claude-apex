@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to Claude Pantheon will be documented in this file.
+All notable changes to Claude Apex will be documented in this file.
 
 ## v6.0.0 (2026-04-04)
 

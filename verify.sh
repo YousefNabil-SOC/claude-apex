@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set +e
 
-# Claude Pantheon V6 -- Post-Install Verification
+# Claude Apex V6 -- Post-Install Verification
 # Checks 30+ components across 9 categories
 # Works on Mac, Linux, and Windows Git Bash
 
 echo ""
 echo "==========================================================="
-echo "  CLAUDE PANTHEON V6 -- Post-Install Verification"
+echo "  CLAUDE APEX V6 -- Post-Install Verification"
 echo "==========================================================="
 echo ""
 
@@ -143,13 +143,13 @@ echo ""
 if [ -f "$CLAUDE_DIR/skills/dream-consolidation/SKILL.md" ]; then
   check_pass "Skill" "dream-consolidation"
 else
-  check_fail "Skill" "dream-consolidation -- core Pantheon skill missing"
+  check_fail "Skill" "dream-consolidation -- core Apex skill missing"
 fi
 
 if [ -f "$CLAUDE_DIR/skills/autoresearch/SKILL.md" ]; then
   check_pass "Skill" "autoresearch"
 else
-  check_fail "Skill" "autoresearch -- core Pantheon skill missing"
+  check_fail "Skill" "autoresearch -- core Apex skill missing"
 fi
 
 if [ -d "$CLAUDE_DIR/skills" ]; then
@@ -335,13 +335,13 @@ echo ""
 
 backup_found=""
 if [ -d "$CLAUDE_DIR/backups" ]; then
-  backup_found=$(find "$CLAUDE_DIR/backups" -maxdepth 1 -type d -name "pre-pantheon-*" 2>/dev/null | head -1)
+  backup_found=$(find "$CLAUDE_DIR/backups" -maxdepth 1 -type d -name "pre-apex-*" 2>/dev/null | head -1)
 fi
 
 if [ -n "$backup_found" ]; then
   check_pass "Backup" "$(basename "$backup_found")"
 else
-  check_warn "Backup" "no Pantheon backup found"
+  check_warn "Backup" "no Apex backup found"
 fi
 
 echo ""
@@ -389,7 +389,7 @@ echo "==========================================================="
 echo ""
 
 if [ "$FAIL" -eq 0 ] && [ "$WARN" -eq 0 ]; then
-  echo "  PERFECT -- Your environment fully matches Pantheon V6."
+  echo "  PERFECT -- Your environment fully matches Apex V6."
   echo "  Run /healthcheck inside Claude Code for 15-point check."
 elif [ "$FAIL" -eq 0 ]; then
   echo "  GOOD -- Core installation is complete."
@@ -398,7 +398,7 @@ elif [ "$FAIL" -eq 0 ]; then
   echo "  To get the FULL experience (1,308 skills, 108 agents),"
   echo "  open a NEW Claude Code session and paste this:"
   echo ""
-  echo "  I just installed Claude Pantheon. Please complete the"
+  echo "  I just installed Claude Apex. Please complete the"
   echo "  setup by running these plugin installations for me:"
   echo "  1. Add the everything-claude-code marketplace and install it"
   echo "  2. Add the oh-my-claudecode marketplace and install it"

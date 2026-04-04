@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in Claude Pantheon, please report it responsibly:
+If you discover a security vulnerability in Claude Apex, please report it responsibly:
 
 1. **Do NOT** open a public issue
 2. Create a **private security advisory** on GitHub:
@@ -26,4 +26,4 @@ If you discover a security vulnerability in Claude Pantheon, please report it re
 
 ## Scope
 
-This policy applies to the claude-pantheon repository and its installer scripts. Third-party integrations (OMC, PAUL, CARL, etc.) have their own security policies.
+This policy applies to the claude-apex repository and its installer scripts. Third-party integrations (OMC, PAUL, CARL, etc.) have their own security policies.

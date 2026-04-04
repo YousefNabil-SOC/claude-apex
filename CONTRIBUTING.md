@@ -1,4 +1,4 @@
-# Contributing to Claude Pantheon
+# Contributing to Claude Apex
 
 Thank you for your interest in contributing! Whether it's a new agent, a CARL domain, a bug fix, or documentation improvement — PRs are appreciated.
 

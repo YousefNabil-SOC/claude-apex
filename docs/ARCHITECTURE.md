@@ -1,8 +1,8 @@
-# Claude Pantheon Architecture
+# Claude Apex Architecture
 
 ## Overview
 
-Claude Pantheon is a 5-layer autonomous agent system built on Anthropic's Claude Agent SDK. It powers 1,308 skills, 108 agents, and automated decision-making across 12 MCP servers and 19 plugins.
+Claude Apex is a 5-layer autonomous agent system built on Anthropic's Claude Agent SDK. It powers 1,308 skills, 108 agents, and automated decision-making across 12 MCP servers and 19 plugins.
 
 ## 5-Layer Architecture
 

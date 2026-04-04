@@ -2,7 +2,7 @@
 
 ## Overview
 
-This guide covers the most common Pantheon issues and how to fix them. Check symptoms first, then apply the fix.
+This guide covers the most common Apex issues and how to fix them. Check symptoms first, then apply the fix.
 
 ## OMC Not Activating
 
