@@ -237,17 +237,23 @@ After all three are done, run /healthcheck to verify everything is green.
 
 Done. Two pastes. Full environment. 1,308 skills, 108 agents, 15/15 health checks.
 
+Both steps include automatic verification. You will see a detailed report of what was installed and what needs attention.
+
 ### Option 2 — One Command (Mac/Linux)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.sh | bash
 ```
 
+The installer runs a 30+ point verification automatically.
+
 ### Option 3 — One Command (Windows PowerShell)
 
 ```powershell
 irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.ps1 | iex
 ```
+
+The installer runs a 30+ point verification automatically.
 
 ### Option 4 — Interactive (All Platforms)
 
@@ -258,6 +264,19 @@ bash install-interactive.sh
 ```
 
 > The installer backs up your entire `~/.claude/` directory before making any changes. If anything goes wrong, run `uninstall.sh` to restore your original configuration.
+
+Verification runs automatically after installation completes.
+
+### Verify Your Installation
+
+Already installed Pantheon? Run the verification anytime:
+
+```bash
+cd claude-pantheon
+bash verify.sh
+```
+
+This runs 30+ checks covering agents, commands, hooks, skills, configuration, MCP servers, third-party tools, backup status, and conflict detection. Results are shown as PASS, WARN, or FAIL with specific instructions for fixing any issues.
 
 ---
 
