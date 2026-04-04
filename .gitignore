@@ -1,0 +1,33 @@
+# Environment
+.env
+*.env
+.credentials*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Node
+node_modules/
+package-lock.json
+
+# Backups
+*.bak
+backups/
+
+# Personal (never commit these)
+memory/
+MEMORY.md
+*.key
+*.pem
+*.secret
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OMC state
+.omc/

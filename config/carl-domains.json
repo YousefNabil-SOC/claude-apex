@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "last_modified": "2026-04-04T00:00:00.000Z",
+  "config": {
+    "devmode": false,
+    "post_compact_gate": true,
+    "global_exclude": [],
+    "context_brackets": {
+      "FRESH": { "enabled": true, "rules": [] },
+      "MODERATE": {
+        "enabled": true,
+        "rules": [
+          "Keep responses focused — avoid unnecessary exploration",
+          "Prefer targeted edits over full file rewrites"
+        ]
+      },
+      "DEPLETED": {
+        "enabled": true,
+        "rules": [
+          "Minimize tool calls — batch aggressively",
+          "Skip verbose explanations — action over narration",
+          "Consider suggesting /compact or spawning a subagent for remaining work"
+        ]
+      }
+    },
+    "commands": {}
+  },
+  "domains": {
+    "GLOBAL": {
+      "state": "active",
+      "always_on": true,
+      "recall": ["universal"],
+      "exclude": [],
+      "rules": [
+        { "id": 0, "text": "NEVER use relative paths in code — use absolute. NEVER use absolute paths when referencing files to user — use relative.", "source": "template" },
+        { "id": 1, "text": "NEVER run independent tool calls sequentially — batch them in parallel.", "source": "template" },
+        { "id": 2, "text": "NEVER mark tasks complete without validation — test everything, require proof.", "source": "template" }
+      ],
+      "decisions": []
+    },
+    "DEVELOPMENT": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["write code for", "fix this bug", "implement this feature", "build this component", "refactor this", "add this endpoint", "programming task", "code review"],
+      "exclude": [],
+      "rules": [],
+      "decisions": []
+    },
+    "WEB-DEVELOPMENT": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["react", "typescript", "tailwind", "vite", "component", "frontend", "css", "vercel", "deploy", "website", "nextjs", "supabase", "page", "navbar", "footer", "layout", "responsive", "mobile"],
+      "exclude": [],
+      "rules": [
+        { "id": 100, "text": "Always use TypeScript strict mode, never plain JavaScript.", "source": "template" },
+        { "id": 101, "text": "Use Tailwind CSS utility classes, no custom CSS unless necessary.", "source": "template" },
+        { "id": 102, "text": "Keep components under 300 lines, split into modules.", "source": "template" },
+        { "id": 103, "text": "Run build after code changes to verify.", "source": "template" },
+        { "id": 104, "text": "Use context7 MCP for library documentation lookup before writing framework code.", "source": "template" },
+        { "id": 105, "text": "Test on mobile viewport first.", "source": "template" },
+        { "id": 106, "text": "Use project brand colors consistently. Define in tailwind.config.", "source": "template" }
+      ],
+      "decisions": []
+    },
+    "DOCUMENT-CREATION": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["pdf", "pptx", "docx", "presentation", "report", "document", "word", "powerpoint", "excel", "slides", "deliverable", "export"],
+      "exclude": [],
+      "rules": [
+        { "id": 200, "text": "Generate multilingual content inside Python scripts only, never in terminal commands.", "source": "template" },
+        { "id": 201, "text": "For RTL languages in PPTX: use raw Unicode + rtl=1 XML. For PDF: use appropriate reshaper libraries.", "source": "template" },
+        { "id": 202, "text": "All presentations must be phone-readable: 18pt+ body, 28pt+ headers.", "source": "template" },
+        { "id": 203, "text": "Use correct titles for stakeholders as specified in project CLAUDE.md.", "source": "template" },
+        { "id": 204, "text": "Apply project brand colors on every slide.", "source": "template" },
+        { "id": 205, "text": "pip install always uses --break-system-packages flag if required by system.", "source": "template" },
+        { "id": 206, "text": "NEVER mix RTL and LTR text in the same text run. Always separate into different paragraphs or text boxes.", "source": "template" }
+      ],
+      "decisions": []
+    },
+    "RESEARCH-OSINT": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["research", "osint", "investigate", "company", "competitor", "analysis", "intelligence", "background check", "vendor", "market research", "due diligence"],
+      "exclude": [],
+      "rules": [
+        { "id": 300, "text": "Use exa-web-search MCP for semantic search.", "source": "template" },
+        { "id": 301, "text": "Use firecrawl MCP for website scraping.", "source": "template" },
+        { "id": 302, "text": "Cross-reference minimum 3 sources before stating facts.", "source": "template" },
+        { "id": 303, "text": "Generate reports in the languages required by stakeholders.", "source": "template" },
+        { "id": 304, "text": "Save research output to designated project research directory with date prefix.", "source": "template" }
+      ],
+      "decisions": []
+    },
+    "DEPLOYMENT": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["deploy", "vercel", "git push", "production", "live", "publish", "ship it", "go live", "release"],
+      "exclude": [],
+      "rules": [
+        { "id": 400, "text": "git add specific files only. NEVER git add -A or git add .", "source": "template" },
+        { "id": 401, "text": "git commit with descriptive message following conventional commits format.", "source": "template" },
+        { "id": 402, "text": "git push before deploying.", "source": "template" },
+        { "id": 403, "text": "Run deployment command and wait for completion. Note the deployment URL.", "source": "template" },
+        { "id": 404, "text": "Set production alias after deploy if applicable. NEVER skip this.", "source": "template" },
+        { "id": 405, "text": "Verify deployment with Playwright screenshot after deploy completes.", "source": "template" }
+      ],
+      "decisions": []
+    },
+    "LEGAL": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["contract", "law", "legal", "counsel", "agreement", "dispute", "labor", "commercial", "arbitration", "liability", "court"],
+      "exclude": [],
+      "rules": [
+        { "id": 500, "text": "Activate legal mode from the project's legal system directory.", "source": "template" },
+        { "id": 501, "text": "Reference applicable local and national laws first.", "source": "template" },
+        { "id": 502, "text": "All legal output in formal standard language appropriate to jurisdiction.", "source": "template" },
+        { "id": 503, "text": "Never provide definitive legal advice. Frame as analysis.", "source": "template" },
+        { "id": 504, "text": "Cross-reference with regional regulations when applicable.", "source": "template" }
+      ],
+      "decisions": []
+    }
+  },
+  "staging": []
+}

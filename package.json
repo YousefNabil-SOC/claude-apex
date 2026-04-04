@@ -1,0 +1,28 @@
+{
+  "name": "claude-pantheon",
+  "version": "6.0.0",
+  "description": "1,308 skills. 108 agents. One unified intelligence. The most complete Claude Code environment ever built.",
+  "author": "Yousef Nabil",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YousefNabil-SOC/claude-pantheon"
+  },
+  "keywords": [
+    "claude-code",
+    "ai-agents",
+    "orchestration",
+    "claude",
+    "anthropic",
+    "multi-agent",
+    "developer-tools",
+    "ai-tools",
+    "productivity",
+    "automation",
+    "claude-code-skills",
+    "claude-code-agents",
+    "claude-code-plugins"
+  ],
+  "homepage": "https://github.com/YousefNabil-SOC/claude-pantheon",
+  "bugs": "https://github.com/YousefNabil-SOC/claude-pantheon/issues"
+}
