@@ -168,23 +168,30 @@ Run the healthcheck logic:
 
 Report the results to the user.
 
-### Step 12: Tell the user what to do next
+### Step 12: Complete the installation
 
-Print:
-"Claude Pantheon installed successfully!
+After all automated steps are done, print this EXACT message
+to the user (copy this verbatim):
 
-To complete the installation:
-1. Restart Claude Code (close and reopen)
-2. Run /healthcheck to verify all systems
-3. For the full 1,308 skill experience, run in Claude Code:
-   /plugin marketplace add https://github.com/anthropic-community/everything-claude-code
-   /plugin install everything-claude-code
-4. For OMC multi-agent orchestration, run in Claude Code:
-   /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
-   /plugin install oh-my-claudecode
+---
 
-Your backup is at: ~/.claude/backups/pre-pantheon-[date]/
-To uninstall: bash [repo-path]/uninstall.sh"
+Installation 85% complete! One last step to get the FULL environment.
+
+Paste this message into a NEW Claude Code session (restart first):
+
+```
+I just installed Claude Pantheon. Please complete the setup by running these plugin installations for me:
+1. Add the everything-claude-code marketplace and install it
+2. Add the oh-my-claudecode marketplace and install it
+3. Run the OMC setup
+After all three are done, run /healthcheck to verify everything is green.
+```
+
+That's it — paste the above into a fresh Claude Code session and
+it will handle the rest. You'll have the complete 1,308 skills +
+108 agents environment.
+
+---
 
 ## Important Notes for Claude Code
 - NEVER overwrite files that already exist — skip them
