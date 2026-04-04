@@ -138,13 +138,13 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full breakdown.
 ### Option 1 — One Command (Mac/Linux)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.sh | bash
 ```
 
 ### Option 2 — One Command (Windows PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.ps1 | iex
 ```
 
 ### Option 3 — Interactive (All Platforms)
