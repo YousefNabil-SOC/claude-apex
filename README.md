@@ -41,6 +41,51 @@ One-command install. Non-destructive — your existing setup stays intact. Every
 
 ---
 
+## Quick Demo
+
+After installing Pantheon, this is what `/healthcheck` looks like:
+
+```
+System Health Check V6
+
+ #  | System              | Status | Details
+----|---------------------|--------|--------------------------------
+ 1  | OMC Plugin          | OK     | oh-my-claudecode@omc enabled
+ 2  | Claude Peers        | OK     | Broker healthy, 1 peer
+ 3  | PAUL Framework      | OK     | 28 commands
+ 4  | Dream Skill         | OK     | SKILL.md present
+ 5  | CARL                | OK     | 7 domains configured
+ 6  | Autoresearch        | OK     | SKILL.md present
+ 7  | SEED                | OK     | seed.md present
+ 8  | PostCompact Hook    | OK     | V6 verified
+ 9  | Sound Notification  | OK     | Hook present
+ 10 | Peers Auto-Register | OK     | Hook present
+ 11 | Settings JSON       | OK     | Valid JSON
+ 12 | MCP Servers         | OK     | 12 servers
+ 13 | Skills Count        | OK     | 1,308 skills
+ 14 | Agents Count        | OK     | 25 agents
+ 15 | Memory Health       | OK     | 112 lines (limit: 200)
+
+Result: 15/15 OK — all systems green
+```
+
+And this is autopilot mode in action:
+
+```
+> autopilot: explain this codebase
+
+Activating autopilot pipeline...
+  Stage 1: Expansion (reading project files)
+  Stage 2: Planning (identifying key areas)
+  Stage 3: Execution (analyzing with specialist agents)
+  Stage 4: QA (verifying findings)
+  Stage 5: Validation (architect review)
+
+[Full structured analysis delivered in 48 seconds]
+```
+
+---
+
 ## The Numbers
 
 | Resource | Count |
