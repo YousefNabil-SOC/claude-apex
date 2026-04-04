@@ -297,6 +297,27 @@ Pantheon installs these components to your `~/.claude/` directory:
 
 All third-party tools are installed from their original repositories and are covered by their own licenses.
 
+**Manual plugin install required for full experience (run in Claude Code after install):**
+
+These plugins are installed through Claude Code's built-in plugin marketplace,
+not through the shell installer. Open Claude Code after running the installer
+and run these commands:
+
+```
+# Install ~1,000+ community skills
+/plugin marketplace add https://github.com/anthropic-community/everything-claude-code
+/plugin install everything-claude-code
+
+# Install 19-agent orchestration with autopilot mode
+/plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
+/plugin install oh-my-claudecode
+/oh-my-claudecode:omc-setup
+```
+
+Without these plugins, you get the core Pantheon experience (25 agents,
+custom commands, hooks, CARL, orchestration engine). With them, you get
+the FULL 1,308 skills + 108 agents experience.
+
 ---
 
 ## Documentation
