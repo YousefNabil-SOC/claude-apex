@@ -195,14 +195,25 @@ Yes. The installer is non-destructive by design:
 
 ### Option 1 — Tell Your Claude Code (Easiest)
 
-Just paste this into your Claude Code terminal:
+**Step 1:** Paste this into your Claude Code terminal:
 
 ```
 Clone https://github.com/YousefNabil-SOC/claude-pantheon and install it to my Claude Code environment. Read the CLAUDE.md in the repo for installation instructions. Back up my existing config first.
 ```
 
-Claude Code will read the repo's CLAUDE.md file and follow the installation
-steps automatically. No manual commands needed.
+Wait for it to finish. Then restart Claude Code.
+
+**Step 2:** Open a new Claude Code session and paste this:
+
+```
+I just installed Claude Pantheon. Please complete the setup by running these plugin installations for me:
+1. Add the everything-claude-code marketplace and install it
+2. Add the oh-my-claudecode marketplace and install it
+3. Run the OMC setup
+After all three are done, run /healthcheck to verify everything is green.
+```
+
+Done. Two pastes. Full environment. 1,308 skills, 108 agents, 15/15 health checks.
 
 ### Option 2 — One Command (Mac/Linux)
 
