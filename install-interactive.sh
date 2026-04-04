@@ -147,21 +147,145 @@ fi
 if $INSTALL_THIRDPARTY; then
   echo "Third-party tools:"
   echo ""
-  echo "  To install oh-my-claudecode, open Claude Code and run:"
-  echo "    /install-plugin oh-my-claudecode@omc"
-  echo ""
-  echo "  To install PAUL framework:"
-  echo "    npx paul-framework --global"
-  echo ""
   if [[ ! -d "$HOME/claude-peers-mcp" ]]; then
     echo "  Cloning Claude Peers MCP..."
     git clone https://github.com/louislva/claude-peers-mcp.git "$HOME/claude-peers-mcp" 2>/dev/null || true
   else
     echo "  [SKIP] Claude Peers already cloned"
   fi
+
+  if command -v bun &>/dev/null; then
+    echo "  [OK] Bun already installed"
+  else
+    echo "  Installing Bun..."
+    npm install -g bun 2>/dev/null && echo "  [OK] Bun installed" || echo "  [SKIP] Bun install failed (optional)"
+  fi
   echo ""
 fi
 
+# --- Configure MCP Servers ---
+if $INSTALL_CONFIG || $INSTALL_THIRDPARTY; then
+  echo "Configuring MCP servers..."
+  python3 << 'PYEOF'
+import json, os, sys
+
+settings_path = os.path.expanduser("~/.claude/settings.json")
+if not os.path.exists(settings_path):
+    print("  [SKIP] No settings.json found — skipping MCP config")
+    sys.exit(0)
+
+with open(settings_path) as f:
+    settings = json.load(f)
+
+if "mcpServers" not in settings:
+    settings["mcpServers"] = {}
+
+servers_to_add = {
+    "context7": {"command": "npx", "args": ["-y", "@context7/mcp-server"]},
+    "playwright": {"command": "npx", "args": ["-y", "@playwright/mcp"]},
+    "memory": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-memory"]},
+    "sequential-thinking": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]}
+}
+
+added = 0
+for name, config in servers_to_add.items():
+    if name not in settings["mcpServers"]:
+        settings["mcpServers"][name] = config
+        print(f"  [INSTALL] MCP server: {name}")
+        added += 1
+    else:
+        print(f"  [SKIP] MCP server: {name} (already exists)")
+
+if added > 0:
+    with open(settings_path, 'w') as f:
+        json.dump(settings, f, indent=2)
+    print(f"  {added} MCP servers added to settings.json")
+else:
+    print("  All MCP servers already configured")
+PYEOF
+  echo ""
+fi
+
+# --- Configure Hooks in settings.json ---
+if $INSTALL_HOOKS; then
+  echo "Configuring hooks in settings.json..."
+  python3 << 'PYEOF'
+import json, os, sys
+
+settings_path = os.path.expanduser("~/.claude/settings.json")
+if not os.path.exists(settings_path):
+    print("  [SKIP] No settings.json found — skipping hooks config")
+    sys.exit(0)
+
+with open(settings_path) as f:
+    settings = json.load(f)
+
+if "hooks" not in settings:
+    settings["hooks"] = {}
+
+changed = False
+
+if "PostCompact" not in settings["hooks"]:
+    settings["hooks"]["PostCompact"] = [
+        {"type": "command", "command": "bash $HOME/.claude/hooks/post-compact-recovery.sh"}
+    ]
+    print("  [INSTALL] PostCompact hook")
+    changed = True
+else:
+    print("  [SKIP] PostCompact hook (already exists)")
+
+if "Stop" not in settings["hooks"]:
+    settings["hooks"]["Stop"] = []
+
+stop_hooks = settings["hooks"]["Stop"]
+existing_commands = [h.get("command", "") for h in stop_hooks if isinstance(h, dict)]
+
+if not any("session-end-save" in c for c in existing_commands):
+    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/session-end-save.sh"})
+    print("  [INSTALL] session-end-save Stop hook")
+    changed = True
+
+if not any("task-complete-sound" in c for c in existing_commands):
+    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/task-complete-sound.sh"})
+    print("  [INSTALL] task-complete-sound Stop hook")
+    changed = True
+
+if changed:
+    with open(settings_path, 'w') as f:
+        json.dump(settings, f, indent=2)
+    print("  Hooks configured in settings.json")
+else:
+    print("  All hooks already configured")
+PYEOF
+  echo ""
+fi
+
+# --- Plugin Installation Instructions ---
+echo ""
+echo "═══════════════════════════════════════════════════════════"
+echo "  IMPORTANT: Complete these steps in Claude Code"
+echo "═══════════════════════════════════════════════════════════"
+echo ""
+echo "  Open Claude Code and run these commands to install"
+echo "  the plugins that bring 1,000+ skills and 19 agents:"
+echo ""
+echo "  1. Install everything-claude-code (1,000+ skills):"
+echo "     /plugin marketplace add https://github.com/anthropic-community/everything-claude-code"
+echo "     /plugin install everything-claude-code"
+echo ""
+echo "  2. Install oh-my-claudecode (19 agents, autopilot):"
+echo "     /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
+echo "     /plugin install oh-my-claudecode"
+echo ""
+echo "  3. Run OMC setup:"
+echo "     /oh-my-claudecode:omc-setup"
+echo ""
+echo "  4. Verify everything:"
+echo "     /healthcheck"
+echo ""
+echo "═══════════════════════════════════════════════════════════"
+
+echo ""
 echo "═══════════════════════════════════════════"
 echo "  Installation complete!"
 echo "═══════════════════════════════════════════"

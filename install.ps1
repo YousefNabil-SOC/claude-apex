@@ -136,6 +136,131 @@ Write-Host "`nInstalling config..." -ForegroundColor Cyan
 Install-PantheonFile "$ScriptDir\config\orchestration-engine.md" "$ClaudeDir\ORCHESTRATION-ENGINE.md" "orchestration-engine.md"
 Install-PantheonFile "$ScriptDir\config\capability-registry.md" "$ClaudeDir\CAPABILITY-REGISTRY.md" "capability-registry.md"
 
+# --- Configure MCP Servers ---
+Write-Host "`nConfiguring MCP servers..." -ForegroundColor Cyan
+$settingsPath = "$ClaudeDir\settings.json"
+if (Test-Path $settingsPath) {
+    $pyScript = @'
+import json, os, sys
+
+settings_path = os.path.expanduser("~/.claude/settings.json")
+if not os.path.exists(settings_path):
+    sys.exit(0)
+
+with open(settings_path) as f:
+    settings = json.load(f)
+
+if "mcpServers" not in settings:
+    settings["mcpServers"] = {}
+
+servers_to_add = {
+    "context7": {"command": "npx", "args": ["-y", "@context7/mcp-server"]},
+    "playwright": {"command": "npx", "args": ["-y", "@playwright/mcp"]},
+    "memory": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-memory"]},
+    "sequential-thinking": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]}
+}
+
+added = 0
+for name, config in servers_to_add.items():
+    if name not in settings["mcpServers"]:
+        settings["mcpServers"][name] = config
+        print(f"  [INSTALL] MCP server: {name}")
+        added += 1
+    else:
+        print(f"  [SKIP] MCP server: {name} (already exists)")
+
+if added > 0:
+    with open(settings_path, 'w') as f:
+        json.dump(settings, f, indent=2)
+    print(f"  {added} MCP servers added to settings.json")
+else:
+    print("  All MCP servers already configured")
+'@
+    $pyScript | python3 -
+} else {
+    Write-Host "  [SKIP] No settings.json found" -ForegroundColor Yellow
+}
+
+# --- Configure Hooks in settings.json ---
+Write-Host "`nConfiguring hooks in settings.json..." -ForegroundColor Cyan
+if (Test-Path $settingsPath) {
+    $pyHooks = @'
+import json, os, sys
+
+settings_path = os.path.expanduser("~/.claude/settings.json")
+if not os.path.exists(settings_path):
+    sys.exit(0)
+
+with open(settings_path) as f:
+    settings = json.load(f)
+
+if "hooks" not in settings:
+    settings["hooks"] = {}
+
+changed = False
+
+if "PostCompact" not in settings["hooks"]:
+    settings["hooks"]["PostCompact"] = [
+        {"type": "command", "command": "bash $HOME/.claude/hooks/post-compact-recovery.sh"}
+    ]
+    print("  [INSTALL] PostCompact hook")
+    changed = True
+else:
+    print("  [SKIP] PostCompact hook (already exists)")
+
+if "Stop" not in settings["hooks"]:
+    settings["hooks"]["Stop"] = []
+
+stop_hooks = settings["hooks"]["Stop"]
+existing_commands = [h.get("command", "") for h in stop_hooks if isinstance(h, dict)]
+
+if not any("session-end-save" in c for c in existing_commands):
+    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/session-end-save.sh"})
+    print("  [INSTALL] session-end-save Stop hook")
+    changed = True
+
+if not any("task-complete-sound" in c for c in existing_commands):
+    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/task-complete-sound.sh"})
+    print("  [INSTALL] task-complete-sound Stop hook")
+    changed = True
+
+if changed:
+    with open(settings_path, 'w') as f:
+        json.dump(settings, f, indent=2)
+    print("  Hooks configured in settings.json")
+else:
+    print("  All hooks already configured")
+'@
+    $pyHooks | python3 -
+} else {
+    Write-Host "  [SKIP] No settings.json found" -ForegroundColor Yellow
+}
+
+# --- Plugin Installation Instructions ---
+Write-Host ""
+Write-Host "===========================================================" -ForegroundColor Cyan
+Write-Host "  IMPORTANT: Complete these steps in Claude Code" -ForegroundColor Green
+Write-Host "===========================================================" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "  Open Claude Code and run these commands to install"
+Write-Host "  the plugins that bring 1,000+ skills and 19 agents:"
+Write-Host ""
+Write-Host "  1. Install everything-claude-code (1,000+ skills):"
+Write-Host "     /plugin marketplace add https://github.com/anthropic-community/everything-claude-code"
+Write-Host "     /plugin install everything-claude-code"
+Write-Host ""
+Write-Host "  2. Install oh-my-claudecode (19 agents, autopilot):"
+Write-Host "     /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
+Write-Host "     /plugin install oh-my-claudecode"
+Write-Host ""
+Write-Host "  3. Run OMC setup:"
+Write-Host "     /oh-my-claudecode:omc-setup"
+Write-Host ""
+Write-Host "  4. Verify everything:"
+Write-Host "     /healthcheck"
+Write-Host ""
+Write-Host "===========================================================" -ForegroundColor Cyan
+
 # --- Summary ---
 Write-Host ""
 Write-Host "===============================================" -ForegroundColor Cyan
