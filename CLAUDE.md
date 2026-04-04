@@ -157,16 +157,24 @@ UserPromptSubmit hook: python3 ~/.claude/hooks/carl-hook.py
 
 ### Step 11: Verify installation
 
-Run the healthcheck logic:
-- Check if agents exist in ~/.claude/agents/
-- Check if commands exist in ~/.claude/commands/
-- Check if hooks exist in ~/.claude/hooks/
-- Check if skills exist in ~/.claude/skills/
-- Check if CARL config exists at ~/.carl/carl.json
-- Check if settings.json is valid JSON
-- Count total skills, agents, MCP servers
+If the repo was cloned locally, run the verification script:
 
-Report the results to the user.
+```bash
+bash [path-to-cloned-repo]/verify.sh
+```
+
+This runs 30+ checks covering agents, commands, hooks, skills,
+configuration, MCP servers, third-party tools, backup status,
+and conflict detection.
+
+Also run these quick manual checks:
+- Agents: `ls ~/.claude/agents/ | wc -l` (should be 25+)
+- Commands: `ls ~/.claude/commands/healthcheck.md`
+- CARL: `test -f ~/.carl/carl.json`
+- JSON valid: `python3 -c "import json; json.load(open('$HOME/.claude/settings.json'))"`
+- Skills: `find ~/.claude/skills -name "SKILL.md" | wc -l`
+
+Report all results to the user in a simple table.
 
 ### Step 12: Complete the installation
 
