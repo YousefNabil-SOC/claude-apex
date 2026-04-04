@@ -193,19 +193,30 @@ Yes. The installer is non-destructive by design:
 
 ## Quick Install
 
-### Option 1 — One Command (Mac/Linux)
+### Option 1 — Tell Your Claude Code (Easiest)
+
+Just paste this into your Claude Code terminal:
+
+```
+Clone https://github.com/YousefNabil-SOC/claude-pantheon and install it to my Claude Code environment. Read the CLAUDE.md in the repo for installation instructions. Back up my existing config first.
+```
+
+Claude Code will read the repo's CLAUDE.md file and follow the installation
+steps automatically. No manual commands needed.
+
+### Option 2 — One Command (Mac/Linux)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.sh | bash
 ```
 
-### Option 2 — One Command (Windows PowerShell)
+### Option 3 — One Command (Windows PowerShell)
 
 ```powershell
 irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-pantheon/master/install.ps1 | iex
 ```
 
-### Option 3 — Interactive (All Platforms)
+### Option 4 — Interactive (All Platforms)
 
 ```bash
 git clone https://github.com/YousefNabil-SOC/claude-pantheon.git
