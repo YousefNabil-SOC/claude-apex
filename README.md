@@ -133,6 +133,19 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full breakdown.
 
 ---
 
+## Is It Safe?
+
+Yes. The installer is non-destructive by design:
+
+1. Creates a timestamped backup of your entire ~/.claude/ directory BEFORE any changes
+2. Skips any file that already exists (never overwrites)
+3. Third-party tools are installed from their official sources
+4. Includes an uninstaller that restores your backup with one command
+5. Zero API keys or credentials are included — you add your own
+6. The repository passed automated security scanning for leaked secrets
+
+---
+
 ## Quick Install
 
 ### Option 1 — One Command (Mac/Linux)
