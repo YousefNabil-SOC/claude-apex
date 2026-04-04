@@ -266,13 +266,15 @@ All third-party tools are installed from their original repositories and are cov
 
 ## Built By
 
-Built by **Yousef Nabil** — a developer who spent over two months of continuous development building the most comprehensive Claude Code environment in existence.
+Built by **[Yousef Nabil](https://github.com/YousefNabil-SOC)** — a 22-year-old developer and Digital & IT Coordinator based in Qatar.
 
-Every agent was tested. Every hook was verified. Every integration was audited. The system scores 15/15 on its own health check — and it built that health check itself.
+What started as customizing Claude Code for daily work turned into a 2+ month deep dive into building the most comprehensive Claude Code environment in existence. Every component was hand-configured, tested against real projects, and integrated into a unified system.
 
-This is not a weekend project. This is what happens when you treat Claude Code as a platform, not a tool.
+The environment was battle-tested across web development (React + TypeScript + Tailwind), document generation (PDF, PPTX, DOCX in Arabic and English), OSINT research, legal analysis, cybersecurity workflows, and multi-agent parallel execution.
 
-GitHub: [@YousefNabil-SOC](https://github.com/YousefNabil-SOC)
+It scores **15/15** on its own health check — a health check it built itself.
+
+If this helped you, consider giving it a star. It means a lot.
 
 ---
 
