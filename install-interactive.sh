@@ -285,10 +285,18 @@ echo "     /healthcheck"
 echo ""
 echo "═══════════════════════════════════════════════════════════"
 
+# --- Post-Install Verification ---
 echo ""
-echo "═══════════════════════════════════════════"
+echo "[PANTHEON] Running post-install verification..."
+echo ""
+if [ -f "$SCRIPT_DIR/verify.sh" ]; then
+  bash "$SCRIPT_DIR/verify.sh"
+fi
+
+echo ""
+echo "==========================================="
 echo "  Installation complete!"
-echo "═══════════════════════════════════════════"
+echo "==========================================="
 echo ""
 echo "  Restart Claude Code, then run /healthcheck"
 echo "  Backup at: $BACKUP_DIR"

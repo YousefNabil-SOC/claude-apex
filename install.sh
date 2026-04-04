@@ -356,6 +356,14 @@ echo ""
 echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
 echo ""
 
+# --- Post-Install Verification ---
+echo ""
+echo "[PANTHEON] Running post-install verification..."
+echo ""
+if [ -f "$SCRIPT_DIR/verify.sh" ]; then
+  bash "$SCRIPT_DIR/verify.sh"
+fi
+
 # --- Summary ---
 echo -e "${CYAN}═══════════════════════════════════════════${NC}"
 echo -e "${GREEN}  Claude Pantheon V${PANTHEON_VERSION} installed!${NC}"

@@ -261,6 +261,14 @@ Write-Host "     /healthcheck"
 Write-Host ""
 Write-Host "===========================================================" -ForegroundColor Cyan
 
+# --- Post-Install Verification ---
+Write-Host ""
+Write-Host "[PANTHEON] Running post-install verification..."
+$verifyScript = Join-Path $ScriptDir "verify.sh"
+if (Test-Path $verifyScript) {
+    & bash $verifyScript
+}
+
 # --- Summary ---
 Write-Host ""
 Write-Host "===============================================" -ForegroundColor Cyan
