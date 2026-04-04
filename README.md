@@ -191,6 +191,28 @@ Yes. The installer is non-destructive by design:
 
 ---
 
+## Compatibility and Existing Setups
+
+Already have agents, skills, or hooks? No problem.
+
+Pantheon is designed to work alongside your existing Claude Code setup, not replace it:
+
+**Existing agents are NEVER overwritten.** If you already have an architect.md agent, Pantheon skips it and keeps yours. You only get agents you are missing.
+
+**Existing skills stay untouched.** If you have 500 skills from another plugin, Pantheon adds its custom skills alongside them. No conflicts, no duplicates.
+
+**Settings.json is MERGED, not replaced.** Pantheon adds MCP servers and hooks to your existing configuration. It never removes or changes anything that is already there.
+
+**Everything is backed up first.** Before any changes, the installer creates a timestamped backup of your entire ~/.claude/ directory. If anything goes wrong, run uninstall.sh to restore instantly.
+
+**Post-install verification catches issues.** After installation, a 30+ point verification script automatically checks every component and reports what was installed, what was skipped (because you already had it), and if anything needs attention.
+
+**Conflict detection is built in.** The verification script checks for corrupted JSON files, missing critical components, and configuration conflicts. If anything is wrong, it tells you exactly what to fix.
+
+The bottom line: your environment gets Pantheon capabilities added on top of what you already have. Nothing is lost. Nothing is overwritten. Nothing breaks.
+
+---
+
 ## Quick Install
 
 ### Option 1 — Tell Your Claude Code (Easiest)
