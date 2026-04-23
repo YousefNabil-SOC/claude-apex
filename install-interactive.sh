@@ -4,7 +4,7 @@ set -euo pipefail
 # Claude Apex V6 Interactive Installer
 # Lets users choose what to install
 
-APEX_VERSION="6.0.0"
+APEX_VERSION="7.0.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo ""

@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Claude Apex Uninstaller
+# Claude Apex V7 Uninstaller
 # Restores backup created during installation
 
 echo ""
 echo "═══════════════════════════════════════════"
-echo "  CLAUDE APEX — Uninstaller"
+echo "  CLAUDE APEX V7 — Uninstaller"
 echo "═══════════════════════════════════════════"
 echo ""
 
 BACKUP_BASE="$HOME/.claude/backups"
 
-# Find most recent pre-apex backup
-BACKUP_DIR=$(ls -dt "$BACKUP_BASE"/pre-apex-* 2>/dev/null | head -1)
+BACKUP_DIR=$(ls -dt "$BACKUP_BASE"/pre-apex-* 2>/dev/null | head -1 || true)
 
-if [[ -z "$BACKUP_DIR" ]]; then
+if [[ -z "${BACKUP_DIR:-}" ]]; then
   echo "No Apex backup found at $BACKUP_BASE/pre-apex-*"
   echo "Cannot restore. You may need to manually remove Apex files."
   exit 1
@@ -24,9 +23,10 @@ fi
 echo "Found backup: $BACKUP_DIR"
 echo ""
 echo "This will:"
-echo "  1. Restore settings.json and CLAUDE.md from backup"
+echo "  1. Restore settings.json, CLAUDE.md, PRIMER.md from backup"
 echo "  2. Remove Apex-added agents, commands, hooks, and skills"
 echo "  3. Remove CARL config if it was installed by Apex"
+echo "  4. Remove V7 config files (ORCHESTRATION-ENGINE.md, CAPABILITY-REGISTRY.md, etc.)"
 echo ""
 read -rp "Continue? (y/n): " confirm
 if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
@@ -36,7 +36,7 @@ fi
 
 echo ""
 
-# Apex-specific agents (only remove these, not user's own agents)
+# Apex-specific agents (25)
 APEX_AGENTS=(
   architect.md build-error-resolver.md chief-of-staff.md code-reviewer.md
   cs-ceo-advisor.md cs-cto-advisor.md database-reviewer.md doc-updater.md
@@ -54,6 +54,7 @@ for agent in "${APEX_AGENTS[@]}"; do
   fi
 done
 
+echo ""
 echo "Removing Apex commands..."
 for cmd in healthcheck.md switch-project.md templates.md; do
   if [[ -f "$HOME/.claude/commands/$cmd" ]]; then
@@ -61,28 +62,40 @@ for cmd in healthcheck.md switch-project.md templates.md; do
     echo "  [REMOVED] $cmd"
   fi
 done
+# Also remove paul/seed/autoresearch subdirs if Apex installed them
+# (conservative — only remove if the user didn't have them before)
+# Skipping auto-removal of subdirs for safety.
 
-echo "Removing Apex hooks..."
-for hook in post-compact-recovery.sh session-end-save.sh task-complete-sound.sh peers-auto-register.sh carl-hook.py; do
+echo ""
+echo "Removing Apex hooks (V7 — 7 hooks)..."
+for hook in carl-hook.py post-compact-recovery.sh session-end-save.sh task-complete-sound.sh peers-auto-register.sh session-start-check.sh project-auto-graph.sh; do
   if [[ -f "$HOME/.claude/hooks/$hook" ]]; then
     rm "$HOME/.claude/hooks/$hook"
     echo "  [REMOVED] $hook"
   fi
 done
 
-echo "Removing Apex skills..."
-rm -rf "$HOME/.claude/skills/dream-consolidation" 2>/dev/null && echo "  [REMOVED] dream-consolidation" || true
-rm -rf "$HOME/.claude/skills/autoresearch" 2>/dev/null && echo "  [REMOVED] autoresearch" || true
+echo ""
+echo "Removing Apex skills (9 custom)..."
+for skill in dream-consolidation autoresearch premium-web-design 21st-dev-magic instagram-access graphify graphic-design-studio impeccable fireworks-tech-graph; do
+  if [[ -d "$HOME/.claude/skills/$skill" ]]; then
+    rm -rf "$HOME/.claude/skills/$skill"
+    echo "  [REMOVED] skill: $skill"
+  fi
+done
 
-echo "Removing Apex config..."
-rm -f "$HOME/.claude/ORCHESTRATION-ENGINE.md" 2>/dev/null && echo "  [REMOVED] ORCHESTRATION-ENGINE.md" || true
-rm -f "$HOME/.claude/CAPABILITY-REGISTRY.md" 2>/dev/null && echo "  [REMOVED] CAPABILITY-REGISTRY.md" || true
+echo ""
+echo "Removing Apex config files..."
+for f in ORCHESTRATION-ENGINE.md CAPABILITY-REGISTRY.md COMMAND-REGISTRY.md AGENTS.md AUTO-ACTIVATION-MATRIX.md; do
+  [[ -f "$HOME/.claude/$f" ]] && rm "$HOME/.claude/$f" && echo "  [REMOVED] $f"
+done
 
 # Restore backups
 echo ""
 echo "Restoring from backup..."
-[[ -f "$BACKUP_DIR/settings.json" ]] && cp "$BACKUP_DIR/settings.json" "$HOME/.claude/settings.json" && echo "  [RESTORED] settings.json"
-[[ -f "$BACKUP_DIR/CLAUDE.md" ]] && cp "$BACKUP_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md" && echo "  [RESTORED] CLAUDE.md"
+for f in settings.json CLAUDE.md PRIMER.md; do
+  [[ -f "$BACKUP_DIR/$f" ]] && cp "$BACKUP_DIR/$f" "$HOME/.claude/$f" && echo "  [RESTORED] $f"
+done
 
 echo ""
 echo "═══════════════════════════════════════════"
@@ -91,4 +104,8 @@ echo "════════════════════════�
 echo ""
 echo "  Restart Claude Code to apply changes."
 echo "  Your backup remains at: $BACKUP_DIR"
+echo ""
+echo "  Note: ~/.carl/carl.json was NOT removed. Delete manually if desired:"
+echo "    rm -rf ~/.carl"
+echo "  Note: ~/.claude/.env was NOT removed (keeps your API keys safe). Delete manually if desired."
 echo ""

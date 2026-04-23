@@ -16,29 +16,72 @@
 
 <div align="center">
 
-**1,308 skills. 108 agents. One unified intelligence.**
+**V7 — Three-Layer Auto-Routing**
 
-*The absolute top of Claude Code.*
+**1,276+ skills. 108 agents. 182 commands. One unified intelligence.**
 
-*Two months of continuous development. 15/15 health checks. Zero compromises.*
+*The most comprehensive Claude Code environment that exists.*
 
-![Version](https://img.shields.io/badge/version-6.0-blue)
+![Version](https://img.shields.io/badge/version-7.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-purple)
-![Health](https://img.shields.io/badge/health-15%2F15-brightgreen)
+![Routing](https://img.shields.io/badge/auto--routing-3%20layers-orange)
 
 </div>
 
 ---
 
+## Never used Claude Code before?
+
+**Start here → [docs/00-START-HERE.md](docs/00-START-HERE.md)**
+
+Zero technical background required. Ten step-by-step tutorials walk you from "I just heard about Claude" to "my computer has the world's most capable AI coding environment running". Written for people who have never touched a terminal.
+
+---
+
 ## What Is This?
 
-Most Claude Code users run a vanilla setup — maybe a few skills, default settings, no custom agents. They're using 10% of what Claude Code can do. Every session starts cold. Every task is ad-hoc. There's no memory between sessions, no structured execution, no specialist agents, and no way to verify the system is even working.
+Most Claude Code users run a vanilla setup — a few skills, default settings, no custom agents. They're using ~10% of what Claude Code can do. Every session starts cold. Every task is ad-hoc. There's no memory between sessions, no structured execution, no specialist agents, and no way to verify the system is even working.
 
-**Claude Apex** is an enterprise-grade environment that took 2+ months to build, test, and integrate. It adds 25 specialist agents, 7 JIT rule domains, structured execution loops, memory consolidation, inter-terminal communication, and a decision engine that automatically routes any request to the right combination of tools. Every component was tested individually and as part of the whole. The system verifies itself with 15 automated health checks.
+**Claude Apex V7** is an enterprise-grade environment built over multiple months. It adds 25 specialist agents, 9 JIT rule domains, structured execution loops, memory consolidation, 7 new custom skills, and — the V7 core innovation — a **three-layer auto-routing system** that reads your natural language and activates the right combination of tools automatically. You never need to type a slash command unless you want to.
+
+Every component is tested individually and as part of the whole. The system verifies itself with 15+ automated health checks.
 
 One-command install. Non-destructive — your existing setup stays intact. Everything is backed up before any changes. Works on Windows, Mac, and Linux.
+
+---
+
+## The V7 Innovation — Three-Layer Auto-Routing
+
+```
+User prompt ("build me a premium landing page with scroll animations")
+      │
+      ▼
+┌──────────────────────────────────────────────────┐
+│ Layer 1: CARL  (JIT rule injection)              │
+│ carl-hook.py matches keywords → injects relevant │
+│ rules from 9 domains directly into context       │
+│ Example: WEB-DEVELOPMENT + DEVELOPMENT loaded    │
+└────────────────────┬─────────────────────────────┘
+                     ▼
+┌──────────────────────────────────────────────────┐
+│ Layer 2: CAPABILITY-REGISTRY  (task → stack)     │
+│ Claude matches "premium landing page" pattern    │
+│ → loads skills (premium-web-design, react-       │
+│ patterns, tailwind-patterns) + MCP (@21st-dev/   │
+│ magic, playwright) + agents (architect, reviewer)│
+└────────────────────┬─────────────────────────────┘
+                     ▼
+┌──────────────────────────────────────────────────┐
+│ Layer 3: COMMAND-REGISTRY  (intent → commands)   │
+│ Intent "build website" maps to /feature-dev +    │
+│ (later) /code-review + /commit-push-pr           │
+│ Claude auto-invokes them at the right moment     │
+└──────────────────────────────────────────────────┘
+```
+
+You never typed `/premium-web-design` or `/21st-dev-magic` or `/feature-dev`. The system read your sentence and activated all of them.
 
 ---
 
@@ -47,42 +90,47 @@ One-command install. Non-destructive — your existing setup stays intact. Every
 After installing Apex, this is what `/healthcheck` looks like:
 
 ```
-System Health Check V6
+System Health Check V7
 
  #  | System              | Status | Details
 ----|---------------------|--------|--------------------------------
  1  | OMC Plugin          | OK     | oh-my-claudecode@omc enabled
- 2  | Claude Peers        | OK     | Broker healthy, 1 peer
- 3  | PAUL Framework      | OK     | 28 commands
- 4  | Dream Skill         | OK     | SKILL.md present
- 5  | CARL                | OK     | 7 domains configured
- 6  | Autoresearch        | OK     | SKILL.md present
- 7  | SEED                | OK     | seed.md present
- 8  | PostCompact Hook    | OK     | V6 verified
- 9  | Sound Notification  | OK     | Hook present
- 10 | Peers Auto-Register | OK     | Hook present
- 11 | Settings JSON       | OK     | Valid JSON
- 12 | MCP Servers         | OK     | 12 servers
- 13 | Skills Count        | OK     | 1,308 skills
- 14 | Agents Count        | OK     | 25 agents
- 15 | Memory Health       | OK     | 112 lines (limit: 200)
+ 2  | PAUL Framework      | OK     | 28 commands
+ 3  | CARL                | OK     | 9 domains, 40 rules configured
+ 4  | Autoresearch        | OK     | SKILL.md present
+ 5  | SEED                | OK     | seed.md present
+ 6  | UserPromptSubmit    | OK     | carl-hook.py (UTF-8 fixed)
+ 7  | SessionStart        | OK     | session-start-check + auto-graph
+ 8  | PostCompact Hook    | OK     | V7 recovery verified
+ 9  | Sound Notification  | OK     | 60s cooldown configured
+ 10 | Settings JSON       | OK     | Valid JSON
+ 11 | MCP Servers         | OK     | 4 default + 11 optional
+ 12 | 21st.dev Magic      | OK     | Component generation active
+ 13 | Graphify            | OK     | Knowledge graph skill loaded
+ 14 | Premium Web Design  | OK     | 36 patterns, 10 references
+ 15 | Skills Count        | OK     | 1,276+ skills
+ 16 | Agents Count        | OK     | 108 agents
+ 17 | effortLevel         | OK     | high (self-healing enforced)
+ 18 | Memory Health       | OK     | 112 lines (limit: 200)
 
-Result: 15/15 OK — all systems green
+Result: 18/18 OK — all systems green
 ```
 
 And this is autopilot mode in action:
 
 ```
-> autopilot: explain this codebase
+> build me a landing page for a luxury coffee brand
 
-Activating autopilot pipeline...
-  Stage 1: Expansion (reading project files)
-  Stage 2: Planning (identifying key areas)
-  Stage 3: Execution (analyzing with specialist agents)
-  Stage 4: QA (verifying findings)
-  Stage 5: Validation (architect review)
+[Apex activates automatically — no slash command typed]
+  Layer 1 (CARL): WEB-DEVELOPMENT + DEVELOPMENT rules loaded
+  Layer 2 (CAPABILITY-REGISTRY): premium-web-design, react-patterns,
+           tailwind-patterns skills loaded; @21st-dev/magic, playwright MCPs active
+  Layer 3 (COMMAND-REGISTRY): /feature-dev invoked
 
-[Full structured analysis delivered in 48 seconds]
+Generating components via 21st.dev Magic MCP...
+Applying premium-web-design scroll animations...
+Running npm run build... zero errors
+Ready for your review.
 ```
 
 ---
@@ -91,17 +139,17 @@ Activating autopilot pipeline...
 
 | Resource | Count |
 |----------|------:|
-| Installed Skills | **1,308** |
-| Available Agents | **108** (25 custom + 19 OMC + 60+ RuFlo + plugin agents) |
-| MCP Servers | **12** |
-| Plugins | **19** |
-| Slash Commands | **107** |
+| Installed Skills | **1,276+** |
+| Available Agents | **108** (25 custom + 19 OMC + 51 RuFlo + 13 plugin) |
+| MCP Servers (default) | **4** in settings.json → up to 15 with optional |
+| Plugins Available | **20** (9 enabled by default) |
+| Slash Commands | **182** indexed |
 | PAUL Execution Commands | **28** |
-| CARL Rule Domains | **7** domains, **33** rules |
-| Task Templates | **5** ready-to-use workflows |
-| Automated Health Checks | **15** |
-| Hook Scripts | **6** |
-| Documentation Guides | **14** |
+| CARL Rule Domains | **9** domains, **40** rules |
+| Hook Events | **5** (PostCompact, Stop, Notification, UserPromptSubmit, SessionStart-chain) |
+| Automated Health Checks | **18+** |
+| Beginner Tutorials | **10** |
+| Documentation Guides | **14 existing + 10 new beginner** = **24** |
 
 ---
 
@@ -109,73 +157,24 @@ Activating autopilot pipeline...
 
 | Layer | What It Does | How You Use It |
 |-------|-------------|----------------|
+| **CARL** | Just-In-Time rule injection — only load rules relevant to your prompt | Automatic — `carl-hook.py` matches keywords on every UserPromptSubmit |
+| **CAPABILITY-REGISTRY** | Task-pattern routing — "build website" → skills + MCP + agents + CLI | Automatic — Claude reads at session start, consults per-task |
+| **COMMAND-REGISTRY** | Auto-invocation routing — user intent → right slash commands | Automatic — 182 commands mapped to intent keywords |
 | **OMC** (oh-my-claudecode) | Multi-agent orchestration with 19 specialized agents | `autopilot: [task]` for full autonomous execution |
 | **PAUL** Framework | Structured Plan-Apply-Unify execution loop | `/paul:plan` → `/paul:apply` → `/paul:unify` |
-| **CARL** | Just-In-Time rule loading — only relevant rules load | Automatic — rules activate by keyword detection |
-| **Claude Peers** | Inter-terminal communication via localhost broker | Terminals auto-discover each other and exchange messages |
-| **Auto Dream** | Memory consolidation between sessions | Say "consolidate memory" or trigger manually |
 | **SEED** | Project incubator — idea to structured plan | `/seed` to start guided brainstorming |
 | **Autoresearch** | Autonomous optimization loops | Modify → measure → keep/discard → repeat on any metric |
-| **Orchestration Engine** | Decision brain — classifies requests, routes to right tools | Automatic — reads your intent and picks the best approach |
-| **25 Custom Agents** | Specialist workforce (architect, security, SEO, TDD, etc.) | Referenced by name or auto-selected by OMC |
-| **Health Monitor** | System verification across 15 checks | `/healthcheck` for instant status report |
-| **Project Switcher** | Instant context switching between projects | `/switch-project [name]` |
-| **Task Templates** | Pre-built workflows for recurring tasks | `template: [name]` |
-
----
-
-## Architecture
-
-```
-                    ┌─────────────────────┐
-                    │    Your Request     │
-                    └──────────┬──────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │   CARL (JIT Rules)  │
-                    │  Loads only what's  │
-                    │     relevant        │
-                    └──────────┬──────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │    Orchestration    │
-                    │      Engine        │
-                    │  (classifies &     │
-                    │    routes)         │
-                    └──────────┬──────────┘
-                               │
-          ┌────────┬───────────┼───────────┬────────┐
-          │        │           │           │        │
-          ▼        ▼           ▼           ▼        ▼
-       ┌──────┐ ┌──────┐ ┌────────┐ ┌──────┐ ┌──────┐
-       │Direct│ │ PAUL │ │  SEED  │ │ Auto │ │ OMC  │
-       │ Exec │ │Plan/ │ │Incubt. │ │Resrch│ │Team  │
-       │      │ │Apply/│ │        │ │      │ │Mode  │
-       │      │ │Unify │ │        │ │      │ │      │
-       └──┬───┘ └──┬───┘ └───┬────┘ └──┬───┘ └──┬───┘
-          │        │         │         │        │
-          └────────┴─────────┼─────────┴────────┘
-                             │
-                    ┌────────▼────────┐
-                    │   Execution     │
-                    │ Skills + Agents │
-                    │ + MCP Servers   │
-                    └────────┬────────┘
-                             │
-                    ┌────────▼────────┐
-                    │  Verification   │
-                    │ Build / Test /  │
-                    │ Screenshot      │
-                    └────────┬────────┘
-                             │
-                    ┌────────▼────────┐
-                    │     Memory      │
-                    │  Auto-save +    │
-                    │  Dream Cycle    │
-                    └─────────────────┘
-```
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full breakdown.
+| **ORCHESTRATION ENGINE** | Decision brain — picks between direct, PAUL, SEED, Autoresearch, OMC | Automatic — reads intent, picks the right mode |
+| **Premium Web Design** | Luxury animation patterns, 10 reference site analyses, GSAP/Framer tools | Auto-activates on "premium", "luxury", "animation" keywords |
+| **21st.dev Magic MCP** | Generate React+TS+Tailwind components from natural language | Auto-activates on "component", "ui", "generate" keywords |
+| **Instagram Access** | Authenticated Instagram data extraction (instaloader) | `download @profile` or similar natural language |
+| **Graphify** | Knowledge-graph skill — ~90% token savings on codebase navigation | Auto-activates on "where is X", "how does X work" |
+| **Graphic Design Studio** | Code-based graphic rendering (HTML/CSS/SVG/Pillow/Playwright) | Auto-activates on "logo", "banner", "graphic" |
+| **25 Custom Agents** | Specialist workforce (architect, security, SEO, TDD, etc.) | Referenced by name or auto-selected per task |
+| **Dynamic Model Routing** | Opus for planning, Sonnet for execution, Haiku for trivial tasks | Automatic — respects per-agent `model:` frontmatter |
+| **Health Monitor** | System verification across 18+ checks | `/healthcheck` for instant status |
+| **Project Switcher** | Instant context switching | `/switch-project [name]` (edit commands/switch-project.md for your projects) |
+| **Task Templates** | Pre-built workflows | `template: [name]` (edit commands/templates.md for your workflows) |
 
 ---
 
@@ -183,34 +182,27 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full breakdown.
 
 Yes. The installer is non-destructive by design:
 
-1. Creates a timestamped backup of your entire ~/.claude/ directory BEFORE any changes
+1. Creates a timestamped backup of your entire `~/.claude/` directory BEFORE any changes
 2. Skips any file that already exists (never overwrites)
 3. Third-party tools are installed from their official sources
 4. Includes an uninstaller that restores your backup with one command
-5. Zero API keys or credentials are included — you add your own
+5. Zero API keys or credentials are included — you add your own via `~/.claude/.env`
 6. The repository passed automated security scanning for leaked secrets
+7. `.gitignore` enforces `.env` exclusion
 
 ---
 
 ## Compatibility and Existing Setups
 
-Already have agents, skills, or hooks? No problem.
+**Existing agents are NEVER overwritten.** If you already have an `architect.md` agent, Apex skips it and keeps yours.
 
-Apex is designed to work alongside your existing Claude Code setup, not replace it:
+**Existing skills stay untouched.** Apex adds its custom skills alongside whatever you have.
 
-**Existing agents are NEVER overwritten.** If you already have an architect.md agent, Apex skips it and keeps yours. You only get agents you are missing.
+**Settings.json is MERGED, not replaced.** Apex adds MCP servers and hooks to your existing configuration. It never removes anything that is already there.
 
-**Existing skills stay untouched.** If you have 500 skills from another plugin, Apex adds its custom skills alongside them. No conflicts, no duplicates.
+**Everything is backed up first.** Before any changes, the installer creates a timestamped backup. If anything goes wrong, run `uninstall.sh` to restore instantly.
 
-**Settings.json is MERGED, not replaced.** Apex adds MCP servers and hooks to your existing configuration. It never removes or changes anything that is already there.
-
-**Everything is backed up first.** Before any changes, the installer creates a timestamped backup of your entire ~/.claude/ directory. If anything goes wrong, run uninstall.sh to restore instantly.
-
-**Post-install verification catches issues.** After installation, a 30+ point verification script automatically checks every component and reports what was installed, what was skipped (because you already had it), and if anything needs attention.
-
-**Conflict detection is built in.** The verification script checks for corrupted JSON files, missing critical components, and configuration conflicts. If anything is wrong, it tells you exactly what to fix.
-
-The bottom line: your environment gets Apex capabilities added on top of what you already have. Nothing is lost. Nothing is overwritten. Nothing breaks.
+**Post-install verification catches issues.** After installation, a 30+ point verification script checks every component.
 
 ---
 
@@ -229,16 +221,12 @@ Wait for it to finish. Then restart Claude Code.
 **Step 2:** Open a new Claude Code session and paste this:
 
 ```
-I just installed Claude Apex. Please complete the setup by running these plugin installations for me:
+I just installed Claude Apex V7. Please complete the setup by running these plugin installations:
 1. Add the everything-claude-code marketplace and install it
 2. Add the oh-my-claudecode marketplace and install it
 3. Run the OMC setup
-After all three are done, run /healthcheck to verify everything is green.
+4. Run /healthcheck to verify everything is green.
 ```
-
-Done. Two pastes. Full environment. 1,308 skills, 108 agents, 15/15 health checks.
-
-Both steps include automatic verification. You will see a detailed report of what was installed and what needs attention.
 
 ### Option 2 — One Command (Mac/Linux)
 
@@ -246,17 +234,13 @@ Both steps include automatic verification. You will see a detailed report of wha
 curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/install.sh | bash
 ```
 
-The installer runs a 30+ point verification automatically.
-
 ### Option 3 — One Command (Windows PowerShell)
 
 ```powershell
 irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/install.ps1 | iex
 ```
 
-The installer runs a 30+ point verification automatically.
-
-### Option 4 — Interactive (All Platforms)
+### Option 4 — Interactive (all platforms)
 
 ```bash
 git clone https://github.com/YousefNabil-SOC/claude-apex.git
@@ -264,20 +248,14 @@ cd claude-apex
 bash install-interactive.sh
 ```
 
-> The installer backs up your entire `~/.claude/` directory before making any changes. If anything goes wrong, run `uninstall.sh` to restore your original configuration.
-
-Verification runs automatically after installation completes.
-
 ### Verify Your Installation
-
-Already installed Apex? Run the verification anytime:
 
 ```bash
 cd claude-apex
 bash verify.sh
 ```
 
-This runs 30+ checks covering agents, commands, hooks, skills, configuration, MCP servers, third-party tools, backup status, and conflict detection. Results are shown as PASS, WARN, or FAIL with specific instructions for fixing any issues.
+This runs 30+ checks covering agents, commands, hooks, skills, configuration, MCP servers, third-party tools, backup status, and conflict detection.
 
 ---
 
@@ -285,13 +263,16 @@ This runs 30+ checks covering agents, commands, hooks, skills, configuration, MC
 
 | Capability | Without Apex | With Apex |
 |-----------|-----------------|---------------|
-| Agent orchestration | You manually pick agents | OMC autopilot self-organizes 19 agents |
+| Tool activation | You manually pick skills/agents | 3-layer routing activates the right tools from natural language |
+| Agent orchestration | You pick agents | OMC autopilot self-organizes 19 agents |
 | Execution structure | No structure, plans drift | PAUL enforces Plan-Apply-Unify with quality gates |
 | Rule management | All rules loaded every session | CARL loads rules JIT by intent (saves tokens) |
 | Memory hygiene | Grows forever, gets stale | Dream auto-consolidates between sessions |
-| Multi-terminal | Each terminal is isolated | Claude Peers: terminals discover and message each other |
-| Health monitoring | No way to check | `/healthcheck` verifies 15 systems in 10 seconds |
-| Project context | Manual cd and re-explain | `/switch-project` loads full context instantly |
+| Codebase navigation | Raw file reads (~10K tokens/file) | Graphify queries (~1K tokens, 10-30× cheaper) |
+| Component generation | Copy-paste from docs | @21st-dev/magic MCP generates React+TS+Tailwind from language |
+| Premium UI patterns | Start from scratch | 36 curated animation patterns + 10 reference site analyses |
+| Health monitoring | No way to check | `/healthcheck` verifies 18+ systems in 10 seconds |
+| Effort discipline | Accidentally burn tokens with xhigh/max | Self-healing lowers to `high`, enforces budget |
 | Starting new projects | Blank page | SEED incubates ideas through guided questioning |
 | Optimization | Manual trial and error | Autoresearch: autonomous improve-measure-keep loops |
 | Agents | 0 custom specialists | 25 battle-tested specialists + 83 from plugins |
@@ -301,29 +282,22 @@ This runs 30+ checks covering agents, commands, hooks, skills, configuration, MC
 ## What You Can Do After Install
 
 ```bash
-# Full autonomous task execution
+# Natural language — Apex routes automatically
+"build me a premium landing page with scroll animations"
+"review this PR"
+"ship this feature to production"
+"where is the auth middleware in this codebase?"
+"consolidate memory"
+
+# Or explicit slash commands
 autopilot: build a React dashboard with user authentication
-
-# Persistent execution (won't stop until done)
 ralph: refactor the entire authentication module
-
-# Structured multi-phase development
 /paul:plan → /paul:apply → /paul:unify
-
-# Brainstorm a new project idea
 /seed
-
-# Optimize anything measurable
 /autoresearch
-
-# Verify all systems are healthy
 /healthcheck
-
-# Switch project context instantly
-/switch-project myapp
-
-# Use a pre-built workflow template
-template: research
+/switch-project my-webapp
+template: deploy-app
 ```
 
 ---
@@ -334,53 +308,64 @@ Apex installs these components to your `~/.claude/` directory:
 
 **From this repository (original work):**
 - 25 custom agent definitions
-- 3 custom slash commands
-- 5 hook scripts
-- 2 custom skills
-- CARL domain configuration (7 domains, 33 rules)
+- ~45 custom slash commands + paul/ + seed/ + autoresearch/ subdirs
+- 7 hook scripts (post-compact-recovery, session-end-save, task-complete-sound, carl-hook.py, session-start-check, project-auto-graph, peers-auto-register)
+- 9 custom skills (premium-web-design, 21st-dev-magic, instagram-access, graphify, graphic-design-studio, impeccable, fireworks-tech-graph, dream-consolidation, autoresearch)
+- CARL domain configuration (9 domains, 40 rules)
 - Orchestration engine
-- CLAUDE.md enhancements
+- CAPABILITY-REGISTRY, COMMAND-REGISTRY, AGENTS.md, AUTO-ACTIVATION-MATRIX
+- CLAUDE.md and PRIMER.md templates
+- .env template with all required API key names
 
 **Installed via their official sources (third-party, open source):**
-- [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) plugin (Yeachan-Heo) — via Claude Code plugin marketplace
-- [PAUL](https://github.com/ChristopherKahler/paul) framework (ChristopherKahler) — via npm
-- [SEED](https://github.com/ChristopherKahler/seed) incubator (ChristopherKahler) — via npm
-- [Claude Peers](https://github.com/louislva/claude-peers-mcp) MCP (louislva) — via git clone
-- [Bun](https://bun.sh) runtime — via npm
+- [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) — 19 agents + autopilot
+- [PAUL framework](https://github.com/ChristopherKahler/paul) — structured execution
+- [SEED incubator](https://github.com/ChristopherKahler/seed) — project brainstorming
+- [Claude Peers MCP](https://github.com/louislva/claude-peers-mcp) — inter-instance communication
+- [Bun runtime](https://bun.sh)
 
 All third-party tools are installed from their original repositories and are covered by their own licenses.
 
 **Manual plugin install required for full experience (run in Claude Code after install):**
 
-These plugins are installed through Claude Code's built-in plugin marketplace,
-not through the shell installer. Open Claude Code after running the installer
-and run these commands:
-
 ```
-# Install ~1,000+ community skills
 /plugin marketplace add https://github.com/anthropic-community/everything-claude-code
 /plugin install everything-claude-code
 
-# Install 19-agent orchestration with autopilot mode
 /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
 /plugin install oh-my-claudecode
 /oh-my-claudecode:omc-setup
 ```
 
-Without these plugins, you get the core Apex experience (25 agents,
-custom commands, hooks, CARL, orchestration engine). With them, you get
-the FULL 1,308 skills + 108 agents experience.
+Without these plugins, you get the core Apex experience. With them, you get the FULL 1,276+ skills + 108 agents environment.
 
 ---
 
 ## Documentation
 
+### Brand new to Claude Code? Read these first:
+
+| Beginner Tutorial | What It Covers |
+|---|---|
+| [00-START-HERE.md](docs/00-START-HERE.md) | What is this? (5-year-old friendly) |
+| [01-WHAT-IS-CLAUDE-CODE.md](docs/01-WHAT-IS-CLAUDE-CODE.md) | Claude, Anthropic, CLI, terminal — all explained |
+| [02-INSTALL-FROM-ZERO.md](docs/02-INSTALL-FROM-ZERO.md) | Every step from brand-new computer to running Apex |
+| [03-FIRST-TIME-USING.md](docs/03-FIRST-TIME-USING.md) | First 10 commands, with expected output |
+| [04-WHAT-ARE-SKILLS.md](docs/04-WHAT-ARE-SKILLS.md) | Analogy: skills = recipe books Claude reads on demand |
+| [05-WHAT-ARE-AGENTS.md](docs/05-WHAT-ARE-AGENTS.md) | Analogy: agents = specialist coworkers |
+| [06-WHAT-ARE-MCP-SERVERS.md](docs/06-WHAT-ARE-MCP-SERVERS.md) | Analogy: MCP = superpowers plugged in |
+| [07-WHAT-ARE-HOOKS.md](docs/07-WHAT-ARE-HOOKS.md) | Analogy: hooks = automatic reflexes |
+| [08-WHAT-IS-CARL.md](docs/08-WHAT-IS-CARL.md) | Analogy: CARL = librarian |
+| [09-GLOSSARY.md](docs/09-GLOSSARY.md) | Every term in one sentence |
+| [10-TROUBLESHOOT-FOR-BEGINNERS.md](docs/10-TROUBLESHOOT-FOR-BEGINNERS.md) | It didn't work — now what? |
+
+### Already comfortable? Go deeper:
+
 | Guide | Description |
 |-------|-------------|
-| [Getting Started](docs/GETTING-STARTED.md) | Your first 5 minutes with Apex |
-| [Architecture](docs/ARCHITECTURE.md) | How the 5-layer system works |
-| [Agents Guide](docs/AGENTS-GUIDE.md) | Working with 25 specialist agents |
-| [CARL Guide](docs/CARL-GUIDE.md) | JIT rule loading explained |
+| [Architecture](docs/ARCHITECTURE.md) | How the three-layer system works |
+| [Agents Guide](docs/AGENTS-GUIDE.md) | Working with 108 specialist agents |
+| [CARL Guide](docs/CARL-GUIDE.md) | JIT rule loading explained (9 domains, 40 rules) |
 | [PAUL Integration](docs/PAUL-INTEGRATION.md) | Plan-Apply-Unify structured execution |
 | [OMC Integration](docs/OMC-INTEGRATION.md) | Multi-agent autopilot modes |
 | [Peers Setup](docs/PEERS-SETUP.md) | Multi-terminal communication |
@@ -394,17 +379,9 @@ the FULL 1,308 skills + 108 agents experience.
 
 ---
 
-## Built By
+## Contributing
 
-Built by **[Yousef Nabil](https://github.com/YousefNabil-SOC)** — a 22-year-old developer and Digital & IT Coordinator based in Qatar.
-
-What started as customizing Claude Code for daily work turned into a 2+ month deep dive into building the most comprehensive Claude Code environment in existence. Every component was hand-configured, tested against real projects, and integrated into a unified system.
-
-The environment was battle-tested across web development (React + TypeScript + Tailwind), document generation (PDF, PPTX, DOCX in Arabic and English), OSINT research, legal analysis, cybersecurity workflows, and multi-agent parallel execution.
-
-It scores **15/15** on its own health check — a health check it built itself.
-
-If this helped you, consider giving it a star. It means a lot.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Whether it's a new agent, a new CARL domain, a bug fix, or documentation improvement — PRs are appreciated.
 
 ---
 
@@ -413,9 +390,9 @@ If this helped you, consider giving it a star. It means a lot.
 - [Anthropic](https://anthropic.com) — for building Claude Code
 - [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode) by Yeachan-Heo — multi-agent orchestration
 - [PAUL Framework](https://github.com/ChristopherKahler/paul) by ChristopherKahler — structured execution
-- [CARL](https://github.com/ChristopherKahler/carl) by ChristopherKahler — JIT rule loading
 - [SEED](https://github.com/ChristopherKahler/seed) by ChristopherKahler — project incubation
 - [Claude Peers](https://github.com/louislva/claude-peers-mcp) by louislva — inter-instance communication
+- [21st.dev](https://21st.dev/) — the Magic MCP for premium UI component generation
 - The Claude Code community for skills, plugins, and inspiration
 
 ---
@@ -423,12 +400,6 @@ If this helped you, consider giving it a star. It means a lot.
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=YousefNabil-SOC/claude-apex&type=Date)](https://star-history.com/#YousefNabil-SOC/claude-apex&Date)
-
----
-
-## Contributing
-
-Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines. Whether it's a new agent, a new CARL domain, a bug fix, or documentation improvement — PRs are appreciated.
 
 ---
 

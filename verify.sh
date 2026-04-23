@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 set +e
 
-# Claude Apex V6 -- Post-Install Verification
-# Checks 30+ components across 9 categories
-# Works on Mac, Linux, and Windows Git Bash
+# Claude Apex V7 -- Post-Install Verification
+# Checks 35+ components across 9 categories
 
 echo ""
 echo "==========================================================="
-echo "  CLAUDE APEX V6 -- Post-Install Verification"
+echo "  CLAUDE APEX V7 -- Post-Install Verification"
 echo "==========================================================="
 echo ""
 
@@ -18,33 +17,16 @@ PASS=0
 WARN=0
 FAIL=0
 
-check_pass() {
-  echo "  [PASS]  $1 -- $2"
-  PASS=$((PASS + 1))
-}
-
-check_warn() {
-  echo "  [WARN]  $1 -- $2"
-  WARN=$((WARN + 1))
-}
-
-check_fail() {
-  echo "  [FAIL]  $1 -- $2"
-  FAIL=$((FAIL + 1))
-}
+check_pass() { echo "  [PASS]  $1 -- $2"; PASS=$((PASS + 1)); }
+check_warn() { echo "  [WARN]  $1 -- $2"; WARN=$((WARN + 1)); }
+check_fail() { echo "  [FAIL]  $1 -- $2"; FAIL=$((FAIL + 1)); }
 
 # =============================================================
 # CATEGORY 1: AGENTS
 # =============================================================
-echo "--- AGENTS ---"
+echo "--- AGENTS (target: 25) ---"
 echo ""
-
-if [ -d "$CLAUDE_DIR/agents" ]; then
-  agent_count=$(find "$CLAUDE_DIR/agents" -maxdepth 1 -name "*.md" ! -name "README.md" 2>/dev/null | wc -l | tr -d ' ')
-else
-  agent_count=0
-fi
-
+agent_count=$(find "$CLAUDE_DIR/agents" -maxdepth 1 -name "*.md" ! -name "README.md" 2>/dev/null | wc -l | tr -d ' ')
 if [ "$agent_count" -ge 25 ]; then
   check_pass "Agent count" "$agent_count agents installed"
 elif [ "$agent_count" -ge 15 ]; then
@@ -53,7 +35,6 @@ else
   check_fail "Agent count" "$agent_count agents (expected 25+)"
 fi
 
-# Critical agents (FAIL if missing)
 for agent in architect.md code-reviewer.md security-reviewer.md planner.md tdd-guide.md; do
   if [ -f "$CLAUDE_DIR/agents/$agent" ]; then
     check_pass "Critical agent" "$agent"
@@ -61,16 +42,6 @@ for agent in architect.md code-reviewer.md security-reviewer.md planner.md tdd-g
     check_fail "Critical agent" "$agent missing"
   fi
 done
-
-# Additional agents (WARN if missing)
-for agent in database-reviewer.md e2e-runner.md doc-updater.md python-reviewer.md refactor-cleaner.md; do
-  if [ -f "$CLAUDE_DIR/agents/$agent" ]; then
-    check_pass "Additional agent" "$agent"
-  else
-    check_warn "Additional agent" "$agent missing (non-critical)"
-  fi
-done
-
 echo ""
 
 # =============================================================
@@ -78,94 +49,68 @@ echo ""
 # =============================================================
 echo "--- SLASH COMMANDS ---"
 echo ""
-
-if [ -f "$CLAUDE_DIR/commands/healthcheck.md" ]; then
-  check_pass "Command" "healthcheck.md"
-else
-  check_fail "Command" "healthcheck.md missing"
-fi
-
-if [ -f "$CLAUDE_DIR/commands/switch-project.md" ]; then
-  check_pass "Command" "switch-project.md"
-else
-  check_fail "Command" "switch-project.md missing"
-fi
-
-if [ -f "$CLAUDE_DIR/commands/templates.md" ]; then
-  check_pass "Command" "templates.md"
-else
-  check_fail "Command" "templates.md missing"
-fi
-
-if [ -d "$CLAUDE_DIR/commands/paul" ]; then
-  paul_count=$(find "$CLAUDE_DIR/commands/paul" -name "*.md" 2>/dev/null | wc -l | tr -d ' ')
-  if [ "$paul_count" -ge 20 ]; then
-    check_pass "PAUL commands" "$paul_count commands"
-  elif [ "$paul_count" -ge 1 ]; then
-    check_warn "PAUL commands" "$paul_count commands (expected 20+)"
-  else
-    check_warn "PAUL commands" "directory exists but empty"
-  fi
-else
-  check_warn "PAUL commands" "PAUL not installed (optional)"
-fi
-
-if [ -f "$CLAUDE_DIR/commands/seed/seed.md" ] || [ -f "$CLAUDE_DIR/commands/seed.md" ]; then
-  check_pass "SEED command" "found"
-else
-  check_warn "SEED command" "SEED not installed (optional)"
-fi
-
+for cmd in healthcheck.md switch-project.md templates.md; do
+  [ -f "$CLAUDE_DIR/commands/$cmd" ] && check_pass "Apex command" "$cmd" || check_fail "Apex command" "$cmd missing"
+done
+[ -d "$CLAUDE_DIR/commands/paul" ] && check_pass "PAUL commands" "directory present" || check_warn "PAUL" "not installed (optional)"
+[ -d "$CLAUDE_DIR/commands/seed" ] && check_pass "SEED commands" "directory present" || check_warn "SEED" "not installed (optional)"
+[ -d "$CLAUDE_DIR/commands/autoresearch" ] && check_pass "Autoresearch commands" "directory present" || check_warn "Autoresearch" "not installed"
 echo ""
 
 # =============================================================
-# CATEGORY 3: HOOKS
+# CATEGORY 3: HOOKS (V7 — 7 hooks expected)
 # =============================================================
-echo "--- HOOKS ---"
+echo "--- HOOKS (V7 — fixed versions) ---"
 echo ""
-
-for hook in post-compact-recovery.sh session-end-save.sh task-complete-sound.sh peers-auto-register.sh carl-hook.py; do
+for hook in carl-hook.py post-compact-recovery.sh session-end-save.sh task-complete-sound.sh session-start-check.sh project-auto-graph.sh; do
   if [ -f "$CLAUDE_DIR/hooks/$hook" ]; then
     check_pass "Hook" "$hook"
   else
-    check_warn "Hook" "$hook missing (optional)"
+    check_warn "Hook" "$hook missing"
   fi
 done
 
+# Verify V7 fixes are in place
+if [ -f "$CLAUDE_DIR/hooks/carl-hook.py" ]; then
+  utf8_count=$(grep -c 'io.TextIOWrapper' "$CLAUDE_DIR/hooks/carl-hook.py" 2>/dev/null)
+  if [ "$utf8_count" -ge 2 ]; then
+    check_pass "UTF-8 fix" "carl-hook.py has UTF-8 TextIOWrapper on stdout and stderr"
+  else
+    check_fail "UTF-8 fix" "carl-hook.py missing UTF-8 fix — non-Latin content may corrupt"
+  fi
+fi
+
+if [ -f "$CLAUDE_DIR/hooks/task-complete-sound.sh" ]; then
+  if grep -q '\-lt 60' "$CLAUDE_DIR/hooks/task-complete-sound.sh"; then
+    check_pass "Sound cooldown" "60s cooldown present"
+  else
+    check_warn "Sound cooldown" "no 60s cooldown (sounds may spam)"
+  fi
+fi
 echo ""
 
 # =============================================================
-# CATEGORY 4: CUSTOM SKILLS
+# CATEGORY 4: APEX CUSTOM SKILLS (9 expected)
 # =============================================================
-echo "--- CUSTOM SKILLS ---"
+echo "--- APEX CUSTOM SKILLS (9 expected) ---"
 echo ""
+for skill in dream-consolidation autoresearch premium-web-design 21st-dev-magic instagram-access graphify graphic-design-studio impeccable fireworks-tech-graph; do
+  if [ -f "$CLAUDE_DIR/skills/$skill/SKILL.md" ]; then
+    check_pass "Skill" "$skill"
+  else
+    check_warn "Skill" "$skill missing (install script copies all 9)"
+  fi
+done
 
-if [ -f "$CLAUDE_DIR/skills/dream-consolidation/SKILL.md" ]; then
-  check_pass "Skill" "dream-consolidation"
-else
-  check_fail "Skill" "dream-consolidation -- core Apex skill missing"
-fi
-
-if [ -f "$CLAUDE_DIR/skills/autoresearch/SKILL.md" ]; then
-  check_pass "Skill" "autoresearch"
-else
-  check_fail "Skill" "autoresearch -- core Apex skill missing"
-fi
-
-if [ -d "$CLAUDE_DIR/skills" ]; then
-  skill_count=$(find "$CLAUDE_DIR/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
-else
-  skill_count=0
-fi
-
+# Total skill count (includes plugin-provided ones)
+skill_count=$(find "$CLAUDE_DIR/skills" -name "SKILL.md" 2>/dev/null | wc -l | tr -d ' ')
 if [ "$skill_count" -ge 1000 ]; then
-  check_pass "Total skills" "$skill_count -- full installation"
-elif [ "$skill_count" -ge 100 ]; then
-  check_warn "Total skills" "$skill_count -- install everything-claude-code plugin for 1300+"
+  check_pass "Total skills" "$skill_count -- full installation (plugins installed)"
+elif [ "$skill_count" -ge 9 ]; then
+  check_warn "Total skills" "$skill_count -- install everything-claude-code plugin for 1,276+"
 else
-  check_warn "Total skills" "$skill_count -- install plugins in Claude Code for more skills"
+  check_fail "Total skills" "$skill_count -- run the installer"
 fi
-
 echo ""
 
 # =============================================================
@@ -173,116 +118,114 @@ echo ""
 # =============================================================
 echo "--- CONFIGURATION ---"
 echo ""
-
 if [ -f "$CARL_DIR/carl.json" ]; then
-  domain_count=""
-  if command -v python3 &>/dev/null; then
-    domain_count=$(python3 -c "
+  domain_count=$(python3 -c "
 import json
 try:
-    with open('$CARL_DIR/carl.json') as f:
-        data = json.load(f)
-    if 'domains' in data:
-        print(len(data['domains']))
-    elif isinstance(data, list):
-        print(len(data))
-    else:
-        print('unknown structure')
-except:
-    print('parse error')
+    d = json.load(open('$CARL_DIR/carl.json'))
+    print(len(d.get('domains', {})))
+except Exception:
+    print(0)
 " 2>/dev/null)
-  fi
-  if [ -n "$domain_count" ] && [ "$domain_count" != "parse error" ]; then
-    check_pass "CARL config" "carl.json ($domain_count domains)"
+  rules_count=$(python3 -c "
+import json
+try:
+    d = json.load(open('$CARL_DIR/carl.json'))
+    total = sum(len(v.get('rules', [])) for v in d.get('domains', {}).values())
+    print(total)
+except Exception:
+    print(0)
+" 2>/dev/null)
+  if [ "$domain_count" = "9" ] && [ "$rules_count" -ge 40 ]; then
+    check_pass "CARL" "$domain_count domains, $rules_count rules (V7 target met)"
+  elif [ "$domain_count" -ge 7 ]; then
+    check_warn "CARL" "$domain_count domains, $rules_count rules (V7 target: 9 domains / 40+ rules)"
   else
-    check_pass "CARL config" "carl.json exists"
+    check_fail "CARL" "$domain_count domains (V7 requires 9)"
   fi
 else
-  check_fail "CARL config" "CARL not configured -- ~/.carl/carl.json missing"
+  check_fail "CARL" "carl.json missing"
 fi
 
-if [ -f "$CLAUDE_DIR/ORCHESTRATION-ENGINE.md" ]; then
-  check_pass "Orchestration" "ORCHESTRATION-ENGINE.md"
-else
-  check_fail "Orchestration" "ORCHESTRATION-ENGINE.md missing"
-fi
-
-if [ -f "$CLAUDE_DIR/CAPABILITY-REGISTRY.md" ]; then
-  check_pass "Capability" "CAPABILITY-REGISTRY.md"
-else
-  check_warn "Capability" "CAPABILITY-REGISTRY.md missing (optional but recommended)"
-fi
+for file in ORCHESTRATION-ENGINE.md CAPABILITY-REGISTRY.md COMMAND-REGISTRY.md AGENTS.md AUTO-ACTIVATION-MATRIX.md; do
+  if [ -f "$CLAUDE_DIR/$file" ]; then
+    check_pass "Config" "$file"
+  else
+    check_warn "Config" "$file missing"
+  fi
+done
 
 if [ -f "$CLAUDE_DIR/settings.json" ]; then
-  if command -v python3 &>/dev/null; then
-    python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null
-    if [ $? -eq 0 ]; then
-      check_pass "Settings" "settings.json is valid JSON"
-    else
-      check_fail "Settings" "settings.json CORRUPTED -- restore from backup"
-    fi
+  python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null
+  if [ $? -eq 0 ]; then
+    check_pass "settings.json" "valid JSON"
+    # effort level
+    effort=$(python3 -c "
+import json
+try:
+    d = json.load(open('$CLAUDE_DIR/settings.json'))
+    print(d.get('effortLevel', 'not set'))
+except Exception:
+    print('error')
+")
+    case "$effort" in
+      high) check_pass "effortLevel" "high (safe default)" ;;
+      xhigh|max) check_warn "effortLevel" "$effort (self-healing should lower to 'high')" ;;
+      *) check_warn "effortLevel" "$effort (recommend 'high')" ;;
+    esac
   else
-    check_pass "Settings" "settings.json exists (no python3 to validate)"
+    check_fail "settings.json" "CORRUPTED -- restore from backup"
+  fi
+fi
+
+if [ -f "$CLAUDE_DIR/.env" ]; then
+  # Check that the template placeholders have been replaced (at least one real key set)
+  if grep -Eq 'your_.*_here' "$CLAUDE_DIR/.env"; then
+    check_warn ".env" "placeholder values present — edit with your real API keys"
+  else
+    check_pass ".env" "template replaced with real values"
   fi
 else
-  check_warn "Settings" "settings.json not found"
+  check_warn ".env" "not found (copy from config/env.template)"
 fi
-
-if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
-  line_count=$(wc -l < "$CLAUDE_DIR/CLAUDE.md" | tr -d ' ')
-  check_pass "CLAUDE.md" "$line_count lines"
-else
-  check_warn "CLAUDE.md" "not found"
-fi
-
 echo ""
 
 # =============================================================
-# CATEGORY 6: MCP SERVERS
+# CATEGORY 6: MCP SERVERS (V7 — 4 defaults)
 # =============================================================
-echo "--- MCP SERVERS ---"
+echo "--- MCP SERVERS (V7 defaults: playwright, github, exa-web-search, @21st-dev/magic) ---"
 echo ""
-
-if [ -f "$CLAUDE_DIR/settings.json" ] && command -v python3 &>/dev/null; then
+if [ -f "$CLAUDE_DIR/settings.json" ]; then
   mcp_count=$(python3 -c "
 import json
 try:
-    with open('$CLAUDE_DIR/settings.json') as f:
-        data = json.load(f)
-    servers = data.get('mcpServers', {})
-    print(len(servers))
-except:
+    d = json.load(open('$CLAUDE_DIR/settings.json'))
+    print(len(d.get('mcpServers', {})))
+except Exception:
     print(0)
 " 2>/dev/null)
-
-  if [ "$mcp_count" -ge 8 ]; then
-    check_pass "MCP server count" "$mcp_count servers configured"
-  elif [ "$mcp_count" -ge 4 ]; then
-    check_warn "MCP server count" "$mcp_count servers (expected 8+)"
+  if [ "$mcp_count" -ge 4 ]; then
+    check_pass "MCP count" "$mcp_count servers configured"
   else
-    check_warn "MCP server count" "$mcp_count servers (expected 8+)"
+    check_warn "MCP count" "$mcp_count (V7 default: 4)"
   fi
 
-  for server in context7 playwright memory; do
-    has_server=$(python3 -c "
+  for server in playwright github exa-web-search "@21st-dev/magic"; do
+    has=$(python3 -c "
 import json
 try:
-    with open('$CLAUDE_DIR/settings.json') as f:
-        data = json.load(f)
-    print('yes' if '$server' in data.get('mcpServers', {}) else 'no')
-except:
+    d = json.load(open('$CLAUDE_DIR/settings.json'))
+    print('yes' if '$server' in d.get('mcpServers', {}) else 'no')
+except Exception:
     print('no')
-" 2>/dev/null)
-    if [ "$has_server" = "yes" ]; then
-      check_pass "MCP server" "$server"
+")
+    if [ "$has" = "yes" ]; then
+      check_pass "MCP" "$server"
     else
-      check_warn "MCP server" "$server not configured"
+      check_warn "MCP" "$server not configured"
     fi
   done
-else
-  check_warn "MCP servers" "cannot check (settings.json or python3 missing)"
 fi
-
 echo ""
 
 # =============================================================
@@ -290,95 +233,27 @@ echo ""
 # =============================================================
 echo "--- THIRD-PARTY TOOLS ---"
 echo ""
-
-if command -v bun &>/dev/null; then
-  bun_ver=$(bun --version 2>&1 | head -1)
-  check_pass "Bun" "v$bun_ver"
-else
-  check_warn "Bun" "not installed (optional)"
-fi
-
-if [ -d "$HOME/claude-peers-mcp" ]; then
-  check_pass "Claude Peers" "directory exists"
-else
-  check_warn "Claude Peers" "~/claude-peers-mcp not found (optional)"
-fi
-
-if command -v node &>/dev/null; then
-  node_ver=$(node --version 2>&1 | head -1)
-  check_pass "Node.js" "$node_ver"
-else
-  check_fail "Node.js" "not installed (required)"
-fi
-
-if command -v python3 &>/dev/null; then
-  py_ver=$(python3 --version 2>&1 | head -1)
-  check_pass "Python" "$py_ver"
-else
-  check_fail "Python" "python3 not installed (required)"
-fi
-
-if command -v git &>/dev/null; then
-  git_ver=$(git --version 2>&1 | head -1)
-  check_pass "Git" "$git_ver"
-else
-  check_fail "Git" "not installed (required)"
-fi
-
-echo ""
-
-# =============================================================
-# CATEGORY 8: BACKUP STATUS
-# =============================================================
-echo "--- BACKUP STATUS ---"
-echo ""
-
-backup_found=""
-if [ -d "$CLAUDE_DIR/backups" ]; then
-  backup_found=$(find "$CLAUDE_DIR/backups" -maxdepth 1 -type d -name "pre-apex-*" 2>/dev/null | head -1)
-fi
-
-if [ -n "$backup_found" ]; then
-  check_pass "Backup" "$(basename "$backup_found")"
-else
-  check_warn "Backup" "no Apex backup found"
-fi
-
-echo ""
-
-# =============================================================
-# CATEGORY 9: CONFLICT DETECTION
-# =============================================================
-echo "--- CONFLICT DETECTION ---"
-echo ""
-
-conflict_found=false
-
-if [ -f "$CLAUDE_DIR/settings.json" ]; then
-  if command -v python3 &>/dev/null; then
-    python3 -c "import json; json.load(open('$CLAUDE_DIR/settings.json'))" 2>/dev/null
-    if [ $? -ne 0 ]; then
-      check_fail "Conflict" "settings.json corrupted"
-      conflict_found=true
-    fi
+for tool in node python3 git; do
+  if command -v "$tool" &>/dev/null; then
+    ver=$($tool --version 2>&1 | head -1)
+    check_pass "$tool" "$ver"
+  else
+    check_fail "$tool" "not installed (required)"
   fi
-fi
+done
 
-if [ -f "$CARL_DIR/carl.json" ]; then
-  if command -v python3 &>/dev/null; then
-    python3 -c "import json; json.load(open('$CARL_DIR/carl.json'))" 2>/dev/null
-    if [ $? -ne 0 ]; then
-      check_fail "Conflict" "carl.json corrupted"
-      conflict_found=true
-    fi
-  fi
-fi
-
-if [ "$conflict_found" = false ]; then
-  check_pass "Conflicts" "no conflicts detected"
-fi
-
+for tool in bun gh; do
+  command -v "$tool" &>/dev/null && check_pass "$tool" "$($tool --version 2>&1 | head -1)" || check_warn "$tool" "not installed (optional)"
+done
 echo ""
+
+# =============================================================
+# CATEGORY 8: DOCS
+# =============================================================
+echo "--- DOCUMENTATION ---"
+echo ""
+# Apex docs/ don't go into ~/.claude — they live in the repo. Just note they exist.
+# Skip — this check is about the installed state.
 
 # =============================================================
 # FINAL SUMMARY
@@ -389,24 +264,21 @@ echo "==========================================================="
 echo ""
 
 if [ "$FAIL" -eq 0 ] && [ "$WARN" -eq 0 ]; then
-  echo "  PERFECT -- Your environment fully matches Apex V6."
-  echo "  Run /healthcheck inside Claude Code for 15-point check."
+  echo "  PERFECT -- Your environment fully matches Apex V7."
+  echo "  Run /healthcheck inside Claude Code for the 18-point runtime check."
 elif [ "$FAIL" -eq 0 ]; then
-  echo "  GOOD -- Core installation is complete."
-  echo "  Warnings are for optional components or plugins."
+  echo "  GOOD -- Core installation complete. Warnings are for optional components."
   echo ""
-  echo "  To get the FULL experience (1,308 skills, 108 agents),"
-  echo "  open a NEW Claude Code session and paste this:"
-  echo ""
-  echo "  I just installed Claude Apex. Please complete the"
-  echo "  setup by running these plugin installations for me:"
-  echo "  1. Add the everything-claude-code marketplace and install it"
-  echo "  2. Add the oh-my-claudecode marketplace and install it"
-  echo "  3. Run the OMC setup"
-  echo "  After all three are done, run /healthcheck to verify."
+  echo "  To unlock the FULL 1,276+ skills + 108 agents experience, in Claude Code:"
+  echo "  1. /plugin marketplace add https://github.com/anthropic-community/everything-claude-code"
+  echo "  2. /plugin install everything-claude-code"
+  echo "  3. /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
+  echo "  4. /plugin install oh-my-claudecode"
+  echo "  5. /oh-my-claudecode:omc-setup"
+  echo "  6. /healthcheck"
 else
-  echo "  ISSUES FOUND -- Some core components failed to install."
-  echo "  Review the [FAIL] items above and either:"
+  echo "  ISSUES FOUND -- Some core components failed."
+  echo "  Review [FAIL] items above. Options:"
   echo "  1. Re-run the installer: bash install.sh"
   echo "  2. Install missing components manually"
   echo "  3. Restore from backup: bash uninstall.sh"

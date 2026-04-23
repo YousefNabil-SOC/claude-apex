@@ -1,72 +1,83 @@
 ---
 name: templates
-description: Pre-built task templates for recurring workflows. Say "template: [name]" or run /templates [name].
-argument-hint: "[presentation|research|deploy|documentation|review]"
+description: Pre-built task templates for recurring workflows. Say "template [name]" or run /templates [name].
+argument-hint: "[template-name]"
 ---
 
-# Task Templates
+# /templates
 
-When run with no argument, list all available templates.
-When run with a template name, execute that template's workflow.
+**EDIT THIS FILE** — the examples below are generic starting points. Add your own templates for recurring workflows.
 
-## Available Templates
+## Purpose
+Pre-built task templates for recurring work. Instead of re-explaining a workflow every time, define it once here and invoke with `/templates <name>` or `template: <name>`.
 
-### template: presentation
-Create a professional presentation (PPTX).
+## Example Templates (replace with your own)
 
-**Steps:**
-1. Ask user for: topic, number of slides, key points
-2. Generate PPTX using python-pptx
-3. Apply project brand colors from CLAUDE.md
-4. Font sizes: 28pt+ headers, 18pt+ body (phone-readable)
-5. Save to appropriate project folder
-6. Export as PDF for sharing
-7. Verify both files exist and are non-empty
+### deploy-app
+**Workflow**: standard React/TS/Vite app deployment to Vercel.
 
-### template: research
-Research a company or topic.
+Steps:
+1. `npm run build` — verify zero errors and zero warnings
+2. Run tests: `npm test`
+3. Stage specific changed files: `git add <files>`
+4. Commit with conventional-commit message: `feat/fix/refactor: <what>`
+5. `git push origin main`
+6. `vercel --prod` — wait for completion, note deployment URL
+7. `vercel alias set <new-deployment-url> <canonical-domain>` — NEVER skip
+8. Screenshot canonical URL with Playwright to verify
+9. Update `MEMORY.md` with deployment timestamp
 
-**Steps:**
-1. Ask user for: subject, what to find out, urgency
-2. Use exa-web-search MCP for initial semantic research
-3. Use firecrawl MCP to scrape relevant websites
-4. Cross-reference minimum 3 sources before stating any fact
-5. Create a structured report with findings
-6. Include credibility rating (1-10) with justification
-7. Save to project research directory with date prefix
+### research-company
+**Workflow**: OSINT on a company for competitive intelligence or due diligence.
 
-### template: deploy
-Deploy the current project to production.
+Steps:
+1. Use exa-web-search MCP for semantic queries on the company name
+2. Fetch the company website homepage with WebFetch — extract about, products, team
+3. Search LinkedIn, Crunchbase, Pitchbook for funding/team signals (if accessible)
+4. Check news in the last 12 months via exa-web-search
+5. Compile a structured report:
+   - Company name, founded, HQ, employee count
+   - Products/services, target market
+   - Funding/revenue (if public)
+   - Recent news, executive changes, risks
+   - Competitive positioning
+6. Save to `research/YYYY-MM-DD-<company-slug>.md`
+7. Cross-reference minimum 3 sources before stating any "fact"
 
-**Steps:**
-1. Run build — must succeed with 0 errors
-2. Run tests — must pass
-3. git add (specific changed files only — NEVER git add -A)
-4. git commit with descriptive message
-5. git push
-6. Run deployment command — wait for completion
-7. Set production alias if applicable
-8. Verify with Playwright screenshot
-9. Report: build time, test count, deployment URL
+### code-review-workflow
+**Workflow**: multi-perspective code review of a PR or branch.
 
-### template: documentation
-Generate project documentation.
+Steps:
+1. Run parallel agents:
+   - `code-reviewer` agent — quality, style, convention adherence
+   - `security-reviewer` agent — auth, input validation, secrets
+   - `performance-engineer` agent — bundle size, render performance
+   - `tdd-guide` agent — test coverage, edge cases
+2. Merge findings into a single structured report
+3. Group by severity: CRITICAL / HIGH / MEDIUM / LOW
+4. For each CRITICAL/HIGH: include file path, line number, suggested fix
+5. Present report to user for review
+6. Fix agreed-upon issues with focused edits (no scope creep)
+7. Re-run affected tests and build to verify
 
-**Steps:**
-1. Ask user for: scope (API docs, README, architecture, user guide)
-2. Scan the codebase to understand structure
-3. Generate documentation using appropriate skill
-4. Include code examples and diagrams where relevant
-5. Save to docs/ directory
-6. Verify markdown renders correctly
+## How to Add Your Own Template
 
-### template: review
-Run a comprehensive code review.
+1. Edit this file (`~/.claude/commands/templates.md`)
+2. Add a new section with a clear slug (lowercase, hyphenated)
+3. Write the **Workflow** one-liner
+4. List **Steps** numerically — be precise, Claude will follow them exactly
+5. Save — no restart needed
 
-**Steps:**
-1. Run git diff to identify changed files
-2. Use code-reviewer agent on each file
-3. Use security-reviewer agent for security analysis
-4. Check for: bugs, security issues, performance, style
-5. Generate review report with severity ratings
-6. Suggest specific fixes for CRITICAL and HIGH issues
+## Invocation
+
+- `/templates` (no arg) — list all templates
+- `/templates <slug>` — execute the workflow for `<slug>`
+- "template: <slug>" (natural language) — same as above
+
+## Best Practices
+
+- Keep workflows under 10 steps — longer workflows should become PAUL plans
+- Specify which skills/agents/MCP servers to activate at each step
+- Include verification/quality gates (build, test, screenshot)
+- Reference external files/paths explicitly — no guessing
+- Update the template whenever you discover a better way to do the workflow

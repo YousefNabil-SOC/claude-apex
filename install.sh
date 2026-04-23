@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Claude Apex V6 Installer (Mac/Linux)
+# Claude Apex V7 Installer (Mac/Linux)
 # Non-destructive: backs up everything before changes
 
-APEX_VERSION="6.0.0"
+APEX_VERSION="7.0.0"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 CARL_DIR="$HOME/.carl"
@@ -22,10 +22,11 @@ failed=0
 
 banner() {
   echo ""
-  echo -e "${CYAN}╔═══════════════════════════════════════════╗${NC}"
-  echo -e "${CYAN}║       CLAUDE APEX V${APEX_VERSION}            ║${NC}"
-  echo -e "${CYAN}║  1,308 skills. 108 agents. One brain.     ║${NC}"
-  echo -e "${CYAN}╚═══════════════════════════════════════════╝${NC}"
+  echo -e "${CYAN}╔═══════════════════════════════════════════════════╗${NC}"
+  echo -e "${CYAN}║           CLAUDE APEX V${APEX_VERSION}                      ║${NC}"
+  echo -e "${CYAN}║  1,276+ skills. 108 agents. 182 commands.         ║${NC}"
+  echo -e "${CYAN}║  Three-layer auto-routing. One unified brain.     ║${NC}"
+  echo -e "${CYAN}╚═══════════════════════════════════════════════════╝${NC}"
   echo ""
 }
 
@@ -46,12 +47,12 @@ install_file() {
   local src="$1" dest="$2" label="$3"
   if [[ -f "$dest" ]]; then
     echo -e "  ${YELLOW}[SKIP]${NC} $label (already exists)"
-    ((skipped++))
+    ((skipped++)) || true
   else
     mkdir -p "$(dirname "$dest")"
     cp "$src" "$dest"
     echo -e "  ${GREEN}[INSTALL]${NC} $label"
-    ((installed++))
+    ((installed++)) || true
   fi
 }
 
@@ -59,12 +60,12 @@ install_dir() {
   local src_dir="$1" dest_dir="$2" label="$3"
   if [[ -d "$dest_dir" ]]; then
     echo -e "  ${YELLOW}[SKIP]${NC} $label (already exists)"
-    ((skipped++))
+    ((skipped++)) || true
   else
     mkdir -p "$dest_dir"
-    cp -r "$src_dir"/* "$dest_dir"/
+    cp -r "$src_dir"/. "$dest_dir"/
     echo -e "  ${GREEN}[INSTALL]${NC} $label"
-    ((installed++))
+    ((installed++)) || true
   fi
 }
 
@@ -101,6 +102,7 @@ echo -e "${CYAN}Creating backup...${NC}"
 mkdir -p "$BACKUP_DIR"
 [[ -f "$CLAUDE_DIR/settings.json" ]] && cp "$CLAUDE_DIR/settings.json" "$BACKUP_DIR/"
 [[ -f "$CLAUDE_DIR/CLAUDE.md" ]] && cp "$CLAUDE_DIR/CLAUDE.md" "$BACKUP_DIR/"
+[[ -f "$CLAUDE_DIR/PRIMER.md" ]] && cp "$CLAUDE_DIR/PRIMER.md" "$BACKUP_DIR/"
 [[ -d "$CLAUDE_DIR/agents" ]] && cp -r "$CLAUDE_DIR/agents" "$BACKUP_DIR/"
 [[ -d "$CLAUDE_DIR/commands" ]] && cp -r "$CLAUDE_DIR/commands" "$BACKUP_DIR/"
 [[ -d "$CLAUDE_DIR/hooks" ]] && cp -r "$CLAUDE_DIR/hooks" "$BACKUP_DIR/"
@@ -108,8 +110,8 @@ mkdir -p "$BACKUP_DIR"
 echo -e "  ${GREEN}[OK]${NC} Backup saved to $BACKUP_DIR"
 echo ""
 
-# --- Install Agents ---
-echo -e "${CYAN}Installing agents...${NC}"
+# --- Install Agents (25 specialist agents) ---
+echo -e "${CYAN}Installing agents (25 specialists)...${NC}"
 mkdir -p "$CLAUDE_DIR/agents"
 for agent_file in "$SCRIPT_DIR"/agents/*.md; do
   [[ "$(basename "$agent_file")" == "README.md" ]] && continue
@@ -118,7 +120,7 @@ for agent_file in "$SCRIPT_DIR"/agents/*.md; do
 done
 echo ""
 
-# --- Install Commands ---
+# --- Install Commands (~45 top-level + 3 subdirs) ---
 echo -e "${CYAN}Installing commands...${NC}"
 mkdir -p "$CLAUDE_DIR/commands"
 for cmd_file in "$SCRIPT_DIR"/commands/*.md; do
@@ -126,10 +128,16 @@ for cmd_file in "$SCRIPT_DIR"/commands/*.md; do
   name=$(basename "$cmd_file")
   install_file "$cmd_file" "$CLAUDE_DIR/commands/$name" "$name"
 done
+# Subdirs
+for subdir in paul seed autoresearch; do
+  if [[ -d "$SCRIPT_DIR/commands/$subdir" ]]; then
+    install_dir "$SCRIPT_DIR/commands/$subdir" "$CLAUDE_DIR/commands/$subdir" "commands/$subdir"
+  fi
+done
 echo ""
 
-# --- Install Hooks ---
-echo -e "${CYAN}Installing hooks...${NC}"
+# --- Install Hooks (7 hook scripts, V7 fixed versions) ---
+echo -e "${CYAN}Installing hooks (V7 fixed versions)...${NC}"
 mkdir -p "$CLAUDE_DIR/hooks"
 for hook_file in "$SCRIPT_DIR"/hooks/*; do
   [[ "$(basename "$hook_file")" == "README.md" ]] && continue
@@ -139,87 +147,89 @@ for hook_file in "$SCRIPT_DIR"/hooks/*; do
 done
 echo ""
 
-# --- Install Skills ---
-echo -e "${CYAN}Installing skills...${NC}"
+# --- Install Skills (9 custom Apex skills) ---
+echo -e "${CYAN}Installing Apex skills (9 custom)...${NC}"
 mkdir -p "$CLAUDE_DIR/skills"
-install_dir "$SCRIPT_DIR/skills/dream-consolidation" "$CLAUDE_DIR/skills/dream-consolidation" "dream-consolidation skill"
-install_dir "$SCRIPT_DIR/skills/autoresearch" "$CLAUDE_DIR/skills/autoresearch" "autoresearch skill"
+for skill in dream-consolidation autoresearch premium-web-design 21st-dev-magic instagram-access graphify graphic-design-studio impeccable fireworks-tech-graph; do
+  if [[ -d "$SCRIPT_DIR/skills/$skill" ]]; then
+    install_dir "$SCRIPT_DIR/skills/$skill" "$CLAUDE_DIR/skills/$skill" "skill: $skill"
+  fi
+done
 echo ""
 
 # --- Install CARL ---
-echo -e "${CYAN}Installing CARL domains...${NC}"
+echo -e "${CYAN}Installing CARL domains (9 domains, 40 rules)...${NC}"
 if [[ -f "$CARL_DIR/carl.json" ]]; then
   echo -e "  ${YELLOW}[SKIP]${NC} carl.json (already exists)"
-  ((skipped++))
+  ((skipped++)) || true
 else
   mkdir -p "$CARL_DIR"
   cp "$SCRIPT_DIR/config/carl-domains.json" "$CARL_DIR/carl.json"
-  echo -e "  ${GREEN}[INSTALL]${NC} carl.json (7 domains, 33 rules)"
-  ((installed++))
+  echo -e "  ${GREEN}[INSTALL]${NC} carl.json (9 domains, 40 rules)"
+  ((installed++)) || true
 fi
 echo ""
 
-# --- Install Config ---
-echo -e "${CYAN}Installing config templates...${NC}"
-install_file "$SCRIPT_DIR/config/orchestration-engine.md" "$CLAUDE_DIR/ORCHESTRATION-ENGINE.md" "orchestration-engine.md"
-install_file "$SCRIPT_DIR/config/capability-registry.md" "$CLAUDE_DIR/CAPABILITY-REGISTRY.md" "capability-registry.md"
+# --- Install Config Files ---
+echo -e "${CYAN}Installing config files (V7 three-layer routing)...${NC}"
+install_file "$SCRIPT_DIR/config/orchestration-engine.md" "$CLAUDE_DIR/ORCHESTRATION-ENGINE.md" "ORCHESTRATION-ENGINE.md"
+install_file "$SCRIPT_DIR/config/capability-registry.md" "$CLAUDE_DIR/CAPABILITY-REGISTRY.md" "CAPABILITY-REGISTRY.md"
+install_file "$SCRIPT_DIR/config/command-registry.md" "$CLAUDE_DIR/COMMAND-REGISTRY.md" "COMMAND-REGISTRY.md"
+install_file "$SCRIPT_DIR/config/agents.md" "$CLAUDE_DIR/AGENTS.md" "AGENTS.md"
+install_file "$SCRIPT_DIR/config/auto-activation-matrix.md" "$CLAUDE_DIR/AUTO-ACTIVATION-MATRIX.md" "AUTO-ACTIVATION-MATRIX.md"
 echo ""
 
-# --- CLAUDE.md Enhancement ---
-echo -e "${CYAN}Checking CLAUDE.md...${NC}"
-if [[ -f "$CLAUDE_DIR/CLAUDE.md" ]]; then
-  if grep -q "Apex" "$CLAUDE_DIR/CLAUDE.md" 2>/dev/null; then
-    echo -e "  ${YELLOW}[SKIP]${NC} CLAUDE.md already contains Apex section"
-    ((skipped++))
-  else
-    cat >> "$CLAUDE_DIR/CLAUDE.md" << 'CLAUDEEOF'
-
-## Apex V6 Environment
-- Agents: 25 custom specialists in ~/.claude/agents/
-- CARL: 7 domains, 33 JIT rules in ~/.carl/carl.json
-- Orchestration: ~/.claude/ORCHESTRATION-ENGINE.md
-- Health: /healthcheck for 15-system verification
-- Projects: /switch-project for instant context loading
-CLAUDEEOF
-    echo -e "  ${GREEN}[INSTALL]${NC} Appended Apex section to CLAUDE.md"
-    ((installed++))
-  fi
-else
+# --- CLAUDE.md / PRIMER.md Templates ---
+echo -e "${CYAN}Checking CLAUDE.md and PRIMER.md...${NC}"
+if [[ ! -f "$CLAUDE_DIR/CLAUDE.md" ]]; then
   cp "$SCRIPT_DIR/config/claude-md-template.md" "$CLAUDE_DIR/CLAUDE.md"
   echo -e "  ${GREEN}[INSTALL]${NC} Created CLAUDE.md from template"
-  ((installed++))
+  ((installed++)) || true
+else
+  echo -e "  ${YELLOW}[SKIP]${NC} CLAUDE.md already exists (edit manually if needed)"
+fi
+if [[ ! -f "$CLAUDE_DIR/PRIMER.md" ]]; then
+  cp "$SCRIPT_DIR/config/primer-template.md" "$CLAUDE_DIR/PRIMER.md"
+  echo -e "  ${GREEN}[INSTALL]${NC} Created PRIMER.md from template (edit with your profile)"
+  ((installed++)) || true
+else
+  echo -e "  ${YELLOW}[SKIP]${NC} PRIMER.md already exists"
+fi
+echo ""
+
+# --- .env template ---
+echo -e "${CYAN}Setting up .env template...${NC}"
+if [[ ! -f "$CLAUDE_DIR/.env" ]]; then
+  cp "$SCRIPT_DIR/config/env.template" "$CLAUDE_DIR/.env"
+  chmod 600 "$CLAUDE_DIR/.env" 2>/dev/null || true
+  echo -e "  ${GREEN}[INSTALL]${NC} Created ~/.claude/.env from template (chmod 600)"
+  echo -e "  ${YELLOW}[ACTION]${NC} Edit ~/.claude/.env and add your real API keys"
+  ((installed++)) || true
+else
+  echo -e "  ${YELLOW}[SKIP]${NC} ~/.claude/.env already exists"
 fi
 echo ""
 
 # --- Third-Party Dependencies ---
 echo -e "${CYAN}Checking third-party dependencies...${NC}"
-
 if command -v bun &>/dev/null; then
   echo -e "  ${GREEN}[OK]${NC} Bun already installed"
 else
-  echo -e "  ${YELLOW}[INFO]${NC} Installing Bun..."
+  echo -e "  ${YELLOW}[INFO]${NC} Installing Bun (optional)..."
   npm install -g bun 2>/dev/null && echo -e "  ${GREEN}[OK]${NC} Bun installed" || echo -e "  ${YELLOW}[SKIP]${NC} Bun install failed (optional)"
 fi
-
-if [[ -d "$HOME/claude-peers-mcp" ]]; then
-  echo -e "  ${GREEN}[OK]${NC} Claude Peers already cloned"
-else
-  echo -e "  ${YELLOW}[INFO]${NC} Cloning Claude Peers MCP..."
-  git clone https://github.com/louislva/claude-peers-mcp.git "$HOME/claude-peers-mcp" 2>/dev/null \
-    && echo -e "  ${GREEN}[OK]${NC} Claude Peers cloned" \
-    || echo -e "  ${YELLOW}[SKIP]${NC} Claude Peers clone failed (optional)"
-fi
-
 echo ""
 
 # --- Configure MCP Servers ---
-echo -e "${CYAN}Configuring MCP servers...${NC}"
-python3 << 'PYEOF'
+echo -e "${CYAN}Configuring MCP servers (4 Apex defaults)...${NC}"
+python3 <<PYEOF
 import json, os, sys
-
 settings_path = os.path.expanduser("~/.claude/settings.json")
 if not os.path.exists(settings_path):
-    print("  [SKIP] No settings.json found — skipping MCP config")
+    # Seed a minimal settings.json from the template
+    import shutil
+    shutil.copy(os.path.expanduser("$SCRIPT_DIR/config/settings-template.json"), settings_path)
+    print("  [INSTALL] Created settings.json from V7 template")
     sys.exit(0)
 
 with open(settings_path) as f:
@@ -229,21 +239,24 @@ if "mcpServers" not in settings:
     settings["mcpServers"] = {}
 
 servers_to_add = {
-    "context7": {
-        "command": "npx",
-        "args": ["-y", "@context7/mcp-server"]
-    },
     "playwright": {
-        "command": "npx",
-        "args": ["-y", "@playwright/mcp"]
+        "command": "npx", "args": ["-y", "@playwright/mcp"],
+        "description": "Browser automation, E2E testing, web scraping"
     },
-    "memory": {
-        "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-memory"]
+    "github": {
+        "command": "npx", "args": ["-y", "@modelcontextprotocol/server-github"],
+        "env": {"GITHUB_PERSONAL_ACCESS_TOKEN": "\${GITHUB_PERSONAL_ACCESS_TOKEN}"},
+        "description": "GitHub PRs, issues, repos"
     },
-    "sequential-thinking": {
-        "command": "npx",
-        "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+    "exa-web-search": {
+        "command": "npx", "args": ["-y", "exa-mcp-server"],
+        "env": {"EXA_API_KEY": "\${EXA_API_KEY}"},
+        "description": "Deep web research"
+    },
+    "@21st-dev/magic": {
+        "command": "npx", "args": ["-y", "@21st-dev/magic@latest"],
+        "env": {"API_KEY": "\${TWENTY_FIRST_DEV_API_KEY}"},
+        "description": "Premium React component generation"
     }
 }
 
@@ -251,80 +264,111 @@ added = 0
 for name, config in servers_to_add.items():
     if name not in settings["mcpServers"]:
         settings["mcpServers"][name] = config
-        print(f"  [INSTALL] MCP server: {name}")
+        print(f"  [INSTALL] MCP: {name}")
         added += 1
     else:
-        print(f"  [SKIP] MCP server: {name} (already exists)")
+        print(f"  [SKIP] MCP: {name} (already exists)")
+
+# V7 env block
+settings.setdefault("env", {})
+for k, v in {
+    "MAX_THINKING_TOKENS": "10000",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "haiku",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "FAL_KEY": "\${FAL_KEY}",
+    "ENABLE_PROMPT_CACHING_1H": "1"
+}.items():
+    if k not in settings["env"]:
+        settings["env"][k] = v
+        added += 1
+
+# Enforce effort=high
+if settings.get("effortLevel") in (None, "xhigh", "max"):
+    settings["effortLevel"] = "high"
+    print("  [FIX] effortLevel set to 'high' (self-healing enforced)")
+    added += 1
 
 if added > 0:
-    with open(settings_path, 'w') as f:
+    with open(settings_path, "w") as f:
         json.dump(settings, f, indent=2)
-    print(f"  {added} MCP servers added to settings.json")
+    print(f"  {added} settings updates applied")
 else:
-    print("  All MCP servers already configured")
+    print("  All MCP servers + env already configured")
 
-print()
-print("  NOTE: Some MCP servers require API keys:")
-print("    - exa-web-search: needs EXA_API_KEY (get from exa.ai)")
-print("    - github: needs GITHUB_PERSONAL_ACCESS_TOKEN")
-print("    - firecrawl: needs FIRECRAWL_API_KEY (get from firecrawl.dev)")
-print("  Add these to your settings.json mcpServers entries manually.")
+print("")
+print("  NOTE: Add your API keys to ~/.claude/.env:")
+print("    FAL_KEY, GITHUB_PERSONAL_ACCESS_TOKEN, EXA_API_KEY, TWENTY_FIRST_DEV_API_KEY")
 PYEOF
 echo ""
 
-# --- Configure Hooks in settings.json ---
-echo -e "${CYAN}Configuring hooks in settings.json...${NC}"
-python3 << 'PYEOF'
+# --- Configure Hooks (V7 five-event chain) ---
+echo -e "${CYAN}Configuring hooks in settings.json (5 events)...${NC}"
+python3 <<PYEOF
 import json, os, sys
-
 settings_path = os.path.expanduser("~/.claude/settings.json")
 if not os.path.exists(settings_path):
-    print("  [SKIP] No settings.json found — skipping hooks config")
+    print("  [SKIP] No settings.json")
     sys.exit(0)
 
 with open(settings_path) as f:
     settings = json.load(f)
-
-if "hooks" not in settings:
-    settings["hooks"] = {}
-
+settings.setdefault("hooks", {})
 changed = False
+HOOK_HOME = "\$HOME/.claude/hooks"
 
-# Add PostCompact hook
-if "PostCompact" not in settings["hooks"]:
-    settings["hooks"]["PostCompact"] = [
-        {"type": "command", "command": "bash $HOME/.claude/hooks/post-compact-recovery.sh"}
-    ]
-    print("  [INSTALL] PostCompact hook")
-    changed = True
-else:
-    print("  [SKIP] PostCompact hook (already exists)")
+def has_cmd(event_list, substr):
+    for group in event_list:
+        for h in group.get("hooks", []):
+            if substr in h.get("command", ""):
+                return True
+    return False
 
-# Add Stop hooks (append, don't replace)
-if "Stop" not in settings["hooks"]:
-    settings["hooks"]["Stop"] = []
+# PostCompact
+settings["hooks"].setdefault("PostCompact", [])
+if not has_cmd(settings["hooks"]["PostCompact"], "post-compact-recovery"):
+    settings["hooks"]["PostCompact"].append({
+        "matcher": "",
+        "hooks": [{"type": "command", "command": f"bash {HOOK_HOME}/post-compact-recovery.sh"}]
+    })
+    print("  [INSTALL] PostCompact hook"); changed = True
 
-stop_hooks = settings["hooks"]["Stop"]
-existing_commands = [h.get("command", "") for h in stop_hooks if isinstance(h, dict)]
+# Stop (session-end-save + task-complete-sound)
+settings["hooks"].setdefault("Stop", [])
+if not has_cmd(settings["hooks"]["Stop"], "session-end-save"):
+    settings["hooks"]["Stop"].append({
+        "matcher": "",
+        "hooks": [
+            {"type": "command", "command": f"bash {HOOK_HOME}/session-end-save.sh"},
+            {"type": "command", "command": f"bash {HOOK_HOME}/task-complete-sound.sh"}
+        ]
+    })
+    print("  [INSTALL] Stop hooks (session-end-save + task-complete-sound)"); changed = True
 
-if not any("session-end-save" in c for c in existing_commands):
-    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/session-end-save.sh"})
-    print("  [INSTALL] session-end-save Stop hook")
-    changed = True
-else:
-    print("  [SKIP] session-end-save Stop hook (already exists)")
+# UserPromptSubmit — CARL
+settings["hooks"].setdefault("UserPromptSubmit", [])
+if not has_cmd(settings["hooks"]["UserPromptSubmit"], "carl-hook"):
+    settings["hooks"]["UserPromptSubmit"].append({
+        "hooks": [{"type": "command", "command": f"python3 {HOOK_HOME}/carl-hook.py"}]
+    })
+    print("  [INSTALL] UserPromptSubmit hook (CARL)"); changed = True
 
-if not any("task-complete-sound" in c for c in existing_commands):
-    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/task-complete-sound.sh"})
-    print("  [INSTALL] task-complete-sound Stop hook")
-    changed = True
-else:
-    print("  [SKIP] task-complete-sound Stop hook (already exists)")
+# SessionStart — chain
+settings["hooks"].setdefault("SessionStart", [])
+if not has_cmd(settings["hooks"]["SessionStart"], "session-start-check"):
+    settings["hooks"]["SessionStart"].append({
+        "matcher": "",
+        "hooks": [
+            {"type": "command", "command": f"bash {HOOK_HOME}/session-start-check.sh"},
+            {"type": "command", "command": f"bash {HOOK_HOME}/project-auto-graph.sh"}
+        ]
+    })
+    print("  [INSTALL] SessionStart hook chain"); changed = True
 
 if changed:
-    with open(settings_path, 'w') as f:
+    with open(settings_path, "w") as f:
         json.dump(settings, f, indent=2)
-    print("  Hooks configured in settings.json")
+    print("  Hooks saved")
 else:
     print("  All hooks already configured")
 PYEOF
@@ -336,32 +380,26 @@ echo -e "${CYAN}═════════════════════�
 echo -e "  ${GREEN}IMPORTANT: Complete these steps in Claude Code${NC}"
 echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
 echo ""
-echo "  Open Claude Code and run these commands to install"
-echo "  the plugins that bring 1,000+ skills and 19 agents:"
+echo "  Open Claude Code and run these to unlock 1,000+ more skills"
+echo "  and 19 OMC agents:"
 echo ""
-echo "  1. Install everything-claude-code (1,000+ skills):"
-echo "     /plugin marketplace add https://github.com/anthropic-community/everything-claude-code"
-echo "     /plugin install everything-claude-code"
+echo "  1. /plugin marketplace add https://github.com/anthropic-community/everything-claude-code"
+echo "  2. /plugin install everything-claude-code"
 echo ""
-echo "  2. Install oh-my-claudecode (19 agents, autopilot):"
-echo "     /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
-echo "     /plugin install oh-my-claudecode"
+echo "  3. /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
+echo "  4. /plugin install oh-my-claudecode"
+echo "  5. /oh-my-claudecode:omc-setup"
 echo ""
-echo "  3. Run OMC setup:"
-echo "     /oh-my-claudecode:omc-setup"
-echo ""
-echo "  4. Verify everything:"
-echo "     /healthcheck"
+echo "  6. /healthcheck"
 echo ""
 echo -e "${CYAN}═══════════════════════════════════════════════════════════${NC}"
 echo ""
 
 # --- Post-Install Verification ---
-echo ""
 echo "[APEX] Running post-install verification..."
 echo ""
 if [ -f "$SCRIPT_DIR/verify.sh" ]; then
-  bash "$SCRIPT_DIR/verify.sh"
+  bash "$SCRIPT_DIR/verify.sh" || true
 fi
 
 # --- Summary ---
@@ -371,16 +409,17 @@ echo -e "${CYAN}═════════════════════�
 echo ""
 echo -e "  ${GREEN}Installed:${NC} $installed"
 echo -e "  ${YELLOW}Skipped:${NC}   $skipped (already existed)"
-if [[ $failed -gt 0 ]]; then
-  echo -e "  ${RED}Failed:${NC}    $failed"
-fi
+[[ $failed -gt 0 ]] && echo -e "  ${RED}Failed:${NC}    $failed"
 echo ""
 echo -e "  Backup at: ${CYAN}$BACKUP_DIR${NC}"
 echo ""
 echo -e "  ${GREEN}Next steps:${NC}"
-echo "  1. Restart Claude Code"
-echo "  2. Run /healthcheck to verify"
-echo "  3. Try: autopilot: explain this codebase"
+echo "  1. Edit ~/.claude/.env with your API keys"
+echo "  2. Edit ~/.claude/PRIMER.md with your profile"
+echo "  3. Restart Claude Code"
+echo "  4. Run /healthcheck inside Claude Code"
+echo "  5. Try: autopilot: build me a landing page"
 echo ""
+echo "  Never used Claude Code? Start with: docs/00-START-HERE.md"
 echo "  To uninstall: bash uninstall.sh"
 echo ""

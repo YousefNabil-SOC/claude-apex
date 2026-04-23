@@ -12,5 +12,5 @@
 ██║     ██║  ██║██║ ╚████║   ██║   ██║  ██║███████╗╚██████╔╝██║ ╚████║
 ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
 
-1,308 skills. 108 agents. One unified intelligence.
-Claude Apex V6 — The most complete Claude Code environment ever built.
+V7 — Three-Layer Auto-Routing
+1,276+ skills. 108 agents. 182 commands. One unified intelligence.

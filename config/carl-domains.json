@@ -1,6 +1,7 @@
 {
   "version": 1,
-  "last_modified": "2026-04-04T00:00:00.000Z",
+  "last_modified": "2026-04-23T00:00:00.000Z",
+  "_comment": "Claude Apex V7 — 9 domains, 40 JIT rules. Load only the rules relevant to the current prompt.",
   "config": {
     "devmode": false,
     "post_compact_gate": true,
@@ -32,16 +33,19 @@
       "recall": ["universal"],
       "exclude": [],
       "rules": [
-        { "id": 0, "text": "NEVER use relative paths in code — use absolute. NEVER use absolute paths when referencing files to user — use relative.", "source": "template" },
-        { "id": 1, "text": "NEVER run independent tool calls sequentially — batch them in parallel.", "source": "template" },
-        { "id": 2, "text": "NEVER mark tasks complete without validation — test everything, require proof.", "source": "template" }
+        { "id": 0, "text": "NEVER use relative paths in code — use absolute. NEVER use absolute paths when referencing files to user — use relative.", "source": "apex-template" },
+        { "id": 1, "text": "NEVER run independent tool calls sequentially — batch them in parallel.", "source": "apex-template" },
+        { "id": 2, "text": "NEVER mark tasks complete without validation — test everything, require proof.", "source": "apex-template" }
       ],
       "decisions": []
     },
     "DEVELOPMENT": {
       "state": "active",
       "always_on": false,
-      "recall": ["write code for", "fix this bug", "implement this feature", "build this component", "refactor this", "add this endpoint", "programming task", "code review"],
+      "recall": [
+        "write code for", "fix this bug", "implement this feature", "build this component",
+        "refactor this", "add this endpoint", "programming task", "code review"
+      ],
       "exclude": [],
       "rules": [],
       "decisions": []
@@ -49,75 +53,128 @@
     "WEB-DEVELOPMENT": {
       "state": "active",
       "always_on": false,
-      "recall": ["react", "typescript", "tailwind", "vite", "component", "frontend", "css", "vercel", "deploy", "website", "nextjs", "supabase", "page", "navbar", "footer", "layout", "responsive", "mobile"],
+      "recall": [
+        "react", "typescript", "tailwind", "vite", "component", "frontend", "css", "vercel",
+        "deploy", "website", "nextjs", "supabase", "page", "navbar", "footer", "layout",
+        "responsive", "mobile", "21st", "magic component", "generate component", "ui component",
+        "design system", "premium design", "animation", "scroll effect", "parallax",
+        "hero section", "hover effect", "interactive", "GSAP", "framer motion", "lenis",
+        "smooth scroll"
+      ],
       "exclude": [],
       "rules": [
-        { "id": 100, "text": "Always use TypeScript strict mode, never plain JavaScript.", "source": "template" },
-        { "id": 101, "text": "Use Tailwind CSS utility classes, no custom CSS unless necessary.", "source": "template" },
-        { "id": 102, "text": "Keep components under 300 lines, split into modules.", "source": "template" },
-        { "id": 103, "text": "Run build after code changes to verify.", "source": "template" },
-        { "id": 104, "text": "Use context7 MCP for library documentation lookup before writing framework code.", "source": "template" },
-        { "id": 105, "text": "Test on mobile viewport first.", "source": "template" },
-        { "id": 106, "text": "Use project brand colors consistently. Define in tailwind.config.", "source": "template" }
+        { "id": 100, "text": "Always use TypeScript strict mode, never plain JavaScript.", "source": "apex-template" },
+        { "id": 101, "text": "Use Tailwind CSS v4 utility classes, no custom CSS unless necessary.", "source": "apex-template" },
+        { "id": 102, "text": "Keep components under 300 lines, split into modules.", "source": "apex-template" },
+        { "id": 103, "text": "Run npm run build after code changes to verify.", "source": "apex-template" },
+        { "id": 104, "text": "Use context7 MCP for library documentation lookup before writing framework code.", "source": "apex-template" },
+        { "id": 105, "text": "Test on mobile viewport first. Mobile-first responsive design is the default.", "source": "apex-template" },
+        { "id": 106, "text": "Use semantic HTML for accessibility. Include ARIA labels where needed.", "source": "apex-template" },
+        { "id": 107, "text": "Before coding UI components from scratch, check if 21st.dev Magic MCP (@21st-dev/magic) has a ready-made component. Use premium-web-design skill patterns for animations. Generate base with 21st.dev, customize with hand-coded GSAP/Framer Motion patterns.", "source": "apex-template" },
+        { "id": 108, "text": "For design reference, check awesome-design-md (Airbnb/Apple/Linear/Spotify/Stripe DESIGN.md files at ~/.claude/references/awesome-design-md/) AND premium-web-design references (analyzed sites at ~/.claude/skills/premium-web-design/references/).", "source": "apex-template" }
       ],
       "decisions": []
     },
     "DOCUMENT-CREATION": {
       "state": "active",
       "always_on": false,
-      "recall": ["pdf", "pptx", "docx", "presentation", "report", "document", "word", "powerpoint", "excel", "slides", "deliverable", "export"],
+      "recall": [
+        "pdf", "pptx", "docx", "presentation", "report", "document", "word", "powerpoint",
+        "excel", "slides", "deliverable", "export"
+      ],
       "exclude": [],
       "rules": [
-        { "id": 200, "text": "Generate multilingual content inside Python scripts only, never in terminal commands.", "source": "template" },
-        { "id": 201, "text": "For RTL languages in PPTX: use raw Unicode + rtl=1 XML. For PDF: use appropriate reshaper libraries.", "source": "template" },
-        { "id": 202, "text": "All presentations must be phone-readable: 18pt+ body, 28pt+ headers.", "source": "template" },
-        { "id": 203, "text": "Use correct titles for stakeholders as specified in project CLAUDE.md.", "source": "template" },
-        { "id": 204, "text": "Apply project brand colors on every slide.", "source": "template" },
-        { "id": 205, "text": "pip install always uses --break-system-packages flag if required by system.", "source": "template" },
-        { "id": 206, "text": "NEVER mix RTL and LTR text in the same text run. Always separate into different paragraphs or text boxes.", "source": "template" }
+        { "id": 200, "text": "Generate non-Latin scripts (Arabic, Hebrew, CJK, etc.) inside Python scripts only, never in terminal commands — terminals corrupt encoding.", "source": "apex-template" },
+        { "id": 201, "text": "Use arabic-reshaper + python-bidi for PDF. Use raw Unicode + rtl=1 XML for PPTX. NEVER use arabic-reshaper for PPTX (breaks letter joining).", "source": "apex-template" },
+        { "id": 202, "text": "All presentations must be phone-readable: 18pt+ body text, 28pt+ headers.", "source": "apex-template" },
+        { "id": 203, "text": "On Linux/WSL, pip install always uses --break-system-packages flag. On Windows/macOS this is not needed.", "source": "apex-template" },
+        { "id": 204, "text": "NEVER mix RTL and LTR scripts in the same text run. Always separate into different paragraphs or text boxes.", "source": "apex-template" },
+        { "id": 205, "text": "Use consistent brand colors on every slide. Define them once in a config object and reference everywhere. Document your brand palette in the project's CLAUDE.md.", "source": "apex-template" },
+        { "id": 206, "text": "Export Word via python-docx, PDF via reportlab or pypdf, PPTX via python-pptx, XLSX via openpyxl. Do not shell out to MS Office unless running on Windows with COM automation (comtypes).", "source": "apex-template" }
       ],
       "decisions": []
     },
     "RESEARCH-OSINT": {
       "state": "active",
       "always_on": false,
-      "recall": ["research", "osint", "investigate", "company", "competitor", "analysis", "intelligence", "background check", "vendor", "market research", "due diligence"],
+      "recall": [
+        "research", "osint", "investigate", "company", "competitor", "analysis", "intelligence",
+        "background check", "vendor", "market research", "due diligence"
+      ],
       "exclude": [],
       "rules": [
-        { "id": 300, "text": "Use exa-web-search MCP for semantic search.", "source": "template" },
-        { "id": 301, "text": "Use firecrawl MCP for website scraping.", "source": "template" },
-        { "id": 302, "text": "Cross-reference minimum 3 sources before stating facts.", "source": "template" },
-        { "id": 303, "text": "Generate reports in the languages required by stakeholders.", "source": "template" },
-        { "id": 304, "text": "Save research output to designated project research directory with date prefix.", "source": "template" }
+        { "id": 300, "text": "Use exa-web-search MCP for semantic search.", "source": "apex-template" },
+        { "id": 301, "text": "Use firecrawl MCP for website scraping.", "source": "apex-template" },
+        { "id": 302, "text": "Cross-reference minimum 3 sources before stating facts.", "source": "apex-template" },
+        { "id": 303, "text": "Save research output with a date prefix (YYYY-MM-DD) in a dedicated research folder for version tracking.", "source": "apex-template" },
+        { "id": 304, "text": "When research must be delivered in multiple languages, generate each language version separately — never translate in a terminal stream.", "source": "apex-template" }
       ],
       "decisions": []
     },
     "DEPLOYMENT": {
       "state": "active",
       "always_on": false,
-      "recall": ["deploy", "vercel", "git push", "production", "live", "publish", "ship it", "go live", "release"],
+      "recall": [
+        "deploy", "vercel", "git push", "production", "live", "publish", "ship it",
+        "go live", "release"
+      ],
       "exclude": [],
       "rules": [
-        { "id": 400, "text": "git add specific files only. NEVER git add -A or git add .", "source": "template" },
-        { "id": 401, "text": "git commit with descriptive message following conventional commits format.", "source": "template" },
-        { "id": 402, "text": "git push before deploying.", "source": "template" },
-        { "id": 403, "text": "Run deployment command and wait for completion. Note the deployment URL.", "source": "template" },
-        { "id": 404, "text": "Set production alias after deploy if applicable. NEVER skip this.", "source": "template" },
-        { "id": 405, "text": "Verify deployment with Playwright screenshot after deploy completes.", "source": "template" }
+        { "id": 400, "text": "git add specific files only. NEVER git add -A or git add .", "source": "apex-template" },
+        { "id": 401, "text": "git commit with descriptive message following conventional commits format.", "source": "apex-template" },
+        { "id": 402, "text": "git push origin main (or your default branch) before deploying.", "source": "apex-template" },
+        { "id": 403, "text": "vercel --prod and wait for completion. Note the deployment URL.", "source": "apex-template" },
+        { "id": 404, "text": "If you use a canonical alias, ALWAYS run 'vercel alias set <new-deployment-url> <your-canonical-domain>' after deploy. NEVER skip this — clients/users hit the canonical URL, not the per-deploy URL.", "source": "apex-template" },
+        { "id": 405, "text": "Verify deployment with Playwright screenshot after alias is set.", "source": "apex-template" }
       ],
       "decisions": []
     },
     "LEGAL": {
       "state": "active",
       "always_on": false,
-      "recall": ["contract", "law", "legal", "counsel", "agreement", "dispute", "labor", "commercial", "arbitration", "liability", "court"],
+      "recall": [
+        "contract", "law", "legal", "counsel", "agreement", "dispute", "labor", "commercial",
+        "arbitration", "liability", "court"
+      ],
       "exclude": [],
       "rules": [
-        { "id": 500, "text": "Activate legal mode from the project's legal system directory.", "source": "template" },
-        { "id": 501, "text": "Reference applicable local and national laws first.", "source": "template" },
-        { "id": 502, "text": "All legal output in formal standard language appropriate to jurisdiction.", "source": "template" },
-        { "id": 503, "text": "Never provide definitive legal advice. Frame as analysis.", "source": "template" },
-        { "id": 504, "text": "Cross-reference with regional regulations when applicable.", "source": "template" }
+        { "id": 500, "text": "Reference the jurisdiction's primary commercial/labor law first. Specialize the rule loadout for your region (Qatar, UAE, US, EU, UK, etc.) — edit the recall keywords to match.", "source": "apex-template" },
+        { "id": 501, "text": "All legal output in the jurisdiction's formal legal register (Modern Standard Arabic for GCC, plain English for US/UK, etc.).", "source": "apex-template" },
+        { "id": 502, "text": "Never provide definitive legal advice. Frame every output as analysis and recommend engaging a licensed attorney for authoritative counsel.", "source": "apex-template" },
+        { "id": 503, "text": "Cross-reference with regional regulations when applicable (GCC, EU, state-level, federal, etc.).", "source": "apex-template" },
+        { "id": 504, "text": "Cite sources for every legal claim — statute number, case citation, or regulation reference.", "source": "apex-template" }
+      ],
+      "decisions": []
+    },
+    "BROWSER": {
+      "state": "active",
+      "always_on": false,
+      "recall": [
+        "browse", "chrome", "screenshot website", "instagram", "linkedin", "reddit", "github",
+        "open site", "visit url", "facebook", "scrape", "social media", "scroll feed",
+        "view website", "extract from website", "check website", "read posts", "view profile",
+        "take screenshot", "login session", "web page"
+      ],
+      "exclude": [],
+      "rules": [
+        { "id": 600, "text": "For unauthenticated web content, prefer WebSearch, WebFetch, exa-web-search MCP, or context7 MCP. Use browser MCPs (Playwright) only when you need rendering, JavaScript execution, or visual capture.", "source": "apex-template" },
+        { "id": 601, "text": "Tasks requiring a logged-in browser session (authenticated Instagram, LinkedIn, private dashboards) should be delegated to a session-cookie-based scraper like instaloader, or to the user's browser extension. Never attempt interactive login in Claude Code's Bash tool — it cannot handle password prompts.", "source": "apex-template" }
+      ],
+      "decisions": []
+    },
+    "PROJECT-NAVIGATION": {
+      "state": "active",
+      "always_on": false,
+      "recall": [
+        "where is", "how does", "show me", "understand the codebase", "architecture", "structure",
+        "find the", "continue working on", "pick up", "resume", "last session", "what did we",
+        "navigate", "graph", "recall memory"
+      ],
+      "exclude": [],
+      "rules": [
+        { "id": 0, "text": "ALWAYS query claude-mem (mem-search skill) for prior context BEFORE reading memory files or project history.", "source": "apex-template" },
+        { "id": 1, "text": "ALWAYS check if a graphify knowledge graph exists for the current project BEFORE reading raw files. Graph path: graphify-out/graph.json in the project root.", "source": "apex-template" },
+        { "id": 2, "text": "Graph query cost ~1000 tokens; raw file read can be 10,000+. Prefer the graph unless the task specifically requires file content (edit, debug, review).", "source": "apex-template" }
       ],
       "decisions": []
     }

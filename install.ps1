@@ -2,7 +2,7 @@
 # Non-destructive: backs up everything before changes
 
 $ErrorActionPreference = "Stop"
-$APEX_VERSION = "6.0.0"
+$APEX_VERSION = "7.0.0"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ClaudeDir = Join-Path $env:USERPROFILE ".claude"
 $CarlDir = Join-Path $env:USERPROFILE ".carl"
@@ -15,7 +15,7 @@ function Write-Banner {
     Write-Host ""
     Write-Host "===============================================" -ForegroundColor Cyan
     Write-Host "       CLAUDE APEX V$APEX_VERSION" -ForegroundColor Cyan
-    Write-Host "  1,308 skills. 108 agents. One brain." -ForegroundColor Cyan
+    Write-Host "  1,276+ skills. 108 agents. 182 commands. Three-layer auto-routing." -ForegroundColor Cyan
     Write-Host "===============================================" -ForegroundColor Cyan
     Write-Host ""
 }

@@ -1,8 +1,8 @@
 {
   "name": "claude-apex",
-  "version": "6.0.0",
-  "description": "1,308 skills. 108 agents. One unified intelligence. The absolute top of Claude Code.",
-  "author": "Yousef Nabil",
+  "version": "7.0.0",
+  "description": "1,276+ skills. 108 agents. 182 commands. Three-layer auto-routing. The most comprehensive Claude Code environment.",
+  "author": "Claude Apex contributors",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -21,7 +21,13 @@
     "automation",
     "claude-code-skills",
     "claude-code-agents",
-    "claude-code-plugins"
+    "claude-code-plugins",
+    "carl",
+    "mcp",
+    "three-layer-routing",
+    "premium-web-design",
+    "21st-dev",
+    "graphify"
   ],
   "homepage": "https://github.com/YousefNabil-SOC/claude-apex",
   "bugs": "https://github.com/YousefNabil-SOC/claude-apex/issues"
