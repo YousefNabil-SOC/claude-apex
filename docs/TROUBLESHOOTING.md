@@ -500,4 +500,16 @@ nano ~/.claude/memory/MEMORY.md
 
 ---
 
+## Pro Tips
+
+- **Always `/healthcheck` first.** It catches 90% of issues in 10 seconds.
+- **Validate JSON before restarting.** `python3 -c "import json; json.load(open('$HOME/.claude/settings.json'))"` tells you exactly which line is broken.
+- **Re-run `bash install.sh` when hooks misbehave.** It's idempotent — copies current V7 hook versions over stale ones.
+- **Keep a `.claude/backups/` folder.** Uninstall restores from it. Don't delete old backups casually.
+- **Check `memory/tool-health.md` when a tool acts up.** Failures log there with fallback choices.
+- **If all else fails, nuke `~/.claude` and `~/.carl`, reinstall.** Takes 2 minutes. Always back up first.
+
 **Next**: [WINDOWS-GUIDE.md](./WINDOWS-GUIDE.md) → Windows-specific setup and troubleshooting
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

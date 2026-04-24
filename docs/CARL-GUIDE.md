@@ -1,391 +1,401 @@
-# CARL Guide: Just-In-Time Rule Loading
+# CARL Guide — Just-In-Time Rule Loading
 
 ## The Problem CARL Solves
 
-Without CARL, every session loads ALL context at once:
+Without CARL, every session loads ALL rules at once:
 ```
-❌ Without CARL: React rules + Django rules + Kubernetes rules + ... = 800 lines of context
-✅ With CARL: Detect "React" keyword → load only React rules = 80 lines
+[Without CARL]  React rules + deployment rules + legal rules + ... = 2,000 tokens per turn
+[With CARL]     Detect "react" in prompt → load only WEB-DEVELOPMENT rules = 300 tokens
 ```
 
-Result: **10x context efficiency**, cleaner reasoning, faster responses.
+Result: focused context, cleaner reasoning, fewer tokens per turn.
 
 ## How CARL Works
 
+CARL is a Python hook (`~/.claude/hooks/carl-hook.py`) registered on the `UserPromptSubmit` event.
+
 ```
-User types: "Fix React hydration error in [YOUR_PROJECT]"
+User types: "Fix React hydration error in my-webapp"
               ↓
-        CARL keyword scan
+        UserPromptSubmit fires
               ↓
-     Keywords: [React, error, hydration]
+        carl-hook.py runs
               ↓
-    Load domain: "libraries" → React rules
+     Keywords matched: [react, error]
               ↓
-   Agent now has focused context
-        + 28 relevant rules
+    Domains loaded: GLOBAL (always) + WEB-DEVELOPMENT
+              ↓
+    Rules injected: 3 + 9 = 12 rules
+              ↓
+    Claude now has focused context
 ```
 
-## 7 CARL Domains
+Cost per prompt: ~100-300 tokens for the injected rules block.
 
-### 1. syntax
-**When triggered**: "eslint", "linter", "prettier", "format", "style"
+## The 9 CARL Domains (Apex V7)
 
-**Loaded rules**:
-- Code formatting conventions (spacing, naming)
-- Linting rules per language
-- Import ordering, quote style
-- Indentation standards
+### 1. GLOBAL (3 rules, always-on)
 
-**Example trigger**:
+Fires on every prompt. Universal behavioral rules.
+
+**Rules:**
+- Never use relative paths in code; never use absolute paths when referencing files to the user
+- Never run independent tool calls sequentially — batch them in parallel
+- Never mark tasks complete without validation — test everything, require proof
+
+### 2. DEVELOPMENT (0 rules, routing signal)
+
+Fires on general coding keywords. No specific rules — signals "this is a code task" to Layer 2 routing.
+
+**Recall keywords:**
+`write code for`, `fix this bug`, `implement this feature`, `build this component`, `refactor this`, `add this endpoint`, `programming task`, `code review`
+
+### 3. WEB-DEVELOPMENT (9 rules)
+
+Fires on web / frontend keywords.
+
+**Recall keywords (32+):**
+`react`, `typescript`, `tailwind`, `vite`, `component`, `frontend`, `css`, `vercel`, `deploy`, `website`, `nextjs`, `supabase`, `page`, `navbar`, `footer`, `layout`, `responsive`, `mobile`, `21st`, `magic component`, `generate component`, `ui component`, `design system`, `premium design`, `animation`, `scroll effect`, `parallax`, `hero section`, `hover effect`, `interactive`, `GSAP`, `framer motion`, `lenis`, `smooth scroll`
+
+**Rules:**
+1. Always use TypeScript strict mode, never plain JavaScript
+2. Use Tailwind CSS v4 utility classes, no custom CSS unless necessary
+3. Keep components under 300 lines, split into modules
+4. Run npm run build after code changes to verify
+5. Use context7 MCP for library documentation lookup before writing framework code
+6. Test on mobile viewport first — mobile-first responsive design is the default
+7. Use semantic HTML for accessibility; include ARIA labels where needed
+8. Before coding UI from scratch, check if 21st.dev Magic MCP has a ready-made component. Generate base with 21st.dev, customize with hand-coded GSAP/Framer Motion
+9. For design reference, check premium-web-design references (analyzed sites at `~/.claude/skills/premium-web-design/references/`)
+
+### 4. DOCUMENT-CREATION (7 rules)
+
+Fires on document keywords.
+
+**Recall keywords:**
+`pdf`, `pptx`, `docx`, `presentation`, `report`, `document`, `word`, `powerpoint`, `excel`, `slides`, `deliverable`, `export`
+
+**Rules:**
+1. Generate non-Latin scripts (Arabic, Hebrew, CJK) inside Python scripts only — never in terminal commands (terminals corrupt encoding)
+2. Use arabic-reshaper + python-bidi for PDF; use raw Unicode + rtl=1 XML for PPTX; never use arabic-reshaper for PPTX
+3. All presentations must be phone-readable: 18pt+ body, 28pt+ headers
+4. On Linux/WSL, pip install always uses `--break-system-packages`
+5. Never mix RTL and LTR scripts in the same text run — separate paragraphs/text boxes
+6. Use consistent brand colors on every slide; define them once in a config object
+7. Export Word via python-docx, PDF via reportlab, PPTX via python-pptx, XLSX via openpyxl
+
+### 5. RESEARCH-OSINT (5 rules)
+
+Fires on research keywords.
+
+**Recall keywords:**
+`research`, `osint`, `investigate`, `company`, `competitor`, `analysis`, `intelligence`, `background check`, `vendor`, `market research`, `due diligence`
+
+**Rules:**
+1. Use exa-web-search MCP for semantic search
+2. Use firecrawl MCP for website scraping
+3. Cross-reference minimum 3 sources before stating facts
+4. Save research output with a date prefix (YYYY-MM-DD) in a dedicated folder
+5. When delivering research in multiple languages, generate each language version separately
+
+### 6. DEPLOYMENT (6 rules)
+
+Fires on deployment keywords.
+
+**Recall keywords:**
+`deploy`, `vercel`, `git push`, `production`, `live`, `publish`, `ship it`, `go live`, `release`
+
+**Rules:**
+1. git add specific files only — NEVER `git add -A` or `git add .`
+2. git commit with descriptive message in conventional commits format
+3. git push origin main (or your default branch) before deploying
+4. vercel --prod and wait for completion; note the deployment URL
+5. If you use a canonical alias, ALWAYS run `vercel alias set` after deploy
+6. Verify deployment with Playwright screenshot after alias is set
+
+### 7. LEGAL (5 rules)
+
+Fires on legal keywords.
+
+**Recall keywords:**
+`contract`, `law`, `legal`, `counsel`, `agreement`, `dispute`, `labor`, `commercial`, `arbitration`, `liability`, `court`
+
+**Rules:**
+1. Reference the jurisdiction's primary commercial/labor law first; specialize recall keywords for your region
+2. All legal output in the jurisdiction's formal legal register (MSA for GCC, plain English for US/UK)
+3. Never provide definitive legal advice; frame every output as analysis and recommend licensed counsel
+4. Cross-reference with regional regulations when applicable (GCC, EU, state-level, federal)
+5. Cite sources for every legal claim — statute number, case citation, or regulation reference
+
+### 8. BROWSER (2 rules)
+
+Fires on browser / scraping keywords.
+
+**Recall keywords:**
+`browse`, `chrome`, `screenshot website`, `instagram`, `linkedin`, `reddit`, `github`, `open site`, `visit url`, `facebook`, `scrape`, `social media`, `scroll feed`, `view website`, `extract from website`, `check website`, `read posts`, `view profile`, `take screenshot`, `login session`, `web page`
+
+**Rules:**
+1. For unauthenticated web content, prefer WebSearch, WebFetch, exa-web-search MCP, or context7 MCP. Use browser MCPs (Playwright) only when you need rendering, JS execution, or visual capture.
+2. Tasks requiring logged-in sessions (authenticated Instagram, LinkedIn, private dashboards) should use session-cookie-based scrapers (instaloader), not Claude Code's Bash tool.
+
+### 9. PROJECT-NAVIGATION (3 rules)
+
+Fires on codebase-navigation keywords.
+
+**Recall keywords:**
+`where is`, `how does`, `show me`, `understand the codebase`, `architecture`, `structure`, `find the`, `continue working on`, `pick up`, `resume`, `last session`, `what did we`, `navigate`, `graph`, `recall memory`
+
+**Rules:**
+1. ALWAYS query claude-mem (mem-search skill) for prior context BEFORE reading memory files
+2. ALWAYS check if a graphify knowledge graph exists BEFORE reading raw files (path: `graphify-out/graph.json`)
+3. Graph query costs ~1,000 tokens; raw file read costs 10,000+. Prefer the graph unless the task specifically needs file content.
+
+## Totals
+
+- **9 domains** (GLOBAL + 8 context-specific)
+- **40 rules** across all domains
+- **117+ recall keywords** that trigger domains
+
+## Three Real Routing Examples
+
+### Example 1 — Web development task
+
+**Prompt:**
 ```
-"Add eslint to [YOUR_PROJECT]"
-→ Loads domain:syntax
+build me a react component with a smooth scroll animation on the hero section
 ```
 
-### 2. libraries
-**When triggered**: Framework/library names (React, Django, Express, Vue, etc.)
-
-**Loaded rules**:
-- Framework conventions
-- Common patterns (hooks, components, middleware)
-- Performance gotchas
-- Testing patterns
-- Ecosystem tools
-
-**Example trigger**:
+**CARL trace:**
 ```
-"Build React component for dashboard"
-→ Loads domain:libraries (React section)
-```
+Keywords matched: react, component, animation, scroll effect, hero section
+Domains loaded: GLOBAL (always) + WEB-DEVELOPMENT
+Rules injected: 3 + 9 = 12 rules
 
-### 3. deployment
-**When triggered**: "Vercel", "Kubernetes", "Docker", "deploy", "CI/CD", "GitHub Actions"
-
-**Loaded rules**:
-- Platform-specific deployment steps
-- Environment configuration
-- Secrets management
-- Scaling guidelines
-- Monitoring setup
-
-**Example trigger**:
-```
-"Deploy to Kubernetes"
-→ Loads domain:deployment (K8s section)
+Claude now knows:
+- TypeScript strict mode required
+- Tailwind CSS v4 preferred
+- Components under 300 lines
+- npm run build after changes
+- Check @21st-dev/magic for ready-made first
+- Use GSAP or Framer Motion for animations
+- Mobile-first
 ```
 
-### 4. security
-**When triggered**: "auth", "crypto", "encryption", "password", "token", "OWASP", "CVE"
+### Example 2 — Deployment task
 
-**Loaded rules**:
-- Authentication patterns (JWT, OAuth, MFA)
-- Encryption best practices
-- Input validation, SQL injection prevention
-- OWASP top 10
-- Vulnerability scanning
-
-**Example trigger**:
+**Prompt:**
 ```
-"Implement OAuth2"
-→ Loads domain:security
+deploy this to production on vercel
 ```
 
-### 5. performance
-**When triggered**: "optimize", "cache", "profiling", "benchmark", "slow", "latency"
-
-**Loaded rules**:
-- Caching strategies (Redis, browser cache)
-- Database query optimization
-- Code profiling workflows
-- Bundle size reduction
-- Network optimization
-
-**Example trigger**:
+**CARL trace:**
 ```
-"Profile and optimize API response time"
-→ Loads domain:performance
+Keywords matched: deploy, production, vercel
+Domains loaded: GLOBAL + DEPLOYMENT
+Rules injected: 3 + 6 = 9 rules
+
+Claude now knows:
+- NEVER git add -A
+- git add specific files; conventional commit
+- git push before vercel --prod
+- ALWAYS vercel alias set after --prod
+- Verify with Playwright screenshot
 ```
 
-### 6. database
-**When triggered**: "SQL", "PostgreSQL", "MongoDB", "migration", "schema", "index"
+### Example 3 — Legal document task
 
-**Loaded rules**:
-- SQL best practices
-- Migration patterns
-- Indexing strategies
-- Connection pooling
-- Query optimization
-- NoSQL patterns
-
-**Example trigger**:
+**Prompt:**
 ```
-"Write migration for PostgreSQL"
-→ Loads domain:database
+review this employment contract and flag compliance issues
 ```
 
-### 7. devops
-**When triggered**: "monitoring", "logging", "alerting", "incident", "observability", "SLA"
-
-**Loaded rules**:
-- Prometheus, Grafana setup
-- Log aggregation (ELK, Loki)
-- Alerting thresholds
-- Incident response workflows
-- SLO definition
-- Runbook templates
-
-**Example trigger**:
+**CARL trace:**
 ```
-"Set up monitoring with Prometheus"
-→ Loads domain:devops
+Keywords matched: contract, legal, compliance (legal recall keyword variant), labor
+Domains loaded: GLOBAL + LEGAL
+Rules injected: 3 + 5 = 8 rules
+
+Claude now knows:
+- Reference jurisdiction's commercial/labor law
+- Never give definitive legal advice
+- Cross-reference regional regulations
+- Cite statutes/cases/regs for every claim
+- Output in formal register for the jurisdiction
 ```
 
-## Creating a Custom CARL Domain
+## Why Not Load All Rules Always?
 
-### Step 1: Create domain file
+- 40 rules × average 50 tokens = 2,000 tokens every prompt
+- Most rules don't apply; Claude would skim them
+- You'd pay more per message
+- Irrelevant rules sometimes contradict relevant ones
 
+CARL's JIT approach: only 3-8 rules active per prompt, tightly scoped.
+
+## Where CARL's Rules Live
+
+Single JSON file: `~/.carl/carl.json`.
+
+**Structure:**
+```json
+{
+  "version": 1,
+  "config": {
+    "devmode": false,
+    "post_compact_gate": true,
+    "global_exclude": []
+  },
+  "domains": {
+    "GLOBAL": {
+      "state": "active",
+      "always_on": true,
+      "recall": ["universal"],
+      "rules": [
+        { "id": 0, "text": "...", "source": "apex-template" }
+      ]
+    },
+    "WEB-DEVELOPMENT": {
+      "state": "active",
+      "always_on": false,
+      "recall": ["react", "typescript", ...],
+      "rules": [
+        { "id": 100, "text": "Always use TypeScript strict mode...", "source": "apex-template" }
+      ]
+    }
+  }
+}
+```
+
+Edit directly:
 ```bash
-touch ~/.claude/rules/my-domain.md
+notepad ~/.carl/carl.json   # Windows
+open -e ~/.carl/carl.json   # macOS
+nano ~/.carl/carl.json      # Linux
 ```
 
-### Step 2: Define trigger keywords
+## Adding Your Own Rule
 
-```yaml
----
-domain: my-domain
-description: "Rules for my custom domain"
-trigger_keywords:
-  - keyword1
-  - keyword2
-  - keyword3
-enabled: true
----
+Add to any existing domain's `rules` array:
 
-# My Custom Domain
-
-## Rule 1: Description
-
-When implementing X, always:
-- Constraint 1
-- Constraint 2
-
-## Rule 2: Description
-
-Pattern for Y:
-\`\`\`
-Code example
-\`\`\`
-
-## Rule 3: Checklist
-
-- [ ] Item 1
-- [ ] Item 2
+```json
+{
+  "id": 109,
+  "text": "Use connection pooling for databases. Minimum pool size 10, max 100.",
+  "source": "my-preference"
+}
 ```
 
-### Step 3: Test it
+Save. Next time a matching keyword fires, Claude sees this rule.
 
-```bash
-# Trigger the domain
-"Your task containing keyword1"
+## Adding Your Own Domain
 
-# Check rules were loaded
-cat ~/.claude/memory/carl-status.md
-# Should show: my-domain LOADED
+Add a new top-level entry under `domains`:
+
+```json
+"PHP": {
+  "state": "active",
+  "always_on": false,
+  "recall": ["php", "laravel", "symfony", "wordpress", "composer"],
+  "exclude": [],
+  "rules": [
+    { "id": 700, "text": "Use PHP 8.3+. Enable strict_types. Typed properties.", "source": "my-preference" },
+    { "id": 701, "text": "Laravel projects use Pest for tests, not PHPUnit.", "source": "my-preference" }
+  ],
+  "decisions": []
+}
 ```
 
-### Step 4: Register in CARL index
+Save. Type something with "php" or "laravel" to confirm it fires.
 
-Add to `~/.claude/rules/INDEX.md`:
+## Disabling a Domain
 
-```markdown
-| my-domain | Description here | keyword1, keyword2, keyword3 |
+Set `state: "disabled"` for the domain. The hook will skip it.
+
+```json
+"LEGAL": {
+  "state": "disabled",
+  ...
+}
 ```
 
-## Adding Rules to Existing Domains
+## CARL vs CLAUDE.md
 
-### Find the domain file
+| In CLAUDE.md | In CARL |
+|---|---|
+| Every rule loads every session | Only matching rules load per prompt |
+| All rules count against context | Only active rules count |
+| No keyword matching | Automatic keyword matching |
+| Good for stakeholder names | Good for task-specific rules |
 
-```bash
-cat ~/.claude/rules/libraries.md | grep -A 10 "React"
+**Use CLAUDE.md for** always-on rules (brand values, stakeholder titles, workspace conventions).
+**Use CARL for** domain-specific rules that only apply in certain tasks.
+
+## Checking CARL Is Working
+
+On any prompt, look at the first line of the response. You should see:
+
+```
+LOADED DOMAINS:
+  [GLOBAL] always_on (3 rules)
+  [WEB-DEVELOPMENT] matched: react, component (9 rules)
 ```
 
-### Add new rule section
+If you never see this, CARL isn't firing. Run `/healthcheck` — line 6 should show `UserPromptSubmit | OK`.
 
-```markdown
-## New Rule: Hooks Performance
+## Debug Mode
 
-When using React hooks in [YOUR_PROJECT]:
-- Memoize callbacks with useCallback
-- Use useMemo for expensive computations
-- Avoid creating new objects in render
-
-Example:
-\`\`\`typescript
-const Component = memo(({ data }) => {
-  const handleClick = useCallback(() => {
-    // Memoized callback
-  }, []);
-  
-  return <button onClick={handleClick}>{data}</button>;
-});
-\`\`\`
-```
-
-## Disabling Domains
-
-If a domain causes false positives:
-
-```bash
-# Edit domain file
-nano ~/.claude/rules/my-domain.md
-
-# Change enabled flag
-enabled: false
-
-# Reload
-/healthcheck
-# Should show: my-domain DISABLED
-```
-
-## Checking Active Domains
-
-```bash
-# Show all loaded domains
-/healthcheck
-# Output: CARL: 7/7 domains loaded
-
-# Show domain status file
-cat ~/.claude/memory/carl-status.md
-# Shows: [LOADED], [DISABLED], [FAILED]
-```
-
-## CARL Performance Impact
-
-| Scenario | Without CARL | With CARL | Speedup |
-|----------|---|---|---|
-| Simple React fix | 400ms | 150ms | 2.7x |
-| Multi-framework task | 600ms | 180ms | 3.3x |
-| Full codebase analysis | 2000ms | 400ms | 5x |
-
-## Best Practices
-
-### 1. Keep keywords specific
-```yaml
-❌ trigger_keywords: [code, work, build]  # Too broad
-✅ trigger_keywords: [react, jsx, hooks]  # Specific to domain
-```
-
-### 2. Order rules by frequency
-```markdown
-❌ Rare edge case first
-✅ Most common pattern first
-   Then edge cases
-```
-
-### 3. Use examples liberally
-```markdown
-❌ "Use memoization"
-✅ "Use memoization with useCallback:
-     \`\`\`typescript
-     const memoized = useCallback(() => {...}, [deps]);
-     \`\`\`"
-```
-
-### 4. Link to official docs
-```markdown
-Rule: X
-
-Reference: https://[official-docs]
-
-When to use:
-- Scenario 1
-- Scenario 2
-```
-
-## Troubleshooting
-
-### Domain not loading
-```bash
-# Check if keywords are in task description
-echo "Your task description" | grep -i "keyword1"
-# No match? Keywords may be too specific
-
-# Check if domain is enabled
-grep "enabled:" ~/.claude/rules/my-domain.md
-```
-
-### Too many domains loading at once
-```bash
-# Remove overlapping keywords
-# Edit domain files, reduce trigger_keywords list
-# Test with specific task
-```
-
-### Rule conflicts (both security & performance rules say opposite things)
-```bash
-# Add clarification to rule
-# Example: "Use caching [for read-heavy scenarios]"
-#          "Avoid caching [for real-time data]"
-```
+Set `config.devmode: true` in `carl.json`. Every response now ends with a debug block showing which rules fired and which were applied. Useful for rule tuning. Turn off when done.
 
 ## CARL + Orchestration Engine
 
-When CARL loads rules, they inform the routing decision:
+When CARL loads rules, they inform routing decisions:
 
 ```
-Task: "Fix React component performance"
+Task: "Optimize React component performance"
       ↓
-CARL loads: libraries (React rules)
-           + performance (optimization rules)
+CARL loads: GLOBAL + WEB-DEVELOPMENT (but NOT a "performance" domain — none exists)
+Recall matches on: react, component
       ↓
-Orchestration Engine sees context
+Orchestration Engine sees loaded domains + context
       ↓
-Routes to: performance-optimizer agent + tdd-guide
+Routes to: autoresearch (measurable metric: render time)
+           + OMC team mode (parallel benchmarking)
 ```
 
-## Example: Create "testing" Domain
+## Common Pitfalls
 
-```yaml
----
-domain: testing
-description: "Test-driven development rules"
-trigger_keywords:
-  - test
-  - jest
-  - mocha
-  - pytest
-  - tdd
-  - unittest
-enabled: true
----
+### Rule not firing?
 
-# Testing Domain
+- Check trigger keywords: `grep "recall" ~/.carl/carl.json` — make sure your keyword is in the list
+- Check `state: "active"` — inactive domains are skipped
+- Check the hook is installed: `grep carl-hook.py ~/.claude/settings.json`
+- Restart Claude Code after editing carl.json
 
-## Rule 1: Write Tests First (TDD)
+### Too many domains firing?
 
-Always:
-1. Write failing test (RED)
-2. Implement to pass test (GREEN)
-3. Refactor (IMPROVE)
+- Keywords too broad. `code` fires WEB-DEVELOPMENT constantly. Use more specific keywords.
+- Reduce overlap: split shared keywords into their own domain
 
-## Rule 2: Test Naming
+### Rules contradicting each other?
 
-Convention:
-\`\`\`
-describe('[FEATURE]', () => {
-  it('should [BEHAVIOR]', () => {
-    // Arrange, Act, Assert
-  });
-});
-\`\`\`
-
-## Rule 3: Mocking
-
-- Mock external APIs
-- Mock databases
-- Keep tests isolated
+Add clarification text:
+```
+Rule text: "Use caching [for read-heavy data]. Avoid caching [for real-time data]."
 ```
 
----
+## Pro Tips
 
-**Next**: [ARCHITECTURE.md](./ARCHITECTURE.md) → See how CARL fits in Layer 1
+- **Keep recall keywords specific.** `react` is good; `code` is too broad — it fires every coding prompt.
+- **Order rules by frequency.** Most common pattern first. Claude reads top-to-bottom.
+- **Use examples in rule text.** `"Use memoization with useCallback: const x = useCallback(...)"` beats `"Use memoization"`.
+- **Always-on rules stay minimal.** Every GLOBAL rule costs ~50 tokens on every prompt. Keep it to 3-5.
+- **Watch your devmode output.** Turning on devmode for a few prompts teaches you which rules actually fire for your workflow.
+- **Edit `carl.json`, not CLAUDE.md.** CLAUDE.md is always-on; CARL is JIT. Most rules belong in CARL.
+
+## Next Step
+
+- [AGENTS-GUIDE.md](./AGENTS-GUIDE.md) — Meet the 108 specialist agents
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — See how CARL fits in the full stack
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

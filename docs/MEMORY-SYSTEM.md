@@ -436,4 +436,16 @@ autopilot: "Task"
 
 ---
 
+## Pro Tips
+
+- **Don't let MEMORY.md grow past 200 lines.** Dream auto-triggers above that, but manual `consolidate memory` is faster.
+- **Keep session-handoff.md's 50-line cap.** It's designed to be skimmed at session start, not archived.
+- **Lessons.md is forever.** Only put things there that will still be true in six months.
+- **Archive old sessions weekly.** `mv memory/session-*.md memory/archive/` frees your working directory from noise.
+- **Check `memory/tool-health.md` when debugging.** Failed tools leave breadcrumbs there.
+- **Don't manually edit `decisions.md` mid-session.** Dream consolidation writes to it at end-of-session — you'll get conflicts.
+
 **Next**: [ORCHESTRATION.md](./ORCHESTRATION.md) → Understand the decision engine that routes tasks
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

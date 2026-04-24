@@ -489,7 +489,7 @@ Windows Defender or other antivirus may scan Node.js processes:
 **Fix: Exclude Apex from scanning**
 ```powershell
 # Run as Administrator in PowerShell:
-Add-MpPreference -ExclusionPath "C:\Claude code"
+Add-MpPreference -ExclusionPath "$env:USERPROFILE\code\claude-apex"  # or wherever you cloned the repo
 Add-MpPreference -ExclusionPath "$env:USERPROFILE\.claude"
 Add-MpPreference -ExclusionPath "$env:APPDATA\npm"
 ```
@@ -513,4 +513,16 @@ This speeds up `npm install` and `npm run build` significantly.
 
 ---
 
+## Pro Tips
+
+- **Git Bash > PowerShell for Apex.** PowerShell struggles with Unix path conventions the hooks assume.
+- **Use `$HOME`, not `~`, in scripts.** Hook commands fire outside interactive shells where `~` may not expand.
+- **Quote paths with spaces.** `"/c/Claude code/project"` — always quoted, always forward slashes.
+- **Enable long paths on Windows 10/11.** The LongPathsEnabled registry value saves headaches with deep `node_modules/` trees.
+- **Exclude `.claude/` and your project folder from Windows Defender.** `Add-MpPreference -ExclusionPath ...` cuts build times dramatically.
+- **Windows Terminal > Git Bash for multi-tab.** One window, multiple tabs, faster peer discovery.
+
 **Next**: [UNINSTALL.md](./UNINSTALL.md) → How to uninstall Apex cleanly
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

@@ -465,3 +465,14 @@ cp -r ~/.claude/rules ~/my-custom-rules
 ---
 
 **Need help?** See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for common issues, or [FAQ.md](./FAQ.md) for frequently asked questions.
+
+## Pro Tips
+
+- **Run `bash uninstall.sh`, not `rm -rf`.** The script restores from backup; `rm -rf` just deletes.
+- **Back up memory before uninstalling.** `cp -r ~/.claude/memory ~/claude-memory-$(date +%Y%m%d)`. Memory files are portable across installs.
+- **Keep `~/.claude/.env`** when switching Apex versions. The installer never touches it after creation.
+- **Partial uninstalls are safer.** Remove only the agents or hooks you don't want, keep the rest.
+- **If you reinstall later, your memory picks up where it left off.** session-handoff.md, lessons.md, and decisions.md survive uninstall if you backed them up.
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

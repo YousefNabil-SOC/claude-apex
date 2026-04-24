@@ -426,4 +426,16 @@ grep "autoPullRequests" ~/.claude/settings.json
 
 ---
 
+## Pro Tips
+
+- **Autopilot for clear tasks, deep-interview for fuzzy ones.** Autopilot assumes you know what you want; deep-interview asks first.
+- **Ralph is for flaky, not hard.** Hard tasks want PAUL's structure. Ralph retries the same approach with small variations.
+- **Team mode only when tracks are truly independent.** A shared data dependency kills the parallelism benefit.
+- **Respect the model routing.** If you force `opus:` on every autopilot, your bill will triple without proportional quality gain.
+- **Autopilot Stage 1 (Research) can skip with --skip-research** when you already know the approach.
+- **Save autopilot logs.** They're in `memory/OMC-executions/` — useful for post-mortems on why autopilot picked one approach over another.
+
 **Next**: [MEMORY-SYSTEM.md](./MEMORY-SYSTEM.md) → Understand auto-save and Dream consolidation
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

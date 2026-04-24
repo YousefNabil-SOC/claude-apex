@@ -380,4 +380,16 @@ Ready to: git push origin feature/paul-refactor-auth-2026-04-04
 
 ---
 
+## Pro Tips
+
+- **/paul:unify is mandatory.** If you skip it, the next session won't have the plan-vs-reality reconciliation that captures lessons.
+- **Plan conservatively.** A plan with 20% buffer time rarely misses; a tight plan misses by 40%.
+- **Make assumptions explicit.** Every phase should list 1-3 things you're assuming. Future you will thank present you.
+- **Use `/paul:pause` freely.** PAUL state persists — pausing mid-phase costs nothing.
+- **Combine with OMC for execution.** `/paul:apply` can dispatch `team N:` internally for parallel phases.
+- **If a phase blows up, `/paul:plan-fix`.** It adjusts remaining phases based on what you learned.
+
 **Next**: [OMC-INTEGRATION.md](./OMC-INTEGRATION.md) → Combine PAUL with multi-agent orchestration
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

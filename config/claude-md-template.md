@@ -147,3 +147,5 @@ When you say "health check" or "system status":
 ## graphify
 Trigger: `/graphify` → invokes the Skill tool with `skill: "graphify"`
 Build a knowledge graph per project to save ~90% of file-reading tokens.
+
+<!-- Claude Apex V7 by Engineer Yousef Nabil — https://github.com/YousefNabil-SOC/claude-apex -->

@@ -4,6 +4,8 @@ All notable changes to Claude Apex will be documented in this file.
 
 ## v7.0.0 (2026-04-23) — Three-Layer Auto-Routing
 
+**Author: Engineer Yousef Nabil** ([@YousefNabil-SOC](https://github.com/YousefNabil-SOC))
+
 ### Headline
 The three-layer auto-routing system is the core V7 innovation: CARL (JIT rules) + CAPABILITY-REGISTRY (task → stack) + COMMAND-REGISTRY (intent → commands). Users never need to type slash commands — the system reads natural language and activates the right tools automatically.
 

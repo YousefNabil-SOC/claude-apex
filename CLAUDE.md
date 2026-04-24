@@ -1,4 +1,9 @@
-# Claude Apex V7 — Installation Instructions for Claude Code
+# Claude Apex V7
+
+> Created by Engineer Yousef Nabil
+> https://github.com/YousefNabil-SOC/claude-apex
+
+## Installation Instructions for Claude Code
 
 You are reading this because a user asked you to install Claude Apex.
 Follow these steps to install the complete environment.

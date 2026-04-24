@@ -1,157 +1,354 @@
 # Install From Zero
 
-> You have a brand-new computer (or you've never done this before). Here is every single step.
+> You have a brand-new computer (or you've never done this before). Every step is here, on all three operating systems, with verification commands after each step.
 
-## What you'll install, in order
+## The install order
 
-1. Node.js (for Claude Code)
-2. Python 3 (for Apex hooks)
-3. Git (for downloading this repo)
-4. Claude Code itself
+1. Node.js 20+ (required by Claude Code)
+2. Python 3.10+ (required by Apex hooks)
+3. Git (required to download this repo)
+4. Claude Code (the CLI)
 5. Claude Apex (this repo)
 6. API keys (optional but recommended)
-7. Plugins (for the full experience)
+7. Plugins (for the full 1,276+ skill experience)
 
-## Pick your OS
+Total time: 15-20 minutes.
 
-- Using **Windows** → follow the Windows column below
-- Using **macOS** → follow the Mac column
-- Using **Linux** → follow the Linux column
+---
 
-## Step 1: Install Node.js
+## Step 1 — Install Node.js
 
-**Windows**:
-1. Go to https://nodejs.org
-2. Click the big green "LTS" button
-3. Download the `.msi` installer
-4. Double-click it, click Next through everything, finish
-5. Close your terminal if it was open, open a new one
-6. Type `node --version` and press Enter
-7. You should see something like `v20.11.0`. Done.
+Node.js runs Claude Code. You need version 20 or higher.
 
-**macOS**:
-1. Open Terminal (press Cmd+Space, type "Terminal", press Enter)
-2. If you have Homebrew: `brew install node`
-3. If you don't: go to https://nodejs.org, download the LTS `.pkg`, install
-4. Run `node --version`
-5. Done when you see `v20.11.0` or similar.
+### Windows, Mac, and Linux side by side
 
-**Linux (Ubuntu/Debian)**:
+| Windows | macOS | Linux (Ubuntu/Debian) |
+|---|---|---|
+| 1. Go to https://nodejs.org | 1. Open Terminal (Cmd+Space, type "Terminal") | 1. Open Terminal |
+| 2. Click the LTS button | 2. `brew install node` — or download `.pkg` from nodejs.org | 2. `curl -fsSL https://deb.nodesource.com/setup_lts.x \| sudo -E bash -` |
+| 3. Download and run the `.msi` | 3. Run installer if using `.pkg` | 3. `sudo apt install -y nodejs` |
+| 4. Click Next through defaults | 4. Close and reopen Terminal | 4. Verify below |
+
+### Verify
+
 ```bash
-curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
-sudo apt install -y nodejs
 node --version
 ```
 
-## Step 2: Install Python 3
+**Expected output:**
+```
+v20.11.0
+```
 
-**Windows**:
+If you see `v18.x` or lower, upgrade. If you see "command not found", Node didn't install correctly — close and reopen your terminal, or reinstall.
+
+---
+
+## Step 2 — Install Python 3
+
+Apex hooks (like the CARL injector) are written in Python.
+
+### Windows
+
 1. Go to https://www.python.org/downloads/
-2. Click "Download Python 3.x" (the yellow button)
+2. Click the yellow "Download Python 3.x" button
 3. Run the installer
-4. **IMPORTANT**: check the box "Add Python to PATH" before clicking Install
-5. Click Install Now, finish
-6. Open a new terminal, run `python --version`
-7. Expect `Python 3.12.x` or similar.
+4. **IMPORTANT**: tick the box "Add Python to PATH" before clicking Install
+5. Click "Install Now" and let it finish
 
-**macOS**: Usually already installed. Check with `python3 --version`. If missing, `brew install python3`.
+### macOS
 
-**Linux**: Usually already installed. Check with `python3 --version`. If missing: `sudo apt install python3 python3-pip`.
+Usually already installed. Check with `python3 --version`. If missing:
+```bash
+brew install python3
+```
 
-## Step 3: Install Git
+### Linux
 
-**Windows**:
+Usually already installed. Check with `python3 --version`. If missing:
+```bash
+sudo apt install python3 python3-pip
+```
+
+### Verify (all OSes)
+
+```bash
+python3 --version
+```
+
+**Expected output:**
+```
+Python 3.12.1
+```
+
+Anything 3.10 or higher is fine. Older than 3.10, upgrade.
+
+---
+
+## Step 3 — Install Git
+
+### Windows
+
 1. Go to https://git-scm.com/download/win
 2. Download and run the installer
-3. Click Next through everything (defaults are fine)
-4. After install, you have a new program: "Git Bash" — this is a better terminal for Windows. We'll use it going forward.
+3. Click Next through all the defaults
+4. After install you have a new program: **Git Bash** — a Linux-style terminal for Windows. We'll use it from here on.
 
-**macOS**: Run `git --version` in Terminal. If prompted, macOS will offer to install developer tools — accept. Otherwise: `brew install git`.
+### macOS
 
-**Linux**: `sudo apt install git`
+Run `git --version` in Terminal. If it's missing, macOS offers to install developer tools — accept. Or:
+```bash
+brew install git
+```
 
-## Step 4: Install Claude Code
+### Linux
 
-Open your terminal (Git Bash on Windows, Terminal on Mac/Linux), then run:
+```bash
+sudo apt install git
+```
+
+### Verify (all OSes)
+
+```bash
+git --version
+```
+
+**Expected output:**
+```
+git version 2.43.0
+```
+
+---
+
+## Step 4 — Install Claude Code
+
+Now for the main program. Open your terminal (Git Bash on Windows, Terminal on Mac/Linux) and run:
 
 ```bash
 npm install -g @anthropic-ai/claude-code
 ```
 
-Wait for it to finish (could be 30 seconds). Then type:
+This downloads and installs Claude Code globally. Takes about 30 seconds.
+
+### Verify
 
 ```bash
 claude --version
 ```
 
-You should see a version number like `2.1.80`. You now have Claude Code installed.
+**Expected output:**
+```
+Claude Code 2.1.80
+```
 
-First time you run `claude`, it will ask you to log in. Follow the prompts — it opens a browser and links your terminal to your Claude account. If you don't have a Claude account, sign up free at https://claude.ai.
+Any 2.1.x or higher is fine.
 
-## Step 5: Install Claude Apex (this repo)
+### First run — log in
 
-Still in your terminal, run:
+```bash
+claude
+```
+
+**Expected output (first time):**
+```
+Welcome to Claude Code
+
+To continue, please log in to your Claude account.
+Opening browser...
+
+[Browser opens to claude.ai/login]
+
+Waiting for authentication...
+```
+
+Complete the login in your browser, then come back to the terminal. Claude Code shows its welcome prompt:
+
+```
+Claude Code v2.1.80
+Type /help for commands, or just ask a question.
+
+>
+```
+
+Type `/exit` and press Enter to quit for now. Continue to Step 5.
+
+If you don't have a Claude account yet, sign up free at https://claude.ai.
+
+---
+
+## Step 5 — Install Claude Apex (this repo)
+
+Still in your terminal:
 
 ```bash
 git clone https://github.com/YousefNabil-SOC/claude-apex.git
 cd claude-apex
 ```
 
-On **Mac/Linux**:
+**Expected output:**
+```
+Cloning into 'claude-apex'...
+remote: Enumerating objects: 847, done.
+Receiving objects: 100% (847/847), 1.23 MiB | 2.1 MiB/s, done.
+Resolving deltas: 100% (421/421), done.
+```
+
+Now run the installer. Pick your OS:
+
+### Mac / Linux / Windows Git Bash
 ```bash
 bash install.sh
 ```
 
-On **Windows** (use PowerShell, not Git Bash, for this one):
+### Windows PowerShell (if you prefer)
 ```powershell
 ./install.ps1
 ```
 
-The installer asks for confirmation, then installs everything in about 1-2 minutes. You'll see a lot of `[INSTALL]` and `[SKIP]` messages — that's normal.
+The installer will:
+1. Check prerequisites
+2. Ask for your confirmation
+3. Back up your existing `~/.claude/` folder
+4. Install 25 agents, ~45 commands, 7 hooks, 9 skills
+5. Configure 4 MCP servers and 5 hook events in `settings.json`
+6. Print what to do next
 
-**What the installer does**:
-1. Backs up your existing `~/.claude/` folder to a timestamped backup
-2. Adds 25 new agents, 44+ commands, 7 hooks, 9 skills
-3. Configures 4 MCP servers in settings.json
-4. Configures 5 hooks (CARL, SessionStart, Stop, PostCompact)
-5. Prints instructions for the final 2 plugin installs
+**Expected output (abbreviated):**
+```
+==============================================
+  Claude Apex V7 — Installation
+  by Engineer Yousef Nabil
+  github.com/YousefNabil-SOC/claude-apex
+==============================================
 
-## Step 6: Add your API keys (optional but recommended)
+Checking prerequisites...
+  [OK] Claude Code: 2.1.80
+  [OK] Node.js: v20.11.0
+  [OK] Python 3: 3.12.1
+  [OK] Git: 2.43.0
+  [OK] npm: 10.2.4
 
-Several MCP servers need API keys. Skip this step if you just want to try Claude Code — the basic version works without these.
+Continue? (y/n): y
 
-1. Copy the env template:
-   ```bash
-   cp config/env.template ~/.claude/.env
-   ```
+Creating backup...
+  [OK] Backup saved to /home/you/.claude/backups/pre-apex-20260424-103015
 
-2. Open `~/.claude/.env` in any text editor. On Windows:
-   ```bash
-   notepad ~/.claude/.env
-   ```
-   On Mac:
-   ```bash
-   open -e ~/.claude/.env
-   ```
+Installing agents (25 specialists)...
+  [INSTALL] architect.md
+  [INSTALL] code-reviewer.md
+  ... (23 more) ...
 
-3. Fill in the keys you want:
-   - `FAL_KEY` — get from https://fal.ai/dashboard/keys (for AI image generation)
-   - `GITHUB_PERSONAL_ACCESS_TOKEN` — create at https://github.com/settings/tokens (for GitHub PR/issue operations)
-   - `EXA_API_KEY` — get from https://exa.ai (for web search)
-   - `TWENTY_FIRST_DEV_API_KEY` — get from https://21st.dev (for premium component generation)
+Installing commands...
+  [INSTALL] healthcheck.md
+  [INSTALL] switch-project.md
+  ... (43 more) ...
 
-4. Save the file.
+Installing hooks (V7 fixed versions)...
+  [INSTALL] carl-hook.py
+  [INSTALL] session-start-check.sh
+  ... (5 more) ...
 
-5. Set permissions (Mac/Linux only):
-   ```bash
-   chmod 600 ~/.claude/.env
-   ```
+Installing Apex skills (9 custom)...
+  [INSTALL] skill: premium-web-design
+  [INSTALL] skill: 21st-dev-magic
+  ... (7 more) ...
 
-Your keys never leave your computer. They are stored locally only.
+Installing CARL domains (9 domains, 40 rules)...
+  [INSTALL] carl.json (9 domains, 40 rules)
 
-## Step 7: Install the plugins (finish the install)
+Installing config files (V7 three-layer routing)...
+  [INSTALL] ORCHESTRATION-ENGINE.md
+  [INSTALL] CAPABILITY-REGISTRY.md
+  [INSTALL] COMMAND-REGISTRY.md
+  [INSTALL] AGENTS.md
+  [INSTALL] AUTO-ACTIVATION-MATRIX.md
 
-Open a **new** terminal window. Run `claude`. Once Claude Code starts, paste this:
+Configuring MCP servers (4 Apex defaults)...
+  [INSTALL] MCP: playwright
+  [INSTALL] MCP: github
+  [INSTALL] MCP: exa-web-search
+  [INSTALL] MCP: @21st-dev/magic
+
+Configuring hooks in settings.json (5 events)...
+  [INSTALL] PostCompact hook
+  [INSTALL] Stop hooks (session-end-save + task-complete-sound)
+  [INSTALL] UserPromptSubmit hook (CARL)
+  [INSTALL] SessionStart hook chain
+
+==============================================
+  Claude Apex V7 installed successfully!
+  Prepared by Engineer Yousef Nabil
+  Star the repo: github.com/YousefNabil-SOC/claude-apex
+==============================================
+
+  Installed: 87
+  Skipped:   0 (already existed)
+
+  Backup at: /home/you/.claude/backups/pre-apex-20260424-103015
+```
+
+---
+
+## Step 6 — Add your API keys (optional, recommended)
+
+Some MCP servers need API keys. Skip this step if you want to try Apex without them — the core works without keys.
+
+### Copy the template
+
+```bash
+cp config/env.template ~/.claude/.env
+```
+
+### Open the file
+
+Windows Git Bash:
+```bash
+notepad ~/.claude/.env
+```
+
+macOS:
+```bash
+open -e ~/.claude/.env
+```
+
+Linux:
+```bash
+nano ~/.claude/.env
+```
+
+### Fill in the keys you want
+
+```
+FAL_KEY=your_fal_ai_key_here           # https://fal.ai/dashboard/keys — AI image generation
+GITHUB_PERSONAL_ACCESS_TOKEN=ghp_...    # https://github.com/settings/tokens — GitHub PRs/issues
+EXA_API_KEY=...                         # https://exa.ai — web search
+TWENTY_FIRST_DEV_API_KEY=...            # https://21st.dev — React component generation
+```
+
+Save the file.
+
+### Set permissions (Mac/Linux only)
+
+```bash
+chmod 600 ~/.claude/.env
+```
+
+This prevents other users on the machine from reading your keys.
+
+Your keys stay on your computer. They are never uploaded anywhere by Apex.
+
+---
+
+## Step 7 — Install plugins (unlock the full 1,276+ skills)
+
+Apex ships with 9 custom skills. Two plugins add 1,267 more.
+
+Open a **new** terminal. Run:
+```bash
+claude
+```
+
+Once Claude Code starts, paste this whole block:
 
 ```
 I just installed Claude Apex V7. Please run:
@@ -163,18 +360,96 @@ I just installed Claude Apex V7. Please run:
 6. /healthcheck
 ```
 
-Claude will run each step and report. The final `/healthcheck` should show all systems green.
+Claude Code will run each step and report. After this, you have 1,276+ skills and 108 agents available.
 
-## Step 8: Verify
+---
 
-Run the verification script:
+## Step 8 — Verify
+
+Go back to your terminal in the claude-apex folder:
+
 ```bash
 cd claude-apex
 bash verify.sh
 ```
 
-You should see lots of `[PASS]` and a final summary `RESULTS: 30+ passed | 0 failed`. If you see `[FAIL]`, read [10-TROUBLESHOOT-FOR-BEGINNERS.md](10-TROUBLESHOOT-FOR-BEGINNERS.md).
+**Expected output (abbreviated):**
+```
+===========================================================
+  CLAUDE APEX V7 -- Post-Install Verification
+===========================================================
 
-## Done
+--- AGENTS (target: 25) ---
+  [PASS]  Agent count -- 25 agents installed
+  [PASS]  Critical agent -- architect.md
+  [PASS]  Critical agent -- code-reviewer.md
+  ...
 
-You now have the most powerful Claude Code environment on the planet. Next: [03-FIRST-TIME-USING.md](03-FIRST-TIME-USING.md) to learn your first commands.
+--- APEX CUSTOM SKILLS (9 expected) ---
+  [PASS]  Skill -- premium-web-design
+  [PASS]  Skill -- 21st-dev-magic
+  ...
+
+--- CONFIGURATION ---
+  [PASS]  CARL -- 9 domains, 40 rules (V7 target met)
+  [PASS]  Config -- ORCHESTRATION-ENGINE.md
+  ...
+
+===========================================================
+  RESULTS: 35 passed | 0 warnings | 0 failed
+===========================================================
+
+  PERFECT -- Your environment fully matches Apex V7.
+
+Claude Apex V7 — by Engineer Yousef Nabil
+https://github.com/YousefNabil-SOC/claude-apex
+```
+
+If you see `[FAIL]`, go to **[10-TROUBLESHOOT-FOR-BEGINNERS.md](10-TROUBLESHOOT-FOR-BEGINNERS.md)**.
+
+---
+
+## Done — final verification
+
+Open Claude Code:
+
+```bash
+claude
+```
+
+Type and press Enter:
+
+```
+/healthcheck
+```
+
+**Expected output:**
+```
+System Health Check V7
+
+ #  | System              | Status | Details
+----|---------------------|--------|--------------------------------
+ 1  | OMC Plugin          | OK     | oh-my-claudecode@omc enabled
+ 2  | PAUL Framework      | OK     | 28 commands
+ 3  | CARL                | OK     | 9 domains, 40 rules configured
+ ... (15 more checks) ...
+
+Result: 18/18 OK — all systems green
+```
+
+If you see `18/18 OK`, congratulations — you now have the most powerful Claude Code environment that exists on a consumer computer.
+
+## What You Learned
+
+- Node.js 20+, Python 3.10+, Git, and a Claude account are the four prerequisites.
+- The installer is non-destructive — your old `~/.claude/` is backed up with a timestamp before any changes.
+- Skipped files are safe — the installer never overwrites.
+- Two plugins (everything-claude-code and oh-my-claudecode) unlock the full 1,276+ skills and 108 agents.
+- `verify.sh` catches install issues before you hit them in Claude Code.
+
+## Next Step
+
+You now have Apex installed. Go to **[03-FIRST-TIME-USING.md](03-FIRST-TIME-USING.md)** to learn your first 10 commands.
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

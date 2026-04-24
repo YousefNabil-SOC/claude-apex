@@ -591,4 +591,16 @@ EOF
 
 ---
 
+## Pro Tips
+
+- **Start with an existing agent.** Copy `~/.claude/agents/code-reviewer.md` and modify — frontmatter format stays consistent.
+- **Test CARL domains with devmode.** Set `config.devmode: true` in carl.json for a session to see which rules fire.
+- **Keep custom rules in CARL, not CLAUDE.md.** CARL is JIT; CLAUDE.md loads every session.
+- **Project-specific CLAUDE.md wins.** If you have a project-level CLAUDE.md, it overrides global rules for that project.
+- **Don't fight the routing.** If you're constantly overriding orchestration, something in your task description is misleading it — refine the prompt, not the config.
+- **Commit your customizations.** Keep `~/.claude/agents/my-*.md` and `~/.carl/carl.json` in a private dotfiles repo so you don't lose them.
+
 **Next**: [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) → Common issues and solutions
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

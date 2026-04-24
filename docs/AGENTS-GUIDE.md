@@ -1,4 +1,4 @@
-# Agents Guide: Working with 108 Specialist Agents
+# Agents Guide — Working with 108 Specialist Agents
 
 ## Quick Start
 
@@ -6,344 +6,381 @@ Find the right agent for your task:
 
 ```bash
 # List all agents
-ls ~/.claude/agents/
+/agents
 
-# Auto-select agent for task
-/paul:plan "Your task here"
-# Apex suggests optimal agent(s)
+# Let Apex auto-select (recommended)
+autopilot: "Your task here"
 
-# Manually trigger agent
+# Manually trigger a specific agent
 agent:code-reviewer "Review my PR"
 ```
 
-## 25 Core Agents (Public)
+## The 25 Apex Custom Agents (shipped with this repo)
 
-### Planning & Analysis
-| Agent | Purpose | Trigger |
-|-------|---------|---------|
-| **planner** | Implementation planning | `agent:planner "Build feature X"` |
-| **architect** | System design decisions | `agent:architect "Design database"` |
-| **product-manager** | Feature scoping, roadmaps | `agent:product-manager "Roadmap Q2"` |
-| **analyst** | Market/data analysis | `agent:analyst "Analyze competitor"` |
+Grouped by division. Each row shows the agent's model tier and when to use it.
 
-### Development
-| Agent | Purpose | Trigger |
-|-------|---------|---------|
-| **code-reviewer** | Code quality assessment | `agent:code-reviewer "Review PR #123"` |
-| **tdd-guide** | Test-driven development | `agent:tdd-guide "Write tests first"` |
-| **refactor-cleaner** | Dead code, tech debt | `agent:refactor-cleaner "Clean up utils/"` |
-| **backend-dev** | Server-side architecture | `agent:backend-dev "API design"` |
-| **frontend-dev** | Client-side architecture | `agent:frontend-dev "Component system"` |
+### Engineering Division (9 agents)
 
-### Quality & Security
-| Agent | Purpose | Trigger |
-|-------|---------|---------|
-| **security-reviewer** | Vulnerability assessment | `agent:security-reviewer "Audit auth"` |
-| **performance-optimizer** | Speed & efficiency | `agent:performance-optimizer "Profile API"` |
-| **accessibility-reviewer** | WCAG/a11y compliance | `agent:accessibility-reviewer "Check a11y"` |
-| **build-error-resolver** | Compilation & CI/CD | `agent:build-error-resolver "Fix build"` |
+| Agent | Model | Purpose | Typical trigger |
+|---|---|---|---|
+| **architect** | Opus | System design, component relationships, architectural decisions | New features, refactors, scaling decisions |
+| **planner** | Opus | Implementation planning, phase breakdown, risk identification | Complex multi-phase work |
+| **code-reviewer** | Sonnet | Code quality, conventions, maintainability | After any code change |
+| **build-error-resolver** | Sonnet | Fix failing builds, resolve dependency conflicts | When `npm run build` fails |
+| **refactor-cleaner** | Sonnet | Dead code removal, duplicate consolidation | Maintenance cycles |
+| **tdd-guide** | Sonnet | Write tests first, drive 80%+ coverage | New features, bug fixes |
+| **go-reviewer** | Sonnet | Idiomatic Go, concurrency, error handling | Go code changes |
+| **go-build-resolver** | Sonnet | Go build/vet/linter errors | Go build fails |
+| **python-reviewer** | Sonnet | PEP 8, Pythonic idioms, type hints, security | Python code changes |
 
-### Documentation & Communication
-| Agent | Purpose | Trigger |
-|-------|---------|---------|
-| **doc-updater** | Technical documentation | `agent:doc-updater "Update README"` |
-| **technical-writer** | User-facing docs | `agent:technical-writer "Write guide"` |
-| **content-creator** | Blog posts, marketing | `agent:content-creator "Blog post"` |
+### Review & Quality Division (3 agents)
 
-### Specialized
-| Agent | Purpose | Trigger |
-|-------|---------|---------|
-| **devops-engineer** | Infrastructure, deployment | `agent:devops-engineer "Setup CI/CD"` |
-| **database-admin** | SQL, migrations, indexing | `agent:database-admin "Optimize queries"` |
-| **e2e-runner** | End-to-end testing | `agent:e2e-runner "Test user flow"` |
-| **ml-engineer** | ML/AI pipelines | `agent:ml-engineer "Train model"` |
-| **security-researcher** | OSINT, threat modeling | `agent:security-researcher "Threat model"` |
+| Agent | Model | Purpose | Typical trigger |
+|---|---|---|---|
+| **security-reviewer** | Sonnet | OWASP Top 10, secrets, injection, auth flaws | Before commits, auth/API code |
+| **database-reviewer** | Sonnet | PostgreSQL optimization, schema, query perf | SQL migrations, slow queries |
+| **e2e-runner** | Sonnet | End-to-end tests via Vercel Browser / Playwright | Critical user flows, regression prevention |
+
+### SEO Division (7 specialists)
+
+| Agent | Model | Purpose |
+|---|---|---|
+| **seo-content** | Sonnet | E-E-A-T, readability, AI citation readiness, thin-content detection |
+| **seo-geo** | Sonnet | AI search optimization (AI Overviews, ChatGPT, Perplexity, Bing Copilot) |
+| **seo-performance** | Sonnet | Core Web Vitals, page load, performance measurement |
+| **seo-schema** | Sonnet | Schema.org JSON-LD generation and validation |
+| **seo-sitemap** | Sonnet | XML sitemap validation, generation, quality gates |
+| **seo-technical** | Sonnet | Crawlability, indexability, robots, canonical, JS rendering |
+| **seo-visual** | Sonnet | Above-the-fold analysis, mobile rendering, Playwright screenshots |
+
+### Business & Strategy Division (3 agents)
+
+| Agent | Model | Purpose |
+|---|---|---|
+| **cs-ceo-advisor** | Opus | Vision, strategy, board, investor relations, org culture |
+| **cs-cto-advisor** | Opus | Technology strategy, team scaling, architecture decisions |
+| **chief-of-staff** | Sonnet | Multi-channel comms triage (email/Slack/LINE/Messenger) |
+
+### Documentation & Operations (3 agents)
+
+| Agent | Model | Purpose |
+|---|---|---|
+| **doc-updater** | Sonnet | README, codemap, guide updates; generates `docs/CODEMAPS/` |
+| **loop-operator** | Sonnet | Operate autonomous agent loops, intervene when stalled |
+| **harness-optimizer** | Sonnet | Tune local agent harness for reliability, cost, throughput |
+
+## The Other 83 Agents
+
+### RuFlo (51 via `claude-flow` MCP server)
+
+Core (5): coder, reviewer, tester, planner, researcher
+V3 Specialized (4): security-architect, security-auditor, memory-specialist, performance-engineer
+Swarm Coordination (5): hierarchical-coordinator, mesh-coordinator, adaptive-coordinator, collective-intelligence-coordinator, swarm-memory-manager
+Consensus (7): byzantine-coordinator, raft-manager, gossip-coordinator, consensus-builder, crdt-synchronizer, quorum-manager, security-manager
+Performance (5): perf-analyzer, performance-benchmarker, task-orchestrator, memory-coordinator, smart-agent
+GitHub (9): github-modes, pr-manager, code-review-swarm, issue-tracker, release-manager, workflow-automation, project-board-sync, repo-architect, multi-repo-swarm
+SPARC (6): sparc-coord, sparc-coder, specification, pseudocode, architecture, refinement
+Specialized Dev (8): backend-dev, mobile-dev, ml-developer, cicd-engineer, api-docs, system-architect, code-analyzer, base-template-generator
+Testing (2): tdd-london-swarm, production-validator
+
+### OMC (19 via `oh-my-claudecode` plugin)
+
+analyst, architect, code-reviewer, code-simplifier, critic, debugger, designer, document-specialist, executor, explore, git-master, planner, qa-tester, scientist, security-reviewer, test-engineer, tracer, verifier, writer
+
+### Plugin-provided (13 unique across various plugins)
+
+agent-sdk-verifier, code-architect, code-explorer, comment-analyzer, pr-test-analyzer, silent-failure-hunter, type-design-analyzer, and more.
+
+## Model Routing Table
+
+Apex routes each agent to the right model based on task complexity. Model choice is in each agent's frontmatter.
+
+### Opus — deepest reasoning (most expensive, slowest)
+
+| Agent | Why Opus |
+|---|---|
+| architect | Architectural decisions require synthesis across many files and tradeoffs |
+| planner | Planning needs to anticipate edge cases and surface assumptions |
+| critic | Critique requires multi-perspective evaluation |
+| analyst | Business/market analysis benefits from deep reasoning |
+| code-reviewer (OMC) | High-stakes reviews on critical paths |
+| code-simplifier (OMC) | Refactoring requires holistic understanding |
+| cs-ceo-advisor | Strategic decisions benefit from nuanced reasoning |
+| cs-cto-advisor | Tech strategy requires evaluating architectural implications |
+
+### Sonnet — balanced (default for most specialist work)
+
+Most Apex custom agents use Sonnet: code-reviewer, security-reviewer, tdd-guide, build-error-resolver, database-reviewer, python-reviewer, go-reviewer, all 7 SEO agents, doc-updater, chief-of-staff, loop-operator, harness-optimizer, e2e-runner, refactor-cleaner.
+
+OMC Sonnet agents: executor, debugger, designer, verifier, tracer, security-reviewer, test-engineer, qa-tester, scientist, git-master, document-specialist.
+
+### Haiku — fast and cheap (exploration, writing)
+
+| Agent | Why Haiku |
+|---|---|
+| explore (OMC) | Exploratory searches across codebase, low-stakes |
+| writer (OMC) | Drafting docs, low reasoning, high volume |
+| Default subagent | Env var `CLAUDE_CODE_SUBAGENT_MODEL=haiku` makes all subagents Haiku by default |
+
+### Why this matters
+
+Running everything on Opus is expensive: an autopilot task spawning 5 Opus agents costs 5× a Sonnet run. Running everything on Haiku misses nuance: architectural decisions need more than Haiku's quick reads.
+
+V7 model routing means you pay for depth only where depth pays off.
 
 ## Agent Anatomy (Frontmatter)
 
-Every agent has this structure:
+Every agent file has this structure:
 
 ```yaml
 ---
-name: code-reviewer
-role: Code Quality Specialist
-model: sonnet          # haiku/sonnet/opus
-specialties:
-  - Code review
-  - Security scanning
-  - Performance analysis
-constraints:
-  - Review 1 file per session
-  - Flag blockers only
-trigger_keywords:
-  - review
-  - audit
-  - quality
+description: One-line description of what this agent does
+model: sonnet
+tools: Read, Grep, Glob, Bash
 ---
 
 # Code Reviewer
 
-**Purpose**: Identify bugs, security issues, and code smells.
-
-**When to use**:
-- After writing code
-- Before committing
-- During PR reviews
-
-**What it does**:
-1. Scans for CRITICAL/HIGH issues
-2. Flags security vulnerabilities
-3. Suggests optimizations
-4. Rates overall code health (0-100)
-
-**Output**: Markdown report with issues, severity, fixes.
+Expert code review specialist. Proactively reviews code for quality, 
+security, and maintainability. Use immediately after writing or 
+modifying code. MUST BE USED for all code changes.
 ```
+
+**Required fields:**
+- `description` — shown in `/agents` list
+- `model` — `haiku` / `sonnet` / `opus`
+
+**Optional fields:**
+- `tools` — comma-separated allowed tools (default: all)
+
+**Body** — the system prompt for the agent. Written in second person ("You are a code reviewer...").
 
 ## Creating New Agents
 
-### Step 1: Create agent file
+### Step 1 — Create the agent file
 
 ```bash
-touch ~/.claude/agents/my-agent.md
+touch ~/.claude/agents/my-specialist.md
 ```
 
-### Step 2: Add frontmatter + instructions
-
-```yaml
----
-name: my-agent
-role: Your Agent Role
-model: sonnet
-specialties:
-  - Thing 1
-  - Thing 2
-trigger_keywords:
-  - keyword1
-  - keyword2
----
-
-# My Agent
-
-**Purpose**: One sentence describing what this agent does.
-
-**When to use**: Specific scenarios.
-
-**Constraints**: 
-- Limit 1
-- Limit 2
-
-**How it works**:
-1. Step 1
-2. Step 2
-3. Step 3
-
-**Output format**: What the user receives.
-
-**Example invocation**:
-\`\`\`
-agent:my-agent "Your prompt"
-\`\`\`
-```
-
-### Step 3: Register in AGENTS.md
-
-Add to `~/.claude/AGENTS.md`:
+### Step 2 — Add frontmatter + instructions
 
 ```markdown
-| my-agent | Your role | `agent:my-agent "task"` | Specialties |
+---
+description: My custom specialist for X
+model: sonnet
+tools: Read, Edit, Bash, Grep
+---
+
+# My Specialist
+
+You are a specialist in X. When invoked:
+
+1. Read the relevant files
+2. Analyze for <criteria>
+3. Report findings in this format:
+   - Issues found (severity: CRITICAL, HIGH, MEDIUM, LOW)
+   - Recommended fixes
+   - Code examples
+
+Constraints:
+- Stay focused on X only
+- Never recommend changes outside scope
 ```
 
-### Step 4: Test
+### Step 3 — Invoke it
 
-```bash
-agent:my-agent "Test prompt"
 ```
+agent:my-specialist "Your task"
+```
+
+Or let Apex auto-select: if the task matches your agent's domain, it'll be picked.
 
 ## Auto-Selection vs Manual Triggering
 
-### Auto-Selection (Recommended)
-Apex picks the best agent:
+### Auto-Selection (recommended for most tasks)
 
 ```
-/paul:plan "Refactor authentication"
-# Apex suggests: architect + tdd-guide + security-reviewer
+autopilot: Refactor authentication
 ```
 
-**Advantages**:
-- Optimal agent(s) for task
-- Saves thinking time
-- Multi-agent collaboration
+Apex picks the best agents:
+- architect (Opus) — plans the refactor
+- security-reviewer (Sonnet) — audits auth
+- tdd-guide (Sonnet) — writes tests
+- code-reviewer (Sonnet) — validates output
 
-### Manual Triggering
-You pick the agent:
+Advantages: optimal agent combo, saves thinking time, enables parallel execution.
+
+### Manual Triggering (precise control)
 
 ```
-agent:security-reviewer "Audit password hashing"
+agent:security-reviewer "Audit password hashing in auth.ts"
 ```
 
-**Advantages**:
-- Precise control
-- Single-agent focus
-- Faster feedback
+Advantages: focused single-agent output, faster for narrow tasks.
 
-## Agent Teams
+## Parallel Agent Dispatch
 
-Run multiple agents in parallel:
+For independent tasks, Apex launches multiple agents in parallel via a single tool-call batch:
+
+```
+review this PR
+```
+
+Internally:
+```
+Agent call 1: code-reviewer    ─┐
+Agent call 2: security-reviewer ├─ all run at the same time
+Agent call 3: tdd-guide        ─┘
+
+Then synthesize into one combined report.
+```
+
+Wall-clock time: ~60 seconds for all three vs ~3 minutes sequential.
+
+## Agent Teams (OMC team mode)
+
+For 3+ independent tasks, use `team N:`:
 
 ```bash
-# Sequential (one after another)
-agent:architect "Design schema"
-agent:tdd-guide "Write tests for schema"
-
-# Parallel (all at once)
-team 3:agent-review \
-  agent:code-reviewer \
-  agent:security-reviewer \
-  agent:performance-optimizer
+team 3:executor \
+  "Write unit tests for auth module" \
+  "Generate API docs for payment service" \
+  "Optimize image loading in product grid"
 ```
 
-## Model Assignment
-
-Choose agent model based on task complexity:
-
-```yaml
-# Haiku (fast, cheap) — 90% of Sonnet capability
-model: haiku
-# Use for: code review, simple refactoring, documentation
-
-# Sonnet (balanced) — best for most tasks
-model: sonnet
-# Use for: architecture, TDD, planning
-
-# Opus (deep reasoning) — maximum capability
-model: opus
-# Use for: security analysis, ML engineering, complex design
-```
+Creates 3 git worktrees, spawns 3 executor agents in parallel, opens 3 PRs.
 
 ## Agent Capabilities
 
 ### What ALL agents can do
+
 - Read files & codebases
 - Execute commands (bash)
-- Access MCP servers
-- Call 1,308+ skills
-- Use extended thinking (31K tokens)
+- Access configured MCP servers
+- Call 1,276+ skills
+- Use extended thinking (up to 10K tokens via MAX_THINKING_TOKENS)
 
-### Special capabilities
-Some agents have extras:
+### Special capabilities (tool restrictions)
 
-| Agent | Special Powers |
-|-------|---|
-| security-reviewer | PII detection, vulnerability scanner |
-| performance-optimizer | Profiler, benchmarking tools |
-| ml-engineer | TensorFlow, scikit-learn, PyTorch |
-| devops-engineer | Terraform, Kubernetes, Docker |
-| database-admin | SQL query optimizer, index analyzer |
+Some agents have restricted tool sets in their frontmatter:
+- `architect`: Read, Grep, Glob (read-only — for design decisions)
+- `code-reviewer`: Read, Grep, Glob, Bash (read + run tests, no edits)
+- `tdd-guide`: full toolset (writes tests + implementation)
 
-## Agent Output Formats
+## Agent Output Format
 
-### Standard Report
-```
-## Issues Found: 3
+Most Apex agents return structured reports:
 
-### 🔴 CRITICAL (1)
-- SQL injection vulnerability in user input validation
-  File: api/auth.js:45
-  Fix: Use parameterized queries
+```markdown
+## Review: src/auth/login.ts
 
-### 🟡 MEDIUM (2)
-- Missing error handler in async function
-  File: services/payment.js:82
-  Fix: Add try-catch block
+### CRITICAL (1)
+- Password compared with `==` on line 47 (timing attack)
+  Fix: Use `crypto.timingSafeEqual`
 
-## Code Health: 72/100
-- Security: 65/100
-- Performance: 78/100
-- Readability: 85/100
-```
+### HIGH (2)
+- No rate limiting on login endpoint
+  Fix: Add express-rate-limit middleware
+- Session tokens stored in localStorage (XSS risk)
+  Fix: Use httpOnly cookies
 
-### Structured Data
-```json
-{
-  "issues": [
-    {
-      "severity": "CRITICAL",
-      "type": "security",
-      "file": "api/auth.js",
-      "line": 45,
-      "description": "SQL injection vulnerability",
-      "fix": "Use parameterized queries"
-    }
-  ],
-  "health_score": 72
-}
+### MEDIUM (1)
+- Error messages leak whether user exists ("user not found" vs "wrong password")
+
+## Summary
+3 issues require immediate fix. Run tests before committing.
 ```
 
 ## Best Practices
 
-### 1. Give Context
+### 1. Give context
+
 ```
-❌ agent:architect "Design database"
-✅ agent:architect "Design database for [YOUR_PROJECT] — 
-   100 users, read-heavy, needs real-time notifications"
+# Bad
+agent:architect "Design database"
+
+# Good  
+agent:architect "Design database for my-webapp — 100K users, read-heavy, 
+needs real-time notifications, running on Supabase"
 ```
 
-### 2. Single Focus
+### 2. Single focus per invocation
+
 ```
-❌ agent:code-reviewer "Review everything"
-✅ agent:code-reviewer "Review /src/auth/ folder for security issues"
+# Bad
+agent:code-reviewer "Review everything"
+
+# Good
+agent:code-reviewer "Review src/auth/ for security issues"
 ```
 
-### 3. Sequence Dependent Tasks
+### 3. Sequence dependent tasks
+
 ```
-❌ Run 5 agents in parallel on untested code
-✅ tdd-guide → code-reviewer → security-reviewer (sequence)
+# Bad — running in parallel on untested code
+tdd-guide + code-reviewer + security-reviewer simultaneously
+
+# Good — sequence matters
+tdd-guide (writes tests) → code-reviewer (validates) → security-reviewer (audits)
 ```
 
-### 4. Use Right Agent
+### 4. Match agent to task
+
 ```
-❌ code-reviewer → backend-dev → security-reviewer
-✅ architect → tdd-guide → security-reviewer (aligned with task)
+# Wrong agent
+agent:cs-ceo-advisor "Fix this React bug"
+
+# Right agent
+agent:build-error-resolver "Fix this React bug"
 ```
+
+## Pro Tips
+
+- **Check the model routing table.** If you're running lots of Opus agents, costs add up. Downgrade to Sonnet where reasoning isn't deep.
+- **Let autopilot pick.** It knows which agents work well together and dispatches in parallel.
+- **Use `team N:` for >3 independent tasks.** Anything less is subagent territory.
+- **Read `~/.claude/AGENTS.md`.** Apex's full agent routing lives there — more detail than this doc.
+- **Keep custom agents narrow.** A 300-line system prompt beats a 2000-line one.
+- **Test your custom agent before relying on it.** Spawn it manually on a test case; verify output format.
 
 ## Troubleshooting
 
 ### Agent not responding
-```bash
-# Check agent status
-agent:my-agent "Test"
 
-# If timeout (>60s), check logs
-cat ~/.claude/memory/agent-health.md
 ```
+/healthcheck
+```
+
+Check the agent count (should be 108 after full install). If lower, re-run `bash install.sh`.
 
 ### Agent giving wrong advice
-```
-# Switch to different agent
-agent:code-reviewer "Review this" → try agent:architect instead
 
-# Or escalate to higher model
-# Edit agent file, change model: sonnet → opus
+Try a different agent:
+```
+# Was using code-reviewer but needed architect
+agent:architect "Reconsider this refactor"
+```
+
+Or escalate the model:
+```
+# Edit ~/.claude/agents/my-agent.md
+# Change: model: sonnet → model: opus
 ```
 
 ### Too many agents activated
-```bash
-# Limit to top 3
-/paul:plan "Task" --max-agents 3
+
+Apex limits to 5 parallel agents by default. If you want fewer:
+```
+# In settings.json:
+"omc": { "parallelization": { "maxWorkers": 3 } }
 ```
 
-## Agent Scheduling
+## Next Step
 
-Run agents on a schedule:
-
-```bash
-/schedule "Daily code review" "0 9 * * MON" \
-  "agent:code-reviewer 'Review daily'"
-
-/schedule "Weekly security audit" "0 10 * * FRI" \
-  "agent:security-reviewer 'Weekly audit'"
-```
+- [OMC-INTEGRATION.md](./OMC-INTEGRATION.md) — autopilot, ralph, team, deep-interview modes
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Where agents fit in the full stack
 
 ---
-
-**Next**: [ARCHITECTURE.md](./ARCHITECTURE.md) → See how agents fit in the 5-layer system
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

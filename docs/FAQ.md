@@ -1,690 +1,459 @@
-# FAQ: Frequently Asked Questions
+# FAQ — Frequently Asked Questions
 
-## General Questions
+## General
 
 ### Q: What is Claude Apex?
 
-**A**: Apex is a comprehensive Claude Code V6 environment with 1,308 skills, 108 agents, 12 MCP servers, and 19 plugins. It's a professional-grade orchestration system for automating complex development workflows.
+**A:** Claude Apex V7 is an enterprise-grade Claude Code environment with:
 
-Think of it as:
-- **CARL**: Smart rule system that loads just-in-time context (7 domains)
-- **Orchestration Engine**: Decision matrix that routes tasks to optimal execution strategy
-- **PAUL**: Structured planning framework for 3+ phase projects
-- **OMC**: Multi-agent autopilot with 4 execution modes (autopilot, ralph, team, deep-interview)
-- **Peers**: Multi-terminal communication for team coordination
-- **Memory System**: 3-tier persistence with auto-consolidation
+- **Three-layer auto-routing** (CARL + CAPABILITY-REGISTRY + COMMAND-REGISTRY) so natural-language prompts activate the right tools without slash commands
+- **25 specialist agents** + 51 RuFlo + 19 OMC + 13 plugin-unique = **108 total**
+- **1,276+ skills** (9 Apex custom + 1,267 via everything-claude-code plugin)
+- **4 default MCP servers** (playwright, github, exa-web-search, @21st-dev/magic) → up to 15 with optional
+- **9 CARL domains with 40 JIT rules**
+- **7 hooks** covering PostCompact, Stop, UserPromptSubmit, SessionStart-chain
 
 ### Q: Do I need Claude Code to use Apex?
 
-**A**: Yes. Apex is an extension/configuration of Claude Code. You need Claude Code installed first.
+**A:** Yes. Apex extends Claude Code; you need Claude Code installed first:
 
-Install order:
-1. Claude Code: `npm install -g @anthropic-ai/claude-code`
-2. Apex: Follow [GETTING-STARTED.md](./GETTING-STARTED.md)
+```bash
+npm install -g @anthropic-ai/claude-code
+```
+
+Then follow [02-INSTALL-FROM-ZERO.md](./02-INSTALL-FROM-ZERO.md).
 
 ### Q: Is Apex free?
 
-**A**: Apex itself is free (open-source). You pay for:
-- Claude API calls (via Anthropic account)
-- Optional: MCP integrations (GitHub, Supabase, etc.)
+**A:** Yes, MIT-licensed. You pay only for:
+- Claude API usage (via Anthropic; Haiku $0.80/M input, Sonnet $3/M, Opus $15/M)
+- Optional MCP integrations (GitHub PAT, Exa key, 21st.dev key, fal.ai credits)
 
 ### Q: What's the learning curve?
 
-**A**: Start with `/healthcheck` and `autopilot:`. You'll be productive in 10 minutes. Deep mastery takes 2-3 weeks of regular use.
+**A:** Productive in 10 minutes with `/healthcheck` and `autopilot:`. Full mastery takes 2-3 weeks of regular use.
 
-**Quick path**:
+**Quick path:**
 - Day 1: `/healthcheck` → `autopilot: "task"`
 - Day 2: `/paul:plan` → `/paul:apply` → `/paul:unify`
 - Week 2: Customize agents and CARL domains
 
 ### Q: Can I use Apex with existing Claude Code projects?
 
-**A**: Yes. Apex coexists with existing projects. You can:
-- Keep old projects as-is
-- Gradually add Apex to new projects
-- Mix Apex and non-Apex workflows
-
----
+**A:** Yes. Apex coexists with existing projects:
+- Existing files are never overwritten
+- Existing settings.json is merged, not replaced
+- Uninstall restores backup in one command
 
 ## Installation & Setup
 
-### Q: Can I install Apex on Windows?
+### Q: What are the exact prerequisites?
 
-**A**: Yes. Use Git Bash (includes Unix shell). See [WINDOWS-GUIDE.md](./WINDOWS-GUIDE.md) for full setup.
+**A:**
+- Node.js 20+
+- Python 3.10+
+- Git 2.0+
+- Claude Code 2.1.80+
+- A Claude account (free at https://claude.ai)
+- Windows 10+, macOS 12+, or Linux
 
-WSL2 also works but is optional.
+### Q: Can I install on Windows?
 
-### Q: What if I don't have Git Bash?
+**A:** Yes. Use Git Bash (ships with Git for Windows) or PowerShell. See [WINDOWS-GUIDE.md](./WINDOWS-GUIDE.md) for detailed setup.
 
-**A**: Install Git for Windows from https://git-scm.com/download/win (includes Git Bash).
-
-Apex doesn't work in PowerShell alone (needs Unix shell).
-
-### Q: Can I install on macOS?
-
-**A**: Yes. Install via Homebrew:
-```bash
-brew install claude-code
-```
-
-Then follow [GETTING-STARTED.md](./GETTING-STARTED.md).
-
-### Q: Can I install on Linux?
-
-**A**: Yes. Install via npm:
-```bash
-npm install -g @anthropic-ai/claude-code
-```
-
-Then follow [GETTING-STARTED.md](./GETTING-STARTED.md).
+WSL2 also works if you prefer native Linux inside Windows.
 
 ### Q: Do I need Docker?
 
-**A**: No. Apex runs natively. Docker is optional if you use container-based agents.
+**A:** No. Apex runs natively. Docker is optional.
 
-### Q: How much disk space do I need?
+### Q: How much disk space?
 
-**A**: Minimum 500MB for Apex + Node.js dependencies.
+**A:** ~500 MB for Apex + Node dependencies. 1-2 GB with all plugins including everything-claude-code.
 
-If you use all plugins: 1-2GB.
+### Q: What if my settings.json already has things in it?
 
----
+**A:** The installer **merges** — it only adds Apex entries that don't already exist. Your MCP servers, hooks, and other config stay intact. A timestamped backup is created before any changes.
+
+## Three-Layer Routing
+
+### Q: How does auto-routing actually work?
+
+**A:** Three layers fire on every prompt:
+
+**Layer 1 — CARL:** `carl-hook.py` matches prompt keywords to 9 domains, injects 3-8 matching rules into context (average ~200 tokens).
+
+**Layer 2 — CAPABILITY-REGISTRY:** Claude reads `~/.claude/CAPABILITY-REGISTRY.md` at session start. On each task, looks up the matching task-pattern row to pick skills, MCP servers, agents, CLI tools.
+
+**Layer 3 — COMMAND-REGISTRY:** Claude reads `~/.claude/COMMAND-REGISTRY.md` on demand. Maps user intent keywords to the best 1-3 slash commands.
+
+### Q: Do I ever need to type a slash command?
+
+**A:** Rarely. The three-layer routing activates the right tools from natural language. But you *can* force specific behavior with slash commands (e.g., `/paul:plan` when you explicitly want PAUL).
 
 ## Configuration & Customization
 
 ### Q: Can I customize Apex?
 
-**A**: Completely. See [CUSTOMIZATION.md](./CUSTOMIZATION.md).
+**A:** Fully. See [CUSTOMIZATION.md](./CUSTOMIZATION.md). You can:
 
-You can:
-- Create custom agents (10 lines YAML)
-- Add CARL domains (trigger keywords + rules)
-- Adjust orchestration routing
+- Add custom agents (10-line frontmatter + system prompt)
+- Add CARL domains (keywords + rules in `~/.carl/carl.json`)
+- Add MCP servers (`settings.json`)
+- Add hooks (script + `settings.json` entry)
 - Create project templates
-- Set custom shortcuts
+- Override routing rules
 
 ### Q: Can I use Apex for team projects?
 
-**A**: Yes. Use **Claude Peers** for multi-terminal coordination.
+**A:** Yes, via **Claude Peers** for multi-terminal coordination. See [PEERS-SETUP.md](./PEERS-SETUP.md).
 
-See [PEERS-SETUP.md](./PEERS-SETUP.md).
+One team member plans in Terminal 1; others execute in Terminals 2-3. All coordinate via shared memory at `~/.claude/memory/peers/shared/`.
 
-One team member can:
-- Plan in Terminal 1
-- Execute in Terminals 2-3 (in parallel)
-- All coordinate via shared memory
+### Q: Can I integrate Apex with external tools?
 
-### Q: Can I integrate Apex with my existing tools?
+**A:** Yes via MCP servers. Apex integrates with:
+- GitHub (PRs, issues, code search) — `github` MCP
+- Web search — `exa-web-search` MCP
+- Browser automation — `playwright` MCP
+- Component generation — `@21st-dev/magic` MCP
 
-**A**: Yes, via MCP servers. Apex integrates with:
-- GitHub (PRs, issues, code search)
-- Vercel (deployments)
-- Supabase (database)
-- Slack (notifications)
-- AWS, Google Cloud, Azure
-
-Add integrations in `~/.claude/settings.json`.
-
-### Q: Can I use Apex offline?
-
-**A**: Partially. You can:
-- Read documentation offline
-- Use local agents (no API calls needed)
-- View memory files
-
-But core features (autopilot, PAUL, deep-interview) need Claude API.
+Add more via `settings.json`.
 
 ### Q: Can I export my memory?
 
-**A**: Yes. Your memory is plain text:
+**A:** Yes. Memory is plain text:
 ```bash
 cat ~/.claude/memory/MEMORY.md
-cat ~/.claude/memory/SESSION-MEMORY.md
-cat ~/.claude/memory/lessons.md
+cat ~/.claude/memory/session-handoff.md
+cat ~/.claude/memory/learning-log.md
 ```
-
-Export to PDF/Word/JSON as needed.
-
----
 
 ## Agents & Skills
 
 ### Q: What's the difference between agents and skills?
 
-**A**: 
-- **Agents**: Autonomous specialists with personality and constraints (e.g., "code-reviewer")
-- **Skills**: Discrete capabilities/commands (e.g., "/healthcheck")
+**A:**
+- **Agents** are separate AI instances. They do work and report results.
+- **Skills** are recipe books. Claude reads them before acting.
 
-An agent might use 5 skills to complete a task.
-
-### Q: Can I create custom agents?
-
-**A**: Yes. See [AGENTS-GUIDE.md](./AGENTS-GUIDE.md).
-
-Simple 10-line YAML:
-```yaml
----
-name: my-specialist
-role: Your role here
-model: sonnet
-trigger_keywords:
-  - keyword1
-  - keyword2
-enabled: true
----
-
-# Agent Description
-...
-```
+An agent might read 5 skills before completing a task.
 
 ### Q: How do I know which agent to use?
 
-**A**: Orchestration Engine decides automatically. Or see [AGENTS-GUIDE.md](./AGENTS-GUIDE.md) for the 25 core agents.
-
-Quick reference:
-- **Complex feature**: Use `planner` agent
-- **After writing code**: Use `code-reviewer` agent
-- **Bug fix or test**: Use `tdd-guide` agent
-- **Security**: Use `security-reviewer` agent
+**A:** The Orchestration Engine picks automatically. Or pick manually:
+- **Complex feature:** `architect` + `planner`
+- **After writing code:** `code-reviewer`
+- **Bug fix with tests:** `tdd-guide`
+- **Security audit:** `security-reviewer`
+- **SEO work:** one of 7 `seo-*` agents
 
 ### Q: Can multiple agents work together?
 
-**A**: Yes. Apex chains agents:
-```bash
-autopilot: "Task"
-# Runs: analyst → planner → tdd-guide → code-reviewer → e2e-runner
+**A:** Yes — this is Apex's superpower. Three common patterns:
+
+**Parallel (same task, different perspectives):**
+```
+agent:code-reviewer + agent:security-reviewer + agent:tdd-guide
+# All review the same code simultaneously
 ```
 
-Or manually:
-```bash
-agent:planner "Create plan"
-agent:code-reviewer "Review output"
+**Sequential (pipeline):**
+```
+architect → tdd-guide → code-reviewer → security-reviewer
+```
+
+**Team mode (independent tasks):**
+```
+team 3:executor "Task 1" "Task 2" "Task 3"
 ```
 
 ### Q: What if an agent fails?
 
-**A**: Apex falls back to manual mode. See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md).
+**A:** The Orchestration Engine logs the failure to `memory/tool-health.md` and tries a fallback. If no fallback, it surfaces the error with context.
 
 Check: `/healthcheck` to see agent status.
-
----
 
 ## PAUL Framework
 
 ### Q: When should I use PAUL?
 
-**A**: Use PAUL for any task with 3+ phases.
-
-Examples:
-- Refactoring (assess → plan → implement → verify)
+**A:** Tasks with 3+ phases. Examples:
+- Refactoring
 - Database migrations
 - Architecture redesigns
-- Feature development (plan → implement → test → deploy)
+- Feature development spanning multiple days
 
-**Don't use PAUL for**:
-- Quick fixes (<5 minutes)
-- Single-file changes
-- Simple bugs
+**Don't** use PAUL for quick fixes (<5 minutes), single-file changes, or simple bugs.
 
 ### Q: What if I forget to run `/paul:unify`?
 
-**A**: PAUL stays "open" until you unify. Memory from apply phase stays in working memory.
-
-Always unify when done:
-```bash
-/paul:unify
-# Consolidates plan vs reality
-# Updates memory
-# Closes the loop
-```
+**A:** PAUL stays "open" until you unify. State persists in `~/.claude/memory/paul-state.json`. Always run `/paul:unify` to close — it's where the plan-vs-reality reconciliation and lessons-learned get persisted.
 
 ### Q: Can I pause and resume PAUL?
 
-**A**: Yes:
-```bash
+**A:** Yes:
+```
 /paul:pause
-# ... do other work ...
+# ... later ...
 /paul:resume
 ```
 
-Your PAUL state persists in `~/.claude/memory/paul-state.json`.
+State is in `memory/paul-state.json`.
 
 ### Q: How many phases can PAUL handle?
 
-**A**: 3-10 phases. Beyond 10, break into multiple PAUL cycles.
-
-Example:
-- PAUL 1: Plan (1 phase)
-- PAUL 2: Implement (3 phases)
-- PAUL 3: Deploy (2 phases)
-
----
+**A:** 3-10 ideal. Beyond 10, split into multiple PAUL cycles.
 
 ## OMC & Execution Modes
 
 ### Q: What's the difference between autopilot and PAUL?
 
-**A**:
-- **PAUL**: *You* decide structure. 3+ phases you define. Better for custom workflows.
-- **autopilot**: Apex decides structure. 5 fixed stages (research → plan → implement → review → verify).
+**A:**
+- **PAUL** = YOU decide structure. 3+ phases you define. Better for custom workflows.
+- **autopilot** = APEX decides structure. 5 fixed stages (research → plan → implement → review → verify).
 
 Use PAUL when you want control. Use autopilot when you want hands-off.
 
 ### Q: Can I interrupt autopilot?
 
-**A**: Yes:
-```bash
-# Ctrl+C stops autopilot
-# Current phase is saved
-# Resume later:
-autopilot: "Task" --resume
-```
+**A:** Yes. Ctrl+C cancels. Current phase is saved. Resume later with `autopilot: "same task" --resume`.
 
 ### Q: What's ralph mode?
 
-**A**: "Never-quit" persistent retry. Best for flaky tests or bugs that need multiple attempts.
+**A:** "Never-quit" persistent retry. Best for flaky tests or bugs that need multiple attempts.
 
-```bash
-ralph: "Fix flaky test"
-# Tries up to 5 times with different strategies
-# Escalates to higher models if needed
 ```
-
-### Q: Can I run team mode with more than 5 workers?
-
-**A**: Yes, up to 10 (configurable):
-```bash
-team 8:executor "Task1" "Task2" ... "Task8"
-
-# Configure max:
-/update-config omc.parallelization.maxWorkers 10
+ralph: "Fix flaky test"
+# Tries up to 5 times, escalates models on repeated failure
 ```
 
 ### Q: How much faster is team mode?
 
-**A**: ~2-3x speedup for independent tasks.
-
-Example:
-- Sequential: 2 hours for 3 tasks
-- Team mode: 45 minutes for 3 tasks (2.7x faster)
-
----
+**A:** ~2-3× for independent tasks. 3 tasks that take 1 hour each sequentially take ~25 minutes in team mode (roughly the slowest-task time + small coordination overhead).
 
 ## Memory System
 
 ### Q: How does memory work?
 
-**A**: 3-tier system:
+**A:** 4-file system at `~/.claude/memory/`:
 
-1. **Working** (MEMORY.md, 150 lines): Current session summary
-2. **Episodic** (SESSION-MEMORY.md): Project-level context
-3. **Semantic** (lessons.md): Permanent learnings
+- **MEMORY.md** — main memory (200-line soft limit)
+- **session-handoff.md** — session-end timestamps
+- **tool-health.md** — tool failures + fallbacks
+- **decisions.md** / **learning-log.md** — durable decisions and lessons
 
-Auto-saves after major tasks.
-
-### Q: What happens when MEMORY.md exceeds 150 lines?
-
-**A**: Dream consolidation auto-triggers:
-```bash
-consolidate memory
-# Phases: Orient → Gather → Consolidate → Prune
-# Result: MEMORY.md reduced, old entries archived
-```
+Auto-save after major tasks. Dream consolidation triggers when MEMORY.md grows too large.
 
 ### Q: Can I manually update MEMORY.md?
 
-**A**: Yes. Edit directly:
-```bash
-nano ~/.claude/memory/MEMORY.md
-```
+**A:** Yes. Edit directly. Apex respects your edits.
 
-Apex respects your edits.
+### Q: What happens when MEMORY.md exceeds 200 lines?
 
-### Q: What if I lose my memory?
+**A:** Dream consolidation auto-triggers (or manual: "consolidate memory"):
+- Phase 1: Orient — resume from last checkpoint
+- Phase 2: Gather — collect session events
+- Phase 3: Consolidate — abstract patterns
+- Phase 4: Prune — archive old entries
 
-**A**: Check archive:
-```bash
-ls ~/.claude/memory/archive/
-# Find recent session
-cat ~/.claude/memory/archive/session-42.md
-```
+Result: MEMORY.md shrinks, durable lessons move to `lessons.md`.
 
-Or restore from backup:
-```bash
-cp ~/claude-backup-MEMORY.md ~/.claude/MEMORY.md
-```
-
-### Q: Can I share memory between projects?
-
-**A**: Yes. Global lessons in `lessons.md` apply to all projects.
-
-Project-specific memory in:
-```bash
-~/.claude/projects/[PROJECT]/SESSION-MEMORY.md
-~/.claude/projects/[PROJECT]/lessons.md
-```
-
-### Q: How long is memory kept?
-
-**A**: 
-- Working memory (MEMORY.md): Current + last 3-5 sessions
-- Episodic (SESSION-MEMORY.md): Project lifetime (or until archived)
-- Semantic (lessons.md): Forever (permanent learnings)
-
-Archive old sessions after 30 days.
-
----
-
-## Orchestration Engine
-
-### Q: How does routing work?
-
-**A**: Orchestration Engine classifies tasks and routes to optimal strategy:
-
-- **DIRECT**: Simple fixes (<5 min)
-- **PAUL**: Multi-phase work (3+ phases)
-- **Team**: Parallel tasks (3+ independent)
-- **SEED**: Vague requirements (needs clarification)
-- **autoresearch**: Unknown root cause
-- **ralph**: Flaky/retry-heavy
-- **deep-interview**: Exploratory discovery
-
-See [ORCHESTRATION.md](./ORCHESTRATION.md) for decision matrix.
-
-### Q: Can I override routing?
-
-**A**: Yes. Force a route:
-```bash
-# Default routing (auto):
-"Your task"
-
-# Force DIRECT:
-direct: "Quick fix"
-
-# Force PAUL:
-/paul:init "Your task"
-
-# Force team:
-team 3:executor "Task 1" "Task 2" "Task 3"
-```
-
-### Q: What if routing chooses wrong?
-
-**A**: Report in memory and adjust:
-```bash
-# Add to memory:
-echo "Task X was routed to DIRECT but needed PAUL" >> ~/.claude/memory/MEMORY.md
-
-# Then adjust rules:
-/update-config orchestration.routes.PAUL.min_phases 2
-```
-
----
-
-## CARL (Context Auto-Recall Library)
+## CARL
 
 ### Q: What does CARL do?
 
-**A**: CARL loads context just-in-time based on keywords in your task.
+**A:** Context Augmentation & Reinforcement Layer. Loads domain-specific rules just-in-time based on keywords in your prompt.
 
-You say: "Optimize React component performance"
-
-CARL loads: libraries (React) + performance rules → 2.7x faster execution
-
-### Q: Can I create custom CARL domains?
-
-**A**: Yes. See [CARL-GUIDE.md](./CARL-GUIDE.md).
-
-```bash
-# Create domain file:
-touch ~/.claude/rules/my-domain.md
-
-# Add trigger keywords:
-trigger_keywords:
-  - keyword1
-  - keyword2
-
-# Add rules:
-## Rule 1: ...
-## Rule 2: ...
-```
+Example: "Deploy to Vercel" → DEPLOYMENT domain loads (6 rules) automatically.
 
 ### Q: How many domains can I have?
 
-**A**: Unlimited. Apex loads matching domains on every task.
+**A:** Unlimited. Apex ships 9. Add more in `~/.carl/carl.json`.
 
-Keep them focused (5-10 keywords per domain).
+Keep each domain focused (5-30 keywords, 1-10 rules).
 
----
+### Q: Can I disable a domain?
+
+**A:** Yes. Set `state: "disabled"` in `carl.json` for that domain.
 
 ## Peers & Multi-Terminal
 
 ### Q: How do Peers work?
 
-**A**: Claude Peers connects multiple Claude Code instances (terminals) via localhost:7899 broker.
-
-Terminal 1: Plan
-Terminal 2: Execute Task 1
-Terminal 3: Execute Task 2
-
-All share memory and messages.
+**A:** Claude Peers MCP runs a broker on `localhost:7899`. Multiple Claude Code terminals auto-register. They share messages and shared memory files.
 
 ### Q: Can Peers work across machines?
 
-**A**: Only on same local network (localhost:7899).
-
-For remote teams, use shared git repos + memory files.
+**A:** Only on the same local network (broker is localhost). For remote teams, use shared git repos + memory files.
 
 ### Q: How do I send messages between peers?
 
-**A**:
-```bash
-# List peers:
+**A:**
+```
 list_peers
-
-# Send message:
 send_message peer-terminal-2 "Your task is ready"
-
-# Receive:
 receive_message
-
-# Broadcast to all:
 send_message all "Update for everyone"
 ```
 
 See [PEERS-SETUP.md](./PEERS-SETUP.md).
 
----
-
 ## Troubleshooting & Support
 
 ### Q: Where do I find help?
 
-**A**: 
-1. See [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) for common issues
-2. Run `/healthcheck` for system status
-3. Check `~/.claude/memory/tool-health.md` for failed tools
-4. Read relevant guide (AGENTS-GUIDE.md, PAUL-INTEGRATION.md, etc.)
+**A:**
+1. [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) — common issues
+2. `/healthcheck` — system status
+3. `~/.claude/memory/tool-health.md` — failed tools
+4. Relevant guide (AGENTS-GUIDE.md, PAUL-INTEGRATION.md)
 
 ### Q: How do I report bugs?
 
-**A**: GitHub issues:
-1. Describe what happened
-2. Show error message
-3. Include: OS, Node version, Claude Code version
-4. Attach: `~/.claude/settings.json` (scrubbed)
+**A:** GitHub issues. Include:
+- OS (Windows/Mac/Linux)
+- Node version (`node -v`)
+- Python version (`python3 --version`)
+- Full `/healthcheck` output
+- Scrubbed `~/.claude/settings.json` (remove any keys)
 
 ### Q: Is there a community?
 
-**A**: GitHub Discussions + Discord (if available).
+**A:** GitHub Discussions and Issues at https://github.com/YousefNabil-SOC/claude-apex. Share custom agents, CARL domains, and tips.
 
-Share custom agents, CARL domains, and tips.
+### Q: Can I contribute?
 
-### Q: Can I contribute improvements?
-
-**A**: Yes! Pull requests welcome.
-
-See Contributing section in README.md.
-
----
+**A:** Pull requests welcome. See [CONTRIBUTING.md](../CONTRIBUTING.md).
 
 ## Compatibility & Versions
 
-### Q: What Claude Code versions work with Apex?
+### Q: What Claude Code versions work with Apex V7?
 
-**A**: Claude Code V6+.
+**A:** Claude Code 2.1.80 and higher.
 
-Check:
-```bash
-claude --version
-# Should show: v6.x or higher
-```
+### Q: Will Apex work on M1/M2 Mac?
 
-### Q: Can I use Apex with older Claude Code?
-
-**A**: No. V6 requires:
-- Extended thinking support
-- Multi-agent capabilities
-- MCP server framework
-
-Upgrade to V6:
-```bash
-npm install -g @anthropic-ai/claude-code@latest
-```
-
-### Q: Will Apex work on M1 Mac?
-
-**A**: Yes. Node.js and Git support M1 natively.
+**A:** Yes. All components support Apple Silicon natively.
 
 ### Q: Does Apex work on Windows ARM?
 
-**A**: Yes. Windows 11 ARM is supported (via node-arm64).
+**A:** Yes. Node.js supports Windows ARM64.
 
 ### Q: Can I use Apex in Docker?
 
-**A**: Yes. Create Dockerfile:
+**A:** Yes. Minimal Dockerfile:
 ```dockerfile
-FROM node:18-alpine
+FROM node:20-alpine
+RUN apk add python3 py3-pip git bash
 RUN npm install -g @anthropic-ai/claude-code
+WORKDIR /workspace
 ENTRYPOINT ["claude"]
 ```
-
-Then:
-```bash
-docker build -t apex .
-docker run -it apex
-```
-
----
 
 ## Billing & Costs
 
 ### Q: How much does Apex cost to run?
 
-**A**: Only Claude API charges (Anthropic).
+**A:** Only Anthropic API charges:
 
-- Haiku: $0.80/M input tokens
-- Sonnet: $3/M input tokens
-- Opus: $15/M input tokens
+| Model | Input cost | Use case |
+|---|---|---|
+| Haiku | $0.80/M tokens | Explore, writer, subagents |
+| Sonnet | $3/M tokens | Most specialist work |
+| Opus | $15/M tokens | Architect, planner, critic |
 
-Apex optimizes model selection (uses Haiku when possible).
+Apex optimizes model selection (uses Haiku for explore; Sonnet default; Opus only for deep reasoning).
 
-### Q: Can I monitor token usage?
-
-**A**: Yes:
-```bash
-# View usage statistics:
-/orchestration:stats
-
-# Check model routing decisions:
-/paul:plan "Task" --explain-model
-```
-
-### Q: How do I reduce costs?
-
-**A**: 
-1. Prefer Haiku (auto-selected for simple tasks)
-2. Use `consolidate memory` to compress context
-3. Avoid re-running same task (memory helps)
-4. Use `/compact` between phases to reduce context window
+Typical moderate user: $5-$20/month. Heavy autopilot users: $50-$200/month.
 
 ### Q: Can I set a token budget?
 
-**A**: Yes:
-```bash
-# Set max tokens per session:
-/update-config context.maxTokensPerSession 50000
-
-# Apex will warn before exceeding
+**A:** Indirectly via settings:
+```json
+{
+  "env": {
+    "MAX_THINKING_TOKENS": "10000",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50"
+  },
+  "effortLevel": "high"
+}
 ```
 
----
+Apex defaults to these V7 values to prevent runaway spend.
+
+### Q: How do I reduce costs?
+
+**A:**
+1. Keep effort at `high`, never `max`
+2. Let subagents use Haiku (default)
+3. Use Graphify instead of raw file reads (10-30× cheaper for navigation)
+4. Enable prompt caching (`ENABLE_PROMPT_CACHING_1H=1` — Apex default)
+5. Use `/compact` between phases
 
 ## Data & Privacy
 
 ### Q: Where is my data stored?
 
-**A**: Local machine only:
-```
-~/.claude/memory/          # Your memories
-~/.claude/settings.json    # Your config
-~/claude-apex/         # Your projects
-```
+**A:** Local only:
+- `~/.claude/memory/` — your memory
+- `~/.claude/settings.json` — config
+- `~/.carl/carl.json` — CARL rules
+- `~/.claude/.env` — API keys (chmod 600)
 
-Nothing is sent to Anthropic except API calls (text you submit).
+Nothing syncs to cloud unless you configure a cloud-backed MCP server.
 
 ### Q: Is Apex secure?
 
-**A**: Yes. Security features:
-- CARL loads rules locally (no remote fetch)
-- Memory stays on-disk (no cloud sync)
-- Git credentials stored securely (via git-credential)
-- No telemetry (unless you enable it)
+**A:**
+- CARL rules load locally (no remote fetch)
+- Memory stays on disk
+- Git credentials via standard `git-credential`
+- No telemetry
+- `.env` is excluded from git via `.gitignore`
+- API keys reference as `${VAR}` in `settings.json`, never inline
 
 ### Q: Can I use Apex with proprietary code?
 
-**A**: Yes. Everything stays local. No code is sent to Anthropic except:
-- Text you paste into Claude
-- File contents you explicitly share
-
-Memory files are never sent anywhere.
-
----
+**A:** Yes. Everything stays local. Code sent to Anthropic is only what you paste or what Claude explicitly reads during a conversation. Memory files never leave your machine.
 
 ## Uninstalling
 
 ### Q: How do I uninstall Apex?
 
-**A**: See [UNINSTALL.md](./UNINSTALL.md).
-
-Quick version:
+**A:**
 ```bash
-rm -rf ~/.claude
-npm uninstall -g @anthropic-ai/claude-code
+cd claude-apex
+bash uninstall.sh
 ```
+
+This restores your pre-Apex backup. See [UNINSTALL.md](./UNINSTALL.md).
 
 ### Q: Can I keep my memory after uninstalling?
 
-**A**: Yes. Backup first:
+**A:** Yes. Back up first:
 ```bash
 cp -r ~/.claude/memory ~/claude-backup-memory
 ```
 
-Then uninstall. Memory is portable text files.
+Then uninstall. Memory files are portable.
 
-### Q: What if I want to reinstall later?
+## Pro Tips
 
-**A**: Just reinstall:
-```bash
-npm install -g @anthropic-ai/claude-code
-# Your memory will still be there (if you backed up)
-```
+- **Read [02-INSTALL-FROM-ZERO.md](./02-INSTALL-FROM-ZERO.md) side-by-side** on your screen as you install — it shows expected output at every step.
+- **Bookmark `/healthcheck`.** It answers "is my install working?" in 10 seconds.
+- **Trust auto-routing.** The three-layer system knows more combinations of tools than you can hold in your head.
+- **Don't skip `/paul:unify`.** It's where lessons-learned get captured.
+- **Check `verify.sh` after every install.** 35+ checks beat "it seemed to work."
 
 ---
 
 **Still have questions?** Check the full documentation:
-- [GETTING-STARTED.md](./GETTING-STARTED.md) — Quick start
+- [00-START-HERE.md](./00-START-HERE.md) — Start here for beginners
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — System design
 - [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) — Common issues
 
 Or open an issue on GitHub.
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

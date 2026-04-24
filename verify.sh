@@ -285,3 +285,8 @@ else
 fi
 
 echo ""
+echo "==========================================================="
+echo "  Claude Apex V7 -- by Engineer Yousef Nabil"
+echo "  https://github.com/YousefNabil-SOC/claude-apex"
+echo "==========================================================="
+echo ""

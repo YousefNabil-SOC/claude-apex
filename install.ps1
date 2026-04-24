@@ -1,5 +1,6 @@
-# Claude Apex V6 Installer (Windows PowerShell)
+# Claude Apex V7 Installer (Windows PowerShell)
 # Non-destructive: backs up everything before changes
+# Author: Engineer Yousef Nabil -- https://github.com/YousefNabil-SOC/claude-apex
 
 $ErrorActionPreference = "Stop"
 $APEX_VERSION = "7.0.0"
@@ -13,10 +14,14 @@ $skipped = 0
 
 function Write-Banner {
     Write-Host ""
-    Write-Host "===============================================" -ForegroundColor Cyan
-    Write-Host "       CLAUDE APEX V$APEX_VERSION" -ForegroundColor Cyan
-    Write-Host "  1,276+ skills. 108 agents. 182 commands. Three-layer auto-routing." -ForegroundColor Cyan
-    Write-Host "===============================================" -ForegroundColor Cyan
+    Write-Host "=============================================="
+    Write-Host "  Claude Apex V$APEX_VERSION - Installation"
+    Write-Host "  by Engineer Yousef Nabil"
+    Write-Host "  github.com/YousefNabil-SOC/claude-apex"
+    Write-Host "=============================================="
+    Write-Host ""
+    Write-Host "  1,276+ skills. 108 agents. 182 commands." -ForegroundColor Cyan
+    Write-Host "  Three-layer auto-routing. One unified brain." -ForegroundColor Cyan
     Write-Host ""
 }
 
@@ -41,6 +46,19 @@ function Install-ApexFile {
         $parent = Split-Path -Parent $Dest
         if (-not (Test-Path $parent)) { New-Item -ItemType Directory -Path $parent -Force | Out-Null }
         Copy-Item $Source $Dest
+        Write-Host "  [INSTALL] $Label" -ForegroundColor Green
+        $script:installed++
+    }
+}
+
+function Install-ApexDir {
+    param($Source, $Dest, $Label)
+    if (Test-Path $Dest) {
+        Write-Host "  [SKIP] $Label (already exists)" -ForegroundColor Yellow
+        $script:skipped++
+    } else {
+        New-Item -ItemType Directory -Path $Dest -Force | Out-Null
+        Copy-Item "$Source\*" $Dest -Recurse -Force
         Write-Host "  [INSTALL] $Label" -ForegroundColor Green
         $script:installed++
     }
@@ -76,76 +94,142 @@ Write-Host "`nCreating backup..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path $BackupDir -Force | Out-Null
 if (Test-Path "$ClaudeDir\settings.json") { Copy-Item "$ClaudeDir\settings.json" $BackupDir }
 if (Test-Path "$ClaudeDir\CLAUDE.md") { Copy-Item "$ClaudeDir\CLAUDE.md" $BackupDir }
+if (Test-Path "$ClaudeDir\PRIMER.md") { Copy-Item "$ClaudeDir\PRIMER.md" $BackupDir }
 if (Test-Path "$ClaudeDir\agents") { Copy-Item "$ClaudeDir\agents" "$BackupDir\agents" -Recurse }
 if (Test-Path "$ClaudeDir\commands") { Copy-Item "$ClaudeDir\commands" "$BackupDir\commands" -Recurse }
 if (Test-Path "$ClaudeDir\hooks") { Copy-Item "$ClaudeDir\hooks" "$BackupDir\hooks" -Recurse }
 if (Test-Path $CarlDir) { Copy-Item $CarlDir "$BackupDir\carl-backup" -Recurse }
 Write-Host "  [OK] Backup saved to $BackupDir" -ForegroundColor Green
 
-# --- Install Agents ---
-Write-Host "`nInstalling agents..." -ForegroundColor Cyan
+# --- Install Agents (25 specialists) ---
+Write-Host "`nInstalling agents (25 specialists)..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path "$ClaudeDir\agents" -Force | Out-Null
 Get-ChildItem "$ScriptDir\agents\*.md" | Where-Object { $_.Name -ne "README.md" } | ForEach-Object {
     Install-ApexFile $_.FullName "$ClaudeDir\agents\$($_.Name)" $_.Name
 }
 
-# --- Install Commands ---
+# --- Install Commands (~45 top-level + 3 subdirs) ---
 Write-Host "`nInstalling commands..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path "$ClaudeDir\commands" -Force | Out-Null
 Get-ChildItem "$ScriptDir\commands\*.md" | Where-Object { $_.Name -ne "README.md" } | ForEach-Object {
     Install-ApexFile $_.FullName "$ClaudeDir\commands\$($_.Name)" $_.Name
 }
+# Subdirs (paul, seed, autoresearch)
+foreach ($subdir in @("paul", "seed", "autoresearch")) {
+    if (Test-Path "$ScriptDir\commands\$subdir") {
+        Install-ApexDir "$ScriptDir\commands\$subdir" "$ClaudeDir\commands\$subdir" "commands/$subdir"
+    }
+}
 
-# --- Install Hooks ---
-Write-Host "`nInstalling hooks..." -ForegroundColor Cyan
+# --- Install Hooks (V7 -- 7 hooks) ---
+Write-Host "`nInstalling hooks (V7 fixed versions)..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path "$ClaudeDir\hooks" -Force | Out-Null
 Get-ChildItem "$ScriptDir\hooks\*" | Where-Object { $_.Name -ne "README.md" } | ForEach-Object {
     Install-ApexFile $_.FullName "$ClaudeDir\hooks\$($_.Name)" $_.Name
 }
 
-# --- Install Skills ---
-Write-Host "`nInstalling skills..." -ForegroundColor Cyan
-$skillDirs = @("dream-consolidation", "autoresearch")
+# --- Install Skills (V7 -- 9 custom Apex skills) ---
+Write-Host "`nInstalling Apex skills (9 custom)..." -ForegroundColor Cyan
+New-Item -ItemType Directory -Path "$ClaudeDir\skills" -Force | Out-Null
+$skillDirs = @(
+    "dream-consolidation",
+    "autoresearch",
+    "premium-web-design",
+    "21st-dev-magic",
+    "instagram-access",
+    "graphify",
+    "graphic-design-studio",
+    "impeccable",
+    "fireworks-tech-graph"
+)
 foreach ($skill in $skillDirs) {
-    $dest = "$ClaudeDir\skills\$skill"
-    if (Test-Path $dest) {
-        Write-Host "  [SKIP] $skill (already exists)" -ForegroundColor Yellow
-        $skipped++
-    } else {
-        New-Item -ItemType Directory -Path $dest -Force | Out-Null
-        Copy-Item "$ScriptDir\skills\$skill\*" $dest -Recurse
-        Write-Host "  [INSTALL] $skill" -ForegroundColor Green
-        $installed++
+    if (Test-Path "$ScriptDir\skills\$skill") {
+        Install-ApexDir "$ScriptDir\skills\$skill" "$ClaudeDir\skills\$skill" "skill: $skill"
     }
 }
 
-# --- Install CARL ---
-Write-Host "`nInstalling CARL domains..." -ForegroundColor Cyan
+# --- Install CARL (V7 -- 9 domains, 40 rules) ---
+Write-Host "`nInstalling CARL domains (9 domains, 40 rules)..." -ForegroundColor Cyan
 if (Test-Path "$CarlDir\carl.json") {
     Write-Host "  [SKIP] carl.json (already exists)" -ForegroundColor Yellow
     $skipped++
 } else {
     New-Item -ItemType Directory -Path $CarlDir -Force | Out-Null
     Copy-Item "$ScriptDir\config\carl-domains.json" "$CarlDir\carl.json"
-    Write-Host "  [INSTALL] carl.json (7 domains, 33 rules)" -ForegroundColor Green
+    Write-Host "  [INSTALL] carl.json (9 domains, 40 rules)" -ForegroundColor Green
     $installed++
 }
 
-# --- Config ---
-Write-Host "`nInstalling config..." -ForegroundColor Cyan
-Install-ApexFile "$ScriptDir\config\orchestration-engine.md" "$ClaudeDir\ORCHESTRATION-ENGINE.md" "orchestration-engine.md"
-Install-ApexFile "$ScriptDir\config\capability-registry.md" "$ClaudeDir\CAPABILITY-REGISTRY.md" "capability-registry.md"
+# --- Install Config Files (V7 three-layer routing) ---
+Write-Host "`nInstalling config files (V7 three-layer routing)..." -ForegroundColor Cyan
+Install-ApexFile "$ScriptDir\config\orchestration-engine.md" "$ClaudeDir\ORCHESTRATION-ENGINE.md" "ORCHESTRATION-ENGINE.md"
+Install-ApexFile "$ScriptDir\config\capability-registry.md" "$ClaudeDir\CAPABILITY-REGISTRY.md" "CAPABILITY-REGISTRY.md"
+Install-ApexFile "$ScriptDir\config\command-registry.md" "$ClaudeDir\COMMAND-REGISTRY.md" "COMMAND-REGISTRY.md"
+Install-ApexFile "$ScriptDir\config\agents.md" "$ClaudeDir\AGENTS.md" "AGENTS.md"
+Install-ApexFile "$ScriptDir\config\auto-activation-matrix.md" "$ClaudeDir\AUTO-ACTIVATION-MATRIX.md" "AUTO-ACTIVATION-MATRIX.md"
 
-# --- Configure MCP Servers ---
-Write-Host "`nConfiguring MCP servers..." -ForegroundColor Cyan
+# --- CLAUDE.md / PRIMER.md templates ---
+Write-Host "`nChecking CLAUDE.md and PRIMER.md..." -ForegroundColor Cyan
+if (-not (Test-Path "$ClaudeDir\CLAUDE.md")) {
+    Copy-Item "$ScriptDir\config\claude-md-template.md" "$ClaudeDir\CLAUDE.md"
+    Write-Host "  [INSTALL] Created CLAUDE.md from template" -ForegroundColor Green
+    $installed++
+} else {
+    Write-Host "  [SKIP] CLAUDE.md already exists (edit manually if needed)" -ForegroundColor Yellow
+}
+if (-not (Test-Path "$ClaudeDir\PRIMER.md")) {
+    Copy-Item "$ScriptDir\config\primer-template.md" "$ClaudeDir\PRIMER.md"
+    Write-Host "  [INSTALL] Created PRIMER.md from template (edit with your profile)" -ForegroundColor Green
+    $installed++
+} else {
+    Write-Host "  [SKIP] PRIMER.md already exists" -ForegroundColor Yellow
+}
+
+# --- .env template ---
+Write-Host "`nSetting up .env template..." -ForegroundColor Cyan
+if (-not (Test-Path "$ClaudeDir\.env")) {
+    Copy-Item "$ScriptDir\config\env.template" "$ClaudeDir\.env"
+    Write-Host "  [INSTALL] Created ~/.claude/.env from template" -ForegroundColor Green
+    Write-Host "  [ACTION] Edit ~/.claude/.env and add your real API keys" -ForegroundColor Yellow
+    $installed++
+} else {
+    Write-Host "  [SKIP] ~/.claude/.env already exists" -ForegroundColor Yellow
+}
+
+# --- Third-party dependencies ---
+Write-Host "`nChecking third-party dependencies..." -ForegroundColor Cyan
+try {
+    $bunVer = & bun --version 2>&1
+    Write-Host "  [OK] Bun already installed ($bunVer)" -ForegroundColor Green
+} catch {
+    Write-Host "  [INFO] Installing Bun (optional)..." -ForegroundColor Yellow
+    try {
+        npm install -g bun 2>&1 | Out-Null
+        Write-Host "  [OK] Bun installed" -ForegroundColor Green
+    } catch {
+        Write-Host "  [SKIP] Bun install failed (optional)" -ForegroundColor Yellow
+    }
+}
+
+# --- Configure MCP Servers (V7 defaults: playwright, github, exa-web-search, @21st-dev/magic) ---
+Write-Host "`nConfiguring MCP servers (4 Apex defaults)..." -ForegroundColor Cyan
 $settingsPath = "$ClaudeDir\settings.json"
-if (Test-Path $settingsPath) {
-    $pyScript = @'
-import json, os, sys
+$pyMCP = @'
+import json, os, sys, shutil
 
 settings_path = os.path.expanduser("~/.claude/settings.json")
+script_dir = os.environ.get("APEX_SCRIPT_DIR", ".")
+
 if not os.path.exists(settings_path):
-    sys.exit(0)
+    # Seed from V7 template
+    template = os.path.join(script_dir, "config", "settings-template.json")
+    if os.path.exists(template):
+        shutil.copy(template, settings_path)
+        print("  [INSTALL] Created settings.json from V7 template")
+        sys.exit(0)
+    else:
+        print("  [SKIP] No settings.json and no template found")
+        sys.exit(0)
 
 with open(settings_path) as f:
     settings = json.load(f)
@@ -154,87 +238,144 @@ if "mcpServers" not in settings:
     settings["mcpServers"] = {}
 
 servers_to_add = {
-    "context7": {"command": "npx", "args": ["-y", "@context7/mcp-server"]},
-    "playwright": {"command": "npx", "args": ["-y", "@playwright/mcp"]},
-    "memory": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-memory"]},
-    "sequential-thinking": {"command": "npx", "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]}
+    "playwright": {
+        "command": "npx", "args": ["-y", "@playwright/mcp"],
+        "description": "Browser automation, E2E testing, web scraping"
+    },
+    "github": {
+        "command": "npx", "args": ["-y", "@modelcontextprotocol/server-github"],
+        "env": {"GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"},
+        "description": "GitHub PRs, issues, repos"
+    },
+    "exa-web-search": {
+        "command": "npx", "args": ["-y", "exa-mcp-server"],
+        "env": {"EXA_API_KEY": "${EXA_API_KEY}"},
+        "description": "Deep web research"
+    },
+    "@21st-dev/magic": {
+        "command": "npx", "args": ["-y", "@21st-dev/magic@latest"],
+        "env": {"API_KEY": "${TWENTY_FIRST_DEV_API_KEY}"},
+        "description": "Premium React component generation"
+    }
 }
 
 added = 0
 for name, config in servers_to_add.items():
     if name not in settings["mcpServers"]:
         settings["mcpServers"][name] = config
-        print(f"  [INSTALL] MCP server: {name}")
+        print(f"  [INSTALL] MCP: {name}")
         added += 1
     else:
-        print(f"  [SKIP] MCP server: {name} (already exists)")
+        print(f"  [SKIP] MCP: {name} (already exists)")
+
+# V7 env block
+settings.setdefault("env", {})
+for k, v in {
+    "MAX_THINKING_TOKENS": "10000",
+    "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "haiku",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "FAL_KEY": "${FAL_KEY}",
+    "ENABLE_PROMPT_CACHING_1H": "1"
+}.items():
+    if k not in settings["env"]:
+        settings["env"][k] = v
+        added += 1
+
+# Enforce effort=high
+if settings.get("effortLevel") in (None, "xhigh", "max"):
+    settings["effortLevel"] = "high"
+    print("  [FIX] effortLevel set to 'high' (self-healing enforced)")
+    added += 1
 
 if added > 0:
-    with open(settings_path, 'w') as f:
+    with open(settings_path, "w") as f:
         json.dump(settings, f, indent=2)
-    print(f"  {added} MCP servers added to settings.json")
+    print(f"  {added} settings updates applied")
 else:
-    print("  All MCP servers already configured")
-'@
-    $pyScript | python3 -
-} else {
-    Write-Host "  [SKIP] No settings.json found" -ForegroundColor Yellow
-}
+    print("  All MCP servers + env already configured")
 
-# --- Configure Hooks in settings.json ---
-Write-Host "`nConfiguring hooks in settings.json..." -ForegroundColor Cyan
-if (Test-Path $settingsPath) {
-    $pyHooks = @'
+print("")
+print("  NOTE: Add your API keys to ~/.claude/.env:")
+print("    FAL_KEY, GITHUB_PERSONAL_ACCESS_TOKEN, EXA_API_KEY, TWENTY_FIRST_DEV_API_KEY")
+'@
+
+$env:APEX_SCRIPT_DIR = $ScriptDir
+$pyMCP | python3 -
+
+# --- Configure Hooks (V7 five-event chain) ---
+Write-Host "`nConfiguring hooks in settings.json (5 events)..." -ForegroundColor Cyan
+$pyHooks = @'
 import json, os, sys
 
 settings_path = os.path.expanduser("~/.claude/settings.json")
 if not os.path.exists(settings_path):
+    print("  [SKIP] No settings.json")
     sys.exit(0)
 
 with open(settings_path) as f:
     settings = json.load(f)
-
-if "hooks" not in settings:
-    settings["hooks"] = {}
-
+settings.setdefault("hooks", {})
 changed = False
+HOOK_HOME = "$HOME/.claude/hooks"
 
-if "PostCompact" not in settings["hooks"]:
-    settings["hooks"]["PostCompact"] = [
-        {"type": "command", "command": "bash $HOME/.claude/hooks/post-compact-recovery.sh"}
-    ]
-    print("  [INSTALL] PostCompact hook")
-    changed = True
-else:
-    print("  [SKIP] PostCompact hook (already exists)")
+def has_cmd(event_list, substr):
+    for group in event_list:
+        for h in group.get("hooks", []):
+            if substr in h.get("command", ""):
+                return True
+    return False
 
-if "Stop" not in settings["hooks"]:
-    settings["hooks"]["Stop"] = []
+# PostCompact
+settings["hooks"].setdefault("PostCompact", [])
+if not has_cmd(settings["hooks"]["PostCompact"], "post-compact-recovery"):
+    settings["hooks"]["PostCompact"].append({
+        "matcher": "",
+        "hooks": [{"type": "command", "command": f"bash {HOOK_HOME}/post-compact-recovery.sh"}]
+    })
+    print("  [INSTALL] PostCompact hook"); changed = True
 
-stop_hooks = settings["hooks"]["Stop"]
-existing_commands = [h.get("command", "") for h in stop_hooks if isinstance(h, dict)]
+# Stop (session-end-save + task-complete-sound)
+settings["hooks"].setdefault("Stop", [])
+if not has_cmd(settings["hooks"]["Stop"], "session-end-save"):
+    settings["hooks"]["Stop"].append({
+        "matcher": "",
+        "hooks": [
+            {"type": "command", "command": f"bash {HOOK_HOME}/session-end-save.sh"},
+            {"type": "command", "command": f"bash {HOOK_HOME}/task-complete-sound.sh"}
+        ]
+    })
+    print("  [INSTALL] Stop hooks (session-end-save + task-complete-sound)"); changed = True
 
-if not any("session-end-save" in c for c in existing_commands):
-    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/session-end-save.sh"})
-    print("  [INSTALL] session-end-save Stop hook")
-    changed = True
+# UserPromptSubmit -- CARL
+settings["hooks"].setdefault("UserPromptSubmit", [])
+if not has_cmd(settings["hooks"]["UserPromptSubmit"], "carl-hook"):
+    settings["hooks"]["UserPromptSubmit"].append({
+        "hooks": [{"type": "command", "command": f"python3 {HOOK_HOME}/carl-hook.py"}]
+    })
+    print("  [INSTALL] UserPromptSubmit hook (CARL)"); changed = True
 
-if not any("task-complete-sound" in c for c in existing_commands):
-    stop_hooks.append({"type": "command", "command": "bash $HOME/.claude/hooks/task-complete-sound.sh"})
-    print("  [INSTALL] task-complete-sound Stop hook")
-    changed = True
+# SessionStart -- chain
+settings["hooks"].setdefault("SessionStart", [])
+if not has_cmd(settings["hooks"]["SessionStart"], "session-start-check"):
+    settings["hooks"]["SessionStart"].append({
+        "matcher": "",
+        "hooks": [
+            {"type": "command", "command": f"bash {HOOK_HOME}/session-start-check.sh"},
+            {"type": "command", "command": f"bash {HOOK_HOME}/project-auto-graph.sh"}
+        ]
+    })
+    print("  [INSTALL] SessionStart hook chain"); changed = True
 
 if changed:
-    with open(settings_path, 'w') as f:
+    with open(settings_path, "w") as f:
         json.dump(settings, f, indent=2)
-    print("  Hooks configured in settings.json")
+    print("  Hooks saved")
 else:
     print("  All hooks already configured")
 '@
-    $pyHooks | python3 -
-} else {
-    Write-Host "  [SKIP] No settings.json found" -ForegroundColor Yellow
-}
+
+$pyHooks | python3 -
 
 # --- Plugin Installation Instructions ---
 Write-Host ""
@@ -242,22 +383,16 @@ Write-Host "===========================================================" -Foregr
 Write-Host "  IMPORTANT: Complete these steps in Claude Code" -ForegroundColor Green
 Write-Host "===========================================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  Open Claude Code and run these commands to install"
-Write-Host "  the plugins that bring 1,000+ skills and 19 agents:"
+Write-Host "  Open Claude Code and run these to unlock 1,000+ skills and 19 OMC agents:"
 Write-Host ""
-Write-Host "  1. Install everything-claude-code (1,000+ skills):"
-Write-Host "     /plugin marketplace add https://github.com/anthropic-community/everything-claude-code"
-Write-Host "     /plugin install everything-claude-code"
+Write-Host "  1. /plugin marketplace add https://github.com/anthropic-community/everything-claude-code"
+Write-Host "  2. /plugin install everything-claude-code"
 Write-Host ""
-Write-Host "  2. Install oh-my-claudecode (19 agents, autopilot):"
-Write-Host "     /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
-Write-Host "     /plugin install oh-my-claudecode"
+Write-Host "  3. /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
+Write-Host "  4. /plugin install oh-my-claudecode"
+Write-Host "  5. /oh-my-claudecode:omc-setup"
 Write-Host ""
-Write-Host "  3. Run OMC setup:"
-Write-Host "     /oh-my-claudecode:omc-setup"
-Write-Host ""
-Write-Host "  4. Verify everything:"
-Write-Host "     /healthcheck"
+Write-Host "  6. /healthcheck"
 Write-Host ""
 Write-Host "===========================================================" -ForegroundColor Cyan
 
@@ -271,9 +406,11 @@ if (Test-Path $verifyScript) {
 
 # --- Summary ---
 Write-Host ""
-Write-Host "===============================================" -ForegroundColor Cyan
-Write-Host "  Claude Apex V$APEX_VERSION installed!" -ForegroundColor Green
-Write-Host "===============================================" -ForegroundColor Cyan
+Write-Host "=============================================="
+Write-Host "  Claude Apex V$APEX_VERSION installed successfully!"
+Write-Host "  Prepared by Engineer Yousef Nabil"
+Write-Host "  Star the repo: github.com/YousefNabil-SOC/claude-apex"
+Write-Host "=============================================="
 Write-Host ""
 Write-Host "  Installed: $installed" -ForegroundColor Green
 Write-Host "  Skipped:   $skipped (already existed)" -ForegroundColor Yellow
@@ -281,7 +418,12 @@ Write-Host ""
 Write-Host "  Backup at: $BackupDir" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "  Next steps:" -ForegroundColor Green
-Write-Host "  1. Restart Claude Code"
-Write-Host "  2. Run /healthcheck to verify"
-Write-Host "  3. Try: autopilot: explain this codebase"
+Write-Host "  1. Edit ~/.claude/.env with your API keys"
+Write-Host "  2. Edit ~/.claude/PRIMER.md with your profile"
+Write-Host "  3. Restart Claude Code"
+Write-Host "  4. Run /healthcheck to verify"
+Write-Host "  5. Try: autopilot: explain this codebase"
+Write-Host ""
+Write-Host "  Never used Claude Code? Start with: docs/00-START-HERE.md"
+Write-Host "  To uninstall: bash uninstall.sh"
 Write-Host ""

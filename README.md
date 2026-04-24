@@ -343,39 +343,62 @@ Without these plugins, you get the core Apex experience. With them, you get the 
 
 ## Documentation
 
-### Brand new to Claude Code? Read these first:
+### Tier 1 — Brand new to Claude Code? Read these first:
 
 | Beginner Tutorial | What It Covers |
 |---|---|
-| [00-START-HERE.md](docs/00-START-HERE.md) | What is this? (5-year-old friendly) |
-| [01-WHAT-IS-CLAUDE-CODE.md](docs/01-WHAT-IS-CLAUDE-CODE.md) | Claude, Anthropic, CLI, terminal — all explained |
+| [00-START-HERE.md](docs/00-START-HERE.md) | What is this? (no prior experience assumed) |
+| [01-WHAT-IS-CLAUDE-CODE.md](docs/01-WHAT-IS-CLAUDE-CODE.md) | Claude, Anthropic, CLI, terminal, context, tokens |
 | [02-INSTALL-FROM-ZERO.md](docs/02-INSTALL-FROM-ZERO.md) | Every step from brand-new computer to running Apex |
-| [03-FIRST-TIME-USING.md](docs/03-FIRST-TIME-USING.md) | First 10 commands, with expected output |
-| [04-WHAT-ARE-SKILLS.md](docs/04-WHAT-ARE-SKILLS.md) | Analogy: skills = recipe books Claude reads on demand |
-| [05-WHAT-ARE-AGENTS.md](docs/05-WHAT-ARE-AGENTS.md) | Analogy: agents = specialist coworkers |
-| [06-WHAT-ARE-MCP-SERVERS.md](docs/06-WHAT-ARE-MCP-SERVERS.md) | Analogy: MCP = superpowers plugged in |
-| [07-WHAT-ARE-HOOKS.md](docs/07-WHAT-ARE-HOOKS.md) | Analogy: hooks = automatic reflexes |
-| [08-WHAT-IS-CARL.md](docs/08-WHAT-IS-CARL.md) | Analogy: CARL = librarian |
-| [09-GLOSSARY.md](docs/09-GLOSSARY.md) | Every term in one sentence |
-| [10-TROUBLESHOOT-FOR-BEGINNERS.md](docs/10-TROUBLESHOOT-FOR-BEGINNERS.md) | It didn't work — now what? |
+| [03-FIRST-TIME-USING.md](docs/03-FIRST-TIME-USING.md) | First 10 commands, each with expected output |
+| [04-WHAT-ARE-SKILLS.md](docs/04-WHAT-ARE-SKILLS.md) | Skills = recipe books Claude reads on demand |
+| [05-WHAT-ARE-AGENTS.md](docs/05-WHAT-ARE-AGENTS.md) | Agents = specialist coworkers (all 25 listed) |
+| [06-WHAT-ARE-MCP-SERVERS.md](docs/06-WHAT-ARE-MCP-SERVERS.md) | MCP = superpowers plugged in (all 4 defaults) |
+| [07-WHAT-ARE-HOOKS.md](docs/07-WHAT-ARE-HOOKS.md) | Hooks = automatic reflexes (all 7 explained) |
+| [08-WHAT-IS-CARL.md](docs/08-WHAT-IS-CARL.md) | CARL = librarian (9 domains, 40 rules, 117+ keywords) |
+| [09-GLOSSARY.md](docs/09-GLOSSARY.md) | 40+ terms, alphabetically sorted |
+| [10-TROUBLESHOOT-FOR-BEGINNERS.md](docs/10-TROUBLESHOOT-FOR-BEGINNERS.md) | Top 10 beginner problems with symptom/cause/fix |
 
-### Already comfortable? Go deeper:
+### Tier 2 — Already comfortable? Go deeper:
 
 | Guide | Description |
 |-------|-------------|
-| [Architecture](docs/ARCHITECTURE.md) | How the three-layer system works |
-| [Agents Guide](docs/AGENTS-GUIDE.md) | Working with 108 specialist agents |
-| [CARL Guide](docs/CARL-GUIDE.md) | JIT rule loading explained (9 domains, 40 rules) |
+| [Architecture](docs/ARCHITECTURE.md) | Three-layer routing explained in depth |
+| [Agents Guide](docs/AGENTS-GUIDE.md) | All 108 agents with model routing table |
+| [CARL Guide](docs/CARL-GUIDE.md) | All 9 domains, 40 rules, 3 routing examples |
 | [PAUL Integration](docs/PAUL-INTEGRATION.md) | Plan-Apply-Unify structured execution |
-| [OMC Integration](docs/OMC-INTEGRATION.md) | Multi-agent autopilot modes |
-| [Peers Setup](docs/PEERS-SETUP.md) | Multi-terminal communication |
-| [Memory System](docs/MEMORY-SYSTEM.md) | Auto memory and Dream consolidation |
-| [Orchestration](docs/ORCHESTRATION.md) | The decision engine |
-| [Customization](docs/CUSTOMIZATION.md) | Add your own agents, skills, and rules |
-| [Windows Guide](docs/WINDOWS-GUIDE.md) | Windows-specific setup notes |
+| [OMC Integration](docs/OMC-INTEGRATION.md) | autopilot, ralph, team, deep-interview modes |
+| [Peers Setup](docs/PEERS-SETUP.md) | Multi-terminal coordination |
+| [Memory System](docs/MEMORY-SYSTEM.md) | Auto memory and Dream 4-phase consolidation |
+| [Orchestration](docs/ORCHESTRATION.md) | Decision tree for routing tasks |
+| [Customization](docs/CUSTOMIZATION.md) | Add your own agents, skills, rules |
+| [Windows Guide](docs/WINDOWS-GUIDE.md) | Windows-specific setup |
 | [Troubleshooting](docs/TROUBLESHOOTING.md) | Common issues and fixes |
-| [Uninstall](docs/UNINSTALL.md) | How to cleanly remove Apex |
+| [Uninstall](docs/UNINSTALL.md) | Clean removal |
 | [FAQ](docs/FAQ.md) | Frequently asked questions |
+| [Getting Started](docs/GETTING-STARTED.md) | Quick start after install |
+
+### Tier 3 — Building on top of Apex? Advanced guides:
+
+| Guide | Description |
+|-------|-------------|
+| [Advanced Customization](docs/ADVANCED-CUSTOMIZATION.md) | Custom CARL domains, agents, skills, MCP, hooks, COMMAND-REGISTRY |
+| [Advanced Token Optimization](docs/ADVANCED-TOKEN-OPTIMIZATION.md) | Cut your Apex token bill by 50% without losing capability |
+| [Advanced Multi-Session](docs/ADVANCED-MULTI-SESSION.md) | Peers, Agent Teams, session handoff, Dream consolidation |
+| [Advanced Building Websites](docs/ADVANCED-BUILDING-WEBSITES.md) | premium-web-design + 21st.dev + impeccable, the full stack |
+
+---
+
+## Built By
+
+**Engineer Yousef Nabil** — Creator and sole maintainer of Claude Apex.
+
+Every agent, every hook, every CARL domain, every line of documentation was hand-crafted, tested, and integrated by one person. From the three-layer auto-routing system to the 36 premium-web-design patterns to the 40 CARL rules across 9 domains — every design decision, every edge case, every integration was deliberate.
+
+- **GitHub**: [@YousefNabil-SOC](https://github.com/YousefNabil-SOC)
+- **Repository**: [github.com/YousefNabil-SOC/claude-apex](https://github.com/YousefNabil-SOC/claude-apex)
+
+If you use Apex in production, star the repo. If you ship something built on top of it, open a discussion — I'd love to see what you built.
 
 ---
 

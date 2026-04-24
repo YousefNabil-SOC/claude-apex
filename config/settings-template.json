@@ -1,5 +1,8 @@
 {
   "_comment": "Claude Apex V7 settings template. Copy to ~/.claude/settings.json. API keys use ${VAR} references — set real values in ~/.claude/.env (see config/env.template).",
+  "_apex_version": "7.0.0",
+  "_apex_author": "Engineer Yousef Nabil",
+  "_apex_repo": "https://github.com/YousefNabil-SOC/claude-apex",
   "env": {
     "MAX_THINKING_TOKENS": "10000",
     "CLAUDE_AUTOCOMPACT_PCT_OVERRIDE": "50",

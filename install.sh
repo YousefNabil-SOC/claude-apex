@@ -22,11 +22,14 @@ failed=0
 
 banner() {
   echo ""
-  echo -e "${CYAN}╔═══════════════════════════════════════════════════╗${NC}"
-  echo -e "${CYAN}║           CLAUDE APEX V${APEX_VERSION}                      ║${NC}"
-  echo -e "${CYAN}║  1,276+ skills. 108 agents. 182 commands.         ║${NC}"
-  echo -e "${CYAN}║  Three-layer auto-routing. One unified brain.     ║${NC}"
-  echo -e "${CYAN}╚═══════════════════════════════════════════════════╝${NC}"
+  echo "=============================================="
+  echo "  Claude Apex V${APEX_VERSION} -- Installation"
+  echo "  by Engineer Yousef Nabil"
+  echo "  github.com/YousefNabil-SOC/claude-apex"
+  echo "=============================================="
+  echo ""
+  echo -e "${CYAN}  1,276+ skills. 108 agents. 182 commands.${NC}"
+  echo -e "${CYAN}  Three-layer auto-routing. One unified brain.${NC}"
   echo ""
 }
 
@@ -403,9 +406,12 @@ if [ -f "$SCRIPT_DIR/verify.sh" ]; then
 fi
 
 # --- Summary ---
-echo -e "${CYAN}═══════════════════════════════════════════${NC}"
-echo -e "${GREEN}  Claude Apex V${APEX_VERSION} installed!${NC}"
-echo -e "${CYAN}═══════════════════════════════════════════${NC}"
+echo ""
+echo "=============================================="
+echo "  Claude Apex V${APEX_VERSION} installed successfully!"
+echo "  Prepared by Engineer Yousef Nabil"
+echo "  Star the repo: github.com/YousefNabil-SOC/claude-apex"
+echo "=============================================="
 echo ""
 echo -e "  ${GREEN}Installed:${NC} $installed"
 echo -e "  ${YELLOW}Skipped:${NC}   $skipped (already existed)"

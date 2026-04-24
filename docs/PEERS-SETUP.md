@@ -457,4 +457,16 @@ list_peers
 
 ---
 
+## Pro Tips
+
+- **Enable peers only when you need them.** The broker adds background overhead; leave it disabled until a multi-terminal workflow starts.
+- **Announce before overwriting shared files.** Race conditions in shared memory are real — use `send_message all "updating X"` first.
+- **Keep sensitive data out of shared/.** Peers can read each other's shared memory. API keys go in `~/.claude/.env`.
+- **Use append, not overwrite, for decision logs.** `echo "decision" >> memory/peers/shared/decisions.log` never clobbers.
+- **One planner, N executors is the sweet spot.** More planners means coordination overhead; more than 5 executors means PR review becomes the bottleneck.
+- **Port 7899 on your firewall.** If peers won't connect across Windows machines, check Windows Defender Firewall.
+
 **Next**: [MEMORY-SYSTEM.md](./MEMORY-SYSTEM.md) → Understand session persistence and auto-save
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*

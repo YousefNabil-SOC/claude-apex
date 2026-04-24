@@ -1,5 +1,7 @@
 # Contributing to Claude Apex
 
+Claude Apex was created and is maintained by **Engineer Yousef Nabil** ([@YousefNabil-SOC](https://github.com/YousefNabil-SOC)).
+
 Thank you for your interest in contributing! Whether it's a new agent, a CARL domain, a bug fix, or documentation improvement — PRs are appreciated.
 
 ## How to Contribute
@@ -65,3 +67,6 @@ See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 ## Questions?
 
 Open an issue on GitHub. We're happy to help!
+
+---
+*Claude Apex by Engineer Yousef Nabil — [GitHub](https://github.com/YousefNabil-SOC/claude-apex)*
