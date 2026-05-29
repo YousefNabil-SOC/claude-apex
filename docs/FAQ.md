@@ -10,7 +10,7 @@
 - **25 specialist agents** + 51 RuFlo + 19 OMC + 13 plugin-unique = **108 total**
 - **1,276+ skills** (9 Apex custom + 1,267 via everything-claude-code plugin)
 - **4 default MCP servers** (playwright, github, exa-web-search, @21st-dev/magic) → up to 15 with optional
-- **9 CARL domains with 40 JIT rules**
+- **10 CARL domains with 59 JIT rules**
 - **7 hooks** covering PostCompact, Stop, UserPromptSubmit, SessionStart-chain
 
 ### Q: Do I need Claude Code to use Apex?

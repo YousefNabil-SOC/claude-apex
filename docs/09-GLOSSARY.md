@@ -32,7 +32,7 @@
 
 **CARL** — Context Augmentation & Reinforcement Layer. The Layer 1 hook at `~/.claude/hooks/carl-hook.py` that injects domain-specific rules JIT based on prompt keywords.
 
-**carl.json** — CARL's config at `~/.carl/carl.json`. Contains 9 domains, 40 rules, 117+ recall keywords.
+**carl.json** — CARL's config at `~/.carl/carl.json`. Contains 10 domains, 59 rules, 117+ recall keywords.
 
 **CLAUDE.md** — A configuration file Claude reads at session start. Global version at `~/.claude/CLAUDE.md`; project-specific versions live in each project folder.
 

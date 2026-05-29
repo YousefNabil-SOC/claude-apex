@@ -82,7 +82,7 @@ System Health Check V7
 ----|---------------------|--------|--------------------------------
  1  | OMC Plugin          | OK     | oh-my-claudecode@omc enabled
  2  | PAUL Framework      | OK     | 28 commands
- 3  | CARL                | OK     | 9 domains, 40 rules configured
+ 3  | CARL                | OK     | 10 domains, 59 rules configured
  4  | Autoresearch        | OK     | SKILL.md present
  5  | SEED                | OK     | seed.md present
  6  | UserPromptSubmit    | OK     | carl-hook.py (UTF-8 fixed)

@@ -379,6 +379,10 @@ Write-Host "  3. /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-cl
 Write-Host "  4. /plugin install oh-my-claudecode"
 Write-Host "  5. /oh-my-claudecode:omc-setup"
 Write-Host ""
+Write-Host "  Optional full power (upstreams the gs-* skills build on):"
+Write-Host "  - gstack:  git clone https://github.com/garrytan/gstack  (browse daemon + bin toolchain for gs-autoplan/canary/benchmark)"
+Write-Host "  - GSD:     npm i -g get-shit-done-cc  (phase-based planning agents)"
+Write-Host ""
 Write-Host "  6. /healthcheck"
 Write-Host ""
 Write-Host "===========================================================" -ForegroundColor Cyan

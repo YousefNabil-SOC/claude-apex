@@ -123,7 +123,7 @@ User prompt: "deploy the site to vercel"
 | **BROWSER** | Web access | "browse", "chrome", "instagram", "linkedin", "reddit", "facebook", "scrape", "social media", "take screenshot", "login session" | 2 |
 | **PROJECT-NAVIGATION** | Codebase | "where is", "how does", "show me", "architecture", "structure", "continue working on", "resume", "last session", "navigate", "graph", "recall memory" | 3 |
 
-**Totals: 9 domains, 40 rules, 117+ recall keywords.**
+**Totals: 10 domains, 59 rules, 117+ recall keywords.**
 
 *DEVELOPMENT is a recall-only domain — it signals "this is a code task" to the routing layer, but all specific rules live in WEB-DEVELOPMENT, DEPLOYMENT, or other domains.
 
@@ -248,7 +248,7 @@ Open `~/.carl/carl.json`, find the top-level `config.devmode` field, change to `
 ## What You Learned
 
 - CARL = Context Augmentation & Reinforcement Layer — a Python hook that injects rules JIT.
-- 9 domains, 40 rules, 117+ recall keywords total.
+- 10 domains, 59 rules, 117+ recall keywords total.
 - GLOBAL is always on; the other 8 domains activate only when matching keywords appear.
 - CARL is Layer 1 of three-layer routing (CARL → CAPABILITY-REGISTRY → COMMAND-REGISTRY).
 - Rules live in `~/.carl/carl.json`; edit it to add custom rules or domains.

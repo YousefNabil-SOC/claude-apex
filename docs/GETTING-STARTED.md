@@ -32,7 +32,7 @@ System Health Check V7
 ----|---------------------|--------
  1  | OMC Plugin          | OK
  2  | PAUL Framework      | OK
- 3  | CARL                | OK (9 domains, 40 rules)
+ 3  | CARL                | OK (10 domains, 59 rules)
  4  | Autoresearch        | OK
  5  | SEED                | OK
  6  | UserPromptSubmit    | OK (carl-hook.py)
@@ -214,7 +214,7 @@ See [10-TROUBLESHOOT-FOR-BEGINNERS.md](./10-TROUBLESHOOT-FOR-BEGINNERS.md) or ru
 
 - [ARCHITECTURE.md](./ARCHITECTURE.md) — The three-layer routing system
 - [AGENTS-GUIDE.md](./AGENTS-GUIDE.md) — Meet 108 specialist agents
-- [CARL-GUIDE.md](./CARL-GUIDE.md) — JIT rule loading (9 domains, 40 rules)
+- [CARL-GUIDE.md](./CARL-GUIDE.md) — JIT rule loading (10 domains, 59 rules)
 - [PAUL-INTEGRATION.md](./PAUL-INTEGRATION.md) — Structured execution
 - [OMC-INTEGRATION.md](./OMC-INTEGRATION.md) — Multi-agent modes
 

@@ -56,7 +56,7 @@ Rule: use stakeholder titles EXACTLY as specified. Never improvise role names.
 
 ## Environment version: V7 (Claude Apex)
 - Skills: `<count>` | Agents: `<count>` | MCP servers: `<count>` | Plugins: `<count>`
-- CARL: 9 domains, 40 rules
+- CARL: 10 domains, 59 rules
 - Hooks: PostCompact, Stop, Notification, UserPromptSubmit, SessionStart-chain
 - Model routing: Opus for planning, Sonnet for execution, Haiku for trivia
 - See `CAPABILITY-REGISTRY.md` for the live tool inventory

@@ -1,4 +1,4 @@
-# Claude Apex V7
+# Claude Apex V8
 
 > Created by Engineer Yousef Nabil
 > https://github.com/YousefNabil-SOC/claude-apex
@@ -10,11 +10,11 @@ Follow these steps to install the complete environment.
 
 ## What This Is
 
-Claude Apex V7 is the most comprehensive Claude Code environment available. It adds:
+Claude Apex V8 is the most comprehensive Claude Code environment available. It adds:
 
 - **Three-layer auto-routing** (CARL + CAPABILITY-REGISTRY + COMMAND-REGISTRY) so natural-language prompts activate the right tools without slash commands
 - **25 custom specialist agents** (architect, security-reviewer, tdd-guide, 7 SEO specialists, etc.)
-- **9 CARL domains with 40 JIT rules** — only load the rules relevant to each prompt
+- **10 CARL domains with 59 JIT rules** (incl. GSTACK-INTEGRATED routing the 19 gs-* skills) — only load the rules relevant to each prompt
 - **7 custom skills** — premium-web-design, 21st-dev-magic, instagram-access, graphify, graphic-design-studio, impeccable, fireworks-tech-graph (plus dream-consolidation and autoresearch from V6)
 - **5 hooks** (PostCompact recovery, SessionStart chain, Stop sound with 60s cooldown, UserPromptSubmit CARL injection, Notification)
 - **4 MCP servers** by default (playwright, github, exa-web-search, @21st-dev/magic) — more optional
@@ -59,7 +59,7 @@ Key V7 hooks:
 - `session-end-save.sh` — Stop hook for session handoff
 - `task-complete-sound.sh` — Stop hook with 60-second cooldown
 
-### Step 5: Install Apex skills (9 custom skills)
+### Step 5: Install Apex skills (9 custom + 19 gstack-integrated gs-*)
 Copy these skills from this repo's `skills/` directory to `~/.claude/skills/`:
 - `premium-web-design/` (full directory — SKILL.md + patterns/ + references/ + tools/)
 - `21st-dev-magic/`
@@ -71,6 +71,8 @@ Copy these skills from this repo's `skills/` directory to `~/.claude/skills/`:
 - `dream-consolidation/`
 - `autoresearch/`
 
+Plus all 19 `gs-*` skills (gstack-integrated; the installer globs every directory under `skills/`).
+These are renamed gstack derivatives (MIT, Garry Tan) - see ATTRIBUTIONS.md.
 Skip any skill directory that already exists.
 
 ### Step 6: Install Apex config
@@ -167,7 +169,7 @@ Installation 85% complete. Two plugin installs remaining to unlock the full envi
 Paste this into a NEW Claude Code session (restart first):
 
 ```
-I just installed Claude Apex V7. Please complete the setup by running these for me:
+I just installed Claude Apex V8. Please complete the setup by running these for me:
 1. /plugin marketplace add https://github.com/anthropic-community/everything-claude-code
 2. /plugin install everything-claude-code
 3. /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode

@@ -253,8 +253,8 @@ Installing Apex skills (9 custom)...
   [INSTALL] skill: 21st-dev-magic
   ... (7 more) ...
 
-Installing CARL domains (9 domains, 40 rules)...
-  [INSTALL] carl.json (9 domains, 40 rules)
+Installing CARL domains (10 domains, 59 rules)...
+  [INSTALL] carl.json (10 domains, 59 rules)
 
 Installing config files (V7 three-layer routing)...
   [INSTALL] ORCHESTRATION-ENGINE.md
@@ -391,7 +391,7 @@ bash verify.sh
   ...
 
 --- CONFIGURATION ---
-  [PASS]  CARL -- 9 domains, 40 rules (V7 target met)
+  [PASS]  CARL -- 10 domains, 59 rules (V7 target met)
   [PASS]  Config -- ORCHESTRATION-ENGINE.md
   ...
 
@@ -431,7 +431,7 @@ System Health Check V7
 ----|---------------------|--------|--------------------------------
  1  | OMC Plugin          | OK     | oh-my-claudecode@omc enabled
  2  | PAUL Framework      | OK     | 28 commands
- 3  | CARL                | OK     | 9 domains, 40 rules configured
+ 3  | CARL                | OK     | 10 domains, 59 rules configured
  ... (15 more checks) ...
 
 Result: 18/18 OK — all systems green
