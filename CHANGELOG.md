@@ -2,6 +2,53 @@
 
 All notable changes to Claude Apex will be documented in this file.
 
+## v8.0.0 (2026-05-30) - gstack Integration + Hardened Install
+
+**Author: Engineer Yousef Nabil** ([@YousefNabil-SOC](https://github.com/YousefNabil-SOC))
+
+### Headline
+19 skills cherry-picked from gstack (MIT, Garry Tan) are integrated via a collision-free
+`gs-*` rename pattern and wired into a new CARL routing domain, so natural language fires
+the right planning / review / debug / security skill automatically. Plus a secrets-safe
+publish pipeline and a smart installer that installs all vendored skills and points to the
+upstream powerhouses for full capability.
+
+### New Capabilities
+**19 gstack-integrated skills (`gs-*`)**, by tier:
+- Tier A (works standalone): gs-review, gs-cso, gs-investigate, gs-spec, gs-plan-design, gs-office-hours, gs-plan-ceo, gs-plan-eng
+- Tier B (useful, may overlap host tools): gs-retro, gs-careful, gs-doc-release, gs-doc-generate
+- Tier C (full power needs gstack upstream): gs-autoplan, gs-canary, gs-benchmark, gs-freeze, gs-guard, gs-unfreeze, gs-skillify
+
+**New CARL domain GSTACK-INTEGRATED** - 19 routing rules, 117 trigger keywords. Natural
+language activates the right gs-* skill. CARL grows 9 -> 10 domains, 40 -> 59 rules.
+
+**Smart installer** - install.ps1 / install.sh now install ALL vendored skills (glob, not a
+hardcoded list) so future skills are picked up automatically. Docs point to upstream projects
+(gstack, GSD, OMC) for the capabilities Apex does not vendor.
+
+**New docs** - ATTRIBUTIONS.md (third-party licenses, including the gstack MIT notice) and
+docs/GSTACK-INTEGRATION.md (the reusable cherry-pick + rename methodology).
+
+### Changed
+- Version 7.0 -> 8.0 (package.json, settings template, README badge)
+- CARL: 9 -> 10 domains, 40 -> 59 rules
+- effortLevel remains `high` (never `xhigh`) - enforced in the template
+
+### Security
+- Full secret scan before publish: settings ship as a template with `${VAR}` placeholders, zero real keys
+- The 19 gs-* skills were scanned: zero absolute paths, zero personal data; integration notes redacted to generic wording
+- `skipDangerousModePermissionPrompt` ships `false` (safe default)
+
+### Attribution
+- gstack (MIT, Copyright (c) 2026 Garry Tan): the 19 gs-* skills are renamed derivatives; each keeps a SOURCE line. See ATTRIBUTIONS.md.
+- Existing credits preserved: OMC (Yeachan-Heo), PAUL / SEED (ChristopherKahler), Claude Peers (louislva), Bun
+
+### Dependencies / Notes
+- gs-autoplan, gs-canary, gs-benchmark, gs-skillify reach full power only with gstack upstream installed (browse daemon + bin/ toolchain). See docs/GSTACK-INTEGRATION.md.
+
+### Breaking Changes
+- None for existing users. The new CARL domain is additive; the installer skips files that already exist.
+
 ## v7.0.0 (2026-04-23) — Three-Layer Auto-Routing
 
 **Author: Engineer Yousef Nabil** ([@YousefNabil-SOC](https://github.com/YousefNabil-SOC))

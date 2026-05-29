@@ -1,6 +1,6 @@
 {
-  "_comment": "Claude Apex V7 settings template. Copy to ~/.claude/settings.json. API keys use ${VAR} references — set real values in ~/.claude/.env (see config/env.template).",
-  "_apex_version": "7.0.0",
+  "_comment": "Claude Apex V8 settings template. Copy to ~/.claude/settings.json. API keys use ${VAR} references - set real values in ~/.claude/.env (see config/env.template).",
+  "_apex_version": "8.0.0",
   "_apex_author": "Engineer Yousef Nabil",
   "_apex_repo": "https://github.com/YousefNabil-SOC/claude-apex",
   "env": {

@@ -1,25 +1,28 @@
 {
   "version": 1,
-  "last_modified": "2026-04-23T00:00:00.000Z",
-  "_comment": "Claude Apex V7 — 9 domains, 40 JIT rules. Load only the rules relevant to the current prompt.",
+  "last_modified": "2026-05-29T00:00:00.000Z",
+  "_comment": "Claude Apex V8 - 10 domains, 59 JIT rules. Load only the rules relevant to the current prompt. GSTACK-INTEGRATED routes 19 gstack-derived gs-* skills by natural language.",
   "config": {
     "devmode": false,
     "post_compact_gate": true,
     "global_exclude": [],
     "context_brackets": {
-      "FRESH": { "enabled": true, "rules": [] },
+      "FRESH": {
+        "enabled": true,
+        "rules": []
+      },
       "MODERATE": {
         "enabled": true,
         "rules": [
-          "Keep responses focused — avoid unnecessary exploration",
+          "Keep responses focused  -  avoid unnecessary exploration",
           "Prefer targeted edits over full file rewrites"
         ]
       },
       "DEPLETED": {
         "enabled": true,
         "rules": [
-          "Minimize tool calls — batch aggressively",
-          "Skip verbose explanations — action over narration",
+          "Minimize tool calls  -  batch aggressively",
+          "Skip verbose explanations  -  action over narration",
           "Consider suggesting /compact or spawning a subagent for remaining work"
         ]
       }
@@ -30,12 +33,26 @@
     "GLOBAL": {
       "state": "active",
       "always_on": true,
-      "recall": ["universal"],
+      "recall": [
+        "universal"
+      ],
       "exclude": [],
       "rules": [
-        { "id": 0, "text": "NEVER use relative paths in code — use absolute. NEVER use absolute paths when referencing files to user — use relative.", "source": "apex-template" },
-        { "id": 1, "text": "NEVER run independent tool calls sequentially — batch them in parallel.", "source": "apex-template" },
-        { "id": 2, "text": "NEVER mark tasks complete without validation — test everything, require proof.", "source": "apex-template" }
+        {
+          "id": 0,
+          "text": "NEVER use relative paths in code  -  use absolute. NEVER use absolute paths when referencing files to user  -  use relative.",
+          "source": "apex-template"
+        },
+        {
+          "id": 1,
+          "text": "NEVER run independent tool calls sequentially  -  batch them in parallel.",
+          "source": "apex-template"
+        },
+        {
+          "id": 2,
+          "text": "NEVER mark tasks complete without validation  -  test everything, require proof.",
+          "source": "apex-template"
+        }
       ],
       "decisions": []
     },
@@ -43,8 +60,14 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "write code for", "fix this bug", "implement this feature", "build this component",
-        "refactor this", "add this endpoint", "programming task", "code review"
+        "write code for",
+        "fix this bug",
+        "implement this feature",
+        "build this component",
+        "refactor this",
+        "add this endpoint",
+        "programming task",
+        "code review"
       ],
       "exclude": [],
       "rules": [],
@@ -54,24 +77,88 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "react", "typescript", "tailwind", "vite", "component", "frontend", "css", "vercel",
-        "deploy", "website", "nextjs", "supabase", "page", "navbar", "footer", "layout",
-        "responsive", "mobile", "21st", "magic component", "generate component", "ui component",
-        "design system", "premium design", "animation", "scroll effect", "parallax",
-        "hero section", "hover effect", "interactive", "GSAP", "framer motion", "lenis",
+        "react",
+        "typescript",
+        "tailwind",
+        "vite",
+        "component",
+        "frontend",
+        "css",
+        "vercel",
+        "deploy",
+        "website",
+        "nextjs",
+        "supabase",
+        "page",
+        "navbar",
+        "footer",
+        "layout",
+        "responsive",
+        "mobile",
+        "21st",
+        "magic component",
+        "generate component",
+        "ui component",
+        "design system",
+        "premium design",
+        "animation",
+        "scroll effect",
+        "parallax",
+        "hero section",
+        "hover effect",
+        "interactive",
+        "GSAP",
+        "framer motion",
+        "lenis",
         "smooth scroll"
       ],
       "exclude": [],
       "rules": [
-        { "id": 100, "text": "Always use TypeScript strict mode, never plain JavaScript.", "source": "apex-template" },
-        { "id": 101, "text": "Use Tailwind CSS v4 utility classes, no custom CSS unless necessary.", "source": "apex-template" },
-        { "id": 102, "text": "Keep components under 300 lines, split into modules.", "source": "apex-template" },
-        { "id": 103, "text": "Run npm run build after code changes to verify.", "source": "apex-template" },
-        { "id": 104, "text": "Use context7 MCP for library documentation lookup before writing framework code.", "source": "apex-template" },
-        { "id": 105, "text": "Test on mobile viewport first. Mobile-first responsive design is the default.", "source": "apex-template" },
-        { "id": 106, "text": "Use semantic HTML for accessibility. Include ARIA labels where needed.", "source": "apex-template" },
-        { "id": 107, "text": "Before coding UI components from scratch, check if 21st.dev Magic MCP (@21st-dev/magic) has a ready-made component. Use premium-web-design skill patterns for animations. Generate base with 21st.dev, customize with hand-coded GSAP/Framer Motion patterns.", "source": "apex-template" },
-        { "id": 108, "text": "For design reference, check awesome-design-md (Airbnb/Apple/Linear/Spotify/Stripe DESIGN.md files at ~/.claude/references/awesome-design-md/) AND premium-web-design references (analyzed sites at ~/.claude/skills/premium-web-design/references/).", "source": "apex-template" }
+        {
+          "id": 100,
+          "text": "Always use TypeScript strict mode, never plain JavaScript.",
+          "source": "apex-template"
+        },
+        {
+          "id": 101,
+          "text": "Use Tailwind CSS v4 utility classes, no custom CSS unless necessary.",
+          "source": "apex-template"
+        },
+        {
+          "id": 102,
+          "text": "Keep components under 300 lines, split into modules.",
+          "source": "apex-template"
+        },
+        {
+          "id": 103,
+          "text": "Run npm run build after code changes to verify.",
+          "source": "apex-template"
+        },
+        {
+          "id": 104,
+          "text": "Use context7 MCP for library documentation lookup before writing framework code.",
+          "source": "apex-template"
+        },
+        {
+          "id": 105,
+          "text": "Test on mobile viewport first. Mobile-first responsive design is the default.",
+          "source": "apex-template"
+        },
+        {
+          "id": 106,
+          "text": "Use semantic HTML for accessibility. Include ARIA labels where needed.",
+          "source": "apex-template"
+        },
+        {
+          "id": 107,
+          "text": "Before coding UI components from scratch, check if 21st.dev Magic MCP (@21st-dev/magic) has a ready-made component. Use premium-web-design skill patterns for animations. Generate base with 21st.dev, customize with hand-coded GSAP/Framer Motion patterns.",
+          "source": "apex-template"
+        },
+        {
+          "id": 108,
+          "text": "For design reference, check awesome-design-md (Airbnb/Apple/Linear/Spotify/Stripe DESIGN.md files at ~/.claude/references/awesome-design-md/) AND premium-web-design references (analyzed sites at ~/.claude/skills/premium-web-design/references/).",
+          "source": "apex-template"
+        }
       ],
       "decisions": []
     },
@@ -79,18 +166,56 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "pdf", "pptx", "docx", "presentation", "report", "document", "word", "powerpoint",
-        "excel", "slides", "deliverable", "export"
+        "pdf",
+        "pptx",
+        "docx",
+        "presentation",
+        "report",
+        "document",
+        "word",
+        "powerpoint",
+        "excel",
+        "slides",
+        "deliverable",
+        "export"
       ],
       "exclude": [],
       "rules": [
-        { "id": 200, "text": "Generate non-Latin scripts (Arabic, Hebrew, CJK, etc.) inside Python scripts only, never in terminal commands — terminals corrupt encoding.", "source": "apex-template" },
-        { "id": 201, "text": "Use arabic-reshaper + python-bidi for PDF. Use raw Unicode + rtl=1 XML for PPTX. NEVER use arabic-reshaper for PPTX (breaks letter joining).", "source": "apex-template" },
-        { "id": 202, "text": "All presentations must be phone-readable: 18pt+ body text, 28pt+ headers.", "source": "apex-template" },
-        { "id": 203, "text": "On Linux/WSL, pip install always uses --break-system-packages flag. On Windows/macOS this is not needed.", "source": "apex-template" },
-        { "id": 204, "text": "NEVER mix RTL and LTR scripts in the same text run. Always separate into different paragraphs or text boxes.", "source": "apex-template" },
-        { "id": 205, "text": "Use consistent brand colors on every slide. Define them once in a config object and reference everywhere. Document your brand palette in the project's CLAUDE.md.", "source": "apex-template" },
-        { "id": 206, "text": "Export Word via python-docx, PDF via reportlab or pypdf, PPTX via python-pptx, XLSX via openpyxl. Do not shell out to MS Office unless running on Windows with COM automation (comtypes).", "source": "apex-template" }
+        {
+          "id": 200,
+          "text": "Generate non-Latin scripts (Arabic, Hebrew, CJK, etc.) inside Python scripts only, never in terminal commands  -  terminals corrupt encoding.",
+          "source": "apex-template"
+        },
+        {
+          "id": 201,
+          "text": "Use arabic-reshaper + python-bidi for PDF. Use raw Unicode + rtl=1 XML for PPTX. NEVER use arabic-reshaper for PPTX (breaks letter joining).",
+          "source": "apex-template"
+        },
+        {
+          "id": 202,
+          "text": "All presentations must be phone-readable: 18pt+ body text, 28pt+ headers.",
+          "source": "apex-template"
+        },
+        {
+          "id": 203,
+          "text": "On Linux/WSL, pip install always uses --break-system-packages flag. On Windows/macOS this is not needed.",
+          "source": "apex-template"
+        },
+        {
+          "id": 204,
+          "text": "NEVER mix RTL and LTR scripts in the same text run. Always separate into different paragraphs or text boxes.",
+          "source": "apex-template"
+        },
+        {
+          "id": 205,
+          "text": "Use consistent brand colors on every slide. Define them once in a config object and reference everywhere. Document your brand palette in the project's CLAUDE.md.",
+          "source": "apex-template"
+        },
+        {
+          "id": 206,
+          "text": "Export Word via python-docx, PDF via reportlab or pypdf, PPTX via python-pptx, XLSX via openpyxl. Do not shell out to MS Office unless running on Windows with COM automation (comtypes).",
+          "source": "apex-template"
+        }
       ],
       "decisions": []
     },
@@ -98,16 +223,45 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "research", "osint", "investigate", "company", "competitor", "analysis", "intelligence",
-        "background check", "vendor", "market research", "due diligence"
+        "research",
+        "osint",
+        "investigate",
+        "company",
+        "competitor",
+        "analysis",
+        "intelligence",
+        "background check",
+        "vendor",
+        "market research",
+        "due diligence"
       ],
       "exclude": [],
       "rules": [
-        { "id": 300, "text": "Use exa-web-search MCP for semantic search.", "source": "apex-template" },
-        { "id": 301, "text": "Use firecrawl MCP for website scraping.", "source": "apex-template" },
-        { "id": 302, "text": "Cross-reference minimum 3 sources before stating facts.", "source": "apex-template" },
-        { "id": 303, "text": "Save research output with a date prefix (YYYY-MM-DD) in a dedicated research folder for version tracking.", "source": "apex-template" },
-        { "id": 304, "text": "When research must be delivered in multiple languages, generate each language version separately — never translate in a terminal stream.", "source": "apex-template" }
+        {
+          "id": 300,
+          "text": "Use exa-web-search MCP for semantic search.",
+          "source": "apex-template"
+        },
+        {
+          "id": 301,
+          "text": "Use firecrawl MCP for website scraping.",
+          "source": "apex-template"
+        },
+        {
+          "id": 302,
+          "text": "Cross-reference minimum 3 sources before stating facts.",
+          "source": "apex-template"
+        },
+        {
+          "id": 303,
+          "text": "Save research output with a date prefix (YYYY-MM-DD) in a dedicated research folder for version tracking.",
+          "source": "apex-template"
+        },
+        {
+          "id": 304,
+          "text": "When research must be delivered in multiple languages, generate each language version separately  -  never translate in a terminal stream.",
+          "source": "apex-template"
+        }
       ],
       "decisions": []
     },
@@ -115,17 +269,48 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "deploy", "vercel", "git push", "production", "live", "publish", "ship it",
-        "go live", "release"
+        "deploy",
+        "vercel",
+        "git push",
+        "production",
+        "live",
+        "publish",
+        "ship it",
+        "go live",
+        "release"
       ],
       "exclude": [],
       "rules": [
-        { "id": 400, "text": "git add specific files only. NEVER git add -A or git add .", "source": "apex-template" },
-        { "id": 401, "text": "git commit with descriptive message following conventional commits format.", "source": "apex-template" },
-        { "id": 402, "text": "git push origin main (or your default branch) before deploying.", "source": "apex-template" },
-        { "id": 403, "text": "vercel --prod and wait for completion. Note the deployment URL.", "source": "apex-template" },
-        { "id": 404, "text": "If you use a canonical alias, ALWAYS run 'vercel alias set <new-deployment-url> <your-canonical-domain>' after deploy. NEVER skip this — clients/users hit the canonical URL, not the per-deploy URL.", "source": "apex-template" },
-        { "id": 405, "text": "Verify deployment with Playwright screenshot after alias is set.", "source": "apex-template" }
+        {
+          "id": 400,
+          "text": "git add specific files only. NEVER git add -A or git add .",
+          "source": "apex-template"
+        },
+        {
+          "id": 401,
+          "text": "git commit with descriptive message following conventional commits format.",
+          "source": "apex-template"
+        },
+        {
+          "id": 402,
+          "text": "git push origin main (or your default branch) before deploying.",
+          "source": "apex-template"
+        },
+        {
+          "id": 403,
+          "text": "vercel --prod and wait for completion. Note the deployment URL.",
+          "source": "apex-template"
+        },
+        {
+          "id": 404,
+          "text": "If you use a canonical alias, ALWAYS run 'vercel alias set <new-deployment-url> <your-canonical-domain>' after deploy. NEVER skip this  -  clients/users hit the canonical URL, not the per-deploy URL.",
+          "source": "apex-template"
+        },
+        {
+          "id": 405,
+          "text": "Verify deployment with Playwright screenshot after alias is set.",
+          "source": "apex-template"
+        }
       ],
       "decisions": []
     },
@@ -133,16 +318,45 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "contract", "law", "legal", "counsel", "agreement", "dispute", "labor", "commercial",
-        "arbitration", "liability", "court"
+        "contract",
+        "law",
+        "legal",
+        "counsel",
+        "agreement",
+        "dispute",
+        "labor",
+        "commercial",
+        "arbitration",
+        "liability",
+        "court"
       ],
       "exclude": [],
       "rules": [
-        { "id": 500, "text": "Reference the jurisdiction's primary commercial/labor law first. Specialize the rule loadout for your region (Qatar, UAE, US, EU, UK, etc.) — edit the recall keywords to match.", "source": "apex-template" },
-        { "id": 501, "text": "All legal output in the jurisdiction's formal legal register (Modern Standard Arabic for GCC, plain English for US/UK, etc.).", "source": "apex-template" },
-        { "id": 502, "text": "Never provide definitive legal advice. Frame every output as analysis and recommend engaging a licensed attorney for authoritative counsel.", "source": "apex-template" },
-        { "id": 503, "text": "Cross-reference with regional regulations when applicable (GCC, EU, state-level, federal, etc.).", "source": "apex-template" },
-        { "id": 504, "text": "Cite sources for every legal claim — statute number, case citation, or regulation reference.", "source": "apex-template" }
+        {
+          "id": 500,
+          "text": "Reference the jurisdiction's primary commercial/labor law first. Specialize the rule loadout for your region (Qatar, UAE, US, EU, UK, etc.)  -  edit the recall keywords to match.",
+          "source": "apex-template"
+        },
+        {
+          "id": 501,
+          "text": "All legal output in the jurisdiction's formal legal register (Modern Standard Arabic for GCC, plain English for US/UK, etc.).",
+          "source": "apex-template"
+        },
+        {
+          "id": 502,
+          "text": "Never provide definitive legal advice. Frame every output as analysis and recommend engaging a licensed attorney for authoritative counsel.",
+          "source": "apex-template"
+        },
+        {
+          "id": 503,
+          "text": "Cross-reference with regional regulations when applicable (GCC, EU, state-level, federal, etc.).",
+          "source": "apex-template"
+        },
+        {
+          "id": 504,
+          "text": "Cite sources for every legal claim  -  statute number, case citation, or regulation reference.",
+          "source": "apex-template"
+        }
       ],
       "decisions": []
     },
@@ -150,15 +364,40 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "browse", "chrome", "screenshot website", "instagram", "linkedin", "reddit", "github",
-        "open site", "visit url", "facebook", "scrape", "social media", "scroll feed",
-        "view website", "extract from website", "check website", "read posts", "view profile",
-        "take screenshot", "login session", "web page"
+        "browse",
+        "chrome",
+        "screenshot website",
+        "instagram",
+        "linkedin",
+        "reddit",
+        "github",
+        "open site",
+        "visit url",
+        "facebook",
+        "scrape",
+        "social media",
+        "scroll feed",
+        "view website",
+        "extract from website",
+        "check website",
+        "read posts",
+        "view profile",
+        "take screenshot",
+        "login session",
+        "web page"
       ],
       "exclude": [],
       "rules": [
-        { "id": 600, "text": "For unauthenticated web content, prefer WebSearch, WebFetch, exa-web-search MCP, or context7 MCP. Use browser MCPs (Playwright) only when you need rendering, JavaScript execution, or visual capture.", "source": "apex-template" },
-        { "id": 601, "text": "Tasks requiring a logged-in browser session (authenticated Instagram, LinkedIn, private dashboards) should be delegated to a session-cookie-based scraper like instaloader, or to the user's browser extension. Never attempt interactive login in Claude Code's Bash tool — it cannot handle password prompts.", "source": "apex-template" }
+        {
+          "id": 600,
+          "text": "For unauthenticated web content, prefer WebSearch, WebFetch, exa-web-search MCP, or context7 MCP. Use browser MCPs (Playwright) only when you need rendering, JavaScript execution, or visual capture.",
+          "source": "apex-template"
+        },
+        {
+          "id": 601,
+          "text": "Tasks requiring a logged-in browser session (authenticated Instagram, LinkedIn, private dashboards) should be delegated to a session-cookie-based scraper like instaloader, or to the user's browser extension. Never attempt interactive login in Claude Code's Bash tool  -  it cannot handle password prompts.",
+          "source": "apex-template"
+        }
       ],
       "decisions": []
     },
@@ -166,15 +405,261 @@
       "state": "active",
       "always_on": false,
       "recall": [
-        "where is", "how does", "show me", "understand the codebase", "architecture", "structure",
-        "find the", "continue working on", "pick up", "resume", "last session", "what did we",
-        "navigate", "graph", "recall memory"
+        "where is",
+        "how does",
+        "show me",
+        "understand the codebase",
+        "architecture",
+        "structure",
+        "find the",
+        "continue working on",
+        "pick up",
+        "resume",
+        "last session",
+        "what did we",
+        "navigate",
+        "graph",
+        "recall memory"
       ],
       "exclude": [],
       "rules": [
-        { "id": 0, "text": "ALWAYS query claude-mem (mem-search skill) for prior context BEFORE reading memory files or project history.", "source": "apex-template" },
-        { "id": 1, "text": "ALWAYS check if a graphify knowledge graph exists for the current project BEFORE reading raw files. Graph path: graphify-out/graph.json in the project root.", "source": "apex-template" },
-        { "id": 2, "text": "Graph query cost ~1000 tokens; raw file read can be 10,000+. Prefer the graph unless the task specifically requires file content (edit, debug, review).", "source": "apex-template" }
+        {
+          "id": 0,
+          "text": "ALWAYS query claude-mem (mem-search skill) for prior context BEFORE reading memory files or project history.",
+          "source": "apex-template"
+        },
+        {
+          "id": 1,
+          "text": "ALWAYS check if a graphify knowledge graph exists for the current project BEFORE reading raw files. Graph path: graphify-out/graph.json in the project root.",
+          "source": "apex-template"
+        },
+        {
+          "id": 2,
+          "text": "Graph query cost ~1000 tokens; raw file read can be 10,000+. Prefer the graph unless the task specifically requires file content (edit, debug, review).",
+          "source": "apex-template"
+        }
+      ],
+      "decisions": []
+    },
+    "GSTACK-INTEGRATED": {
+      "state": "active",
+      "always_on": false,
+      "recall": [
+        "review the code",
+        "review this pr",
+        "audit this branch",
+        "check this pr",
+        "find bugs",
+        "code review",
+        "review my changes",
+        "security audit",
+        "owasp",
+        "stride",
+        "vulnerability check",
+        "security review",
+        "threat model",
+        "pen test",
+        "security scan",
+        "debug",
+        "debug this",
+        "investigate",
+        "root cause",
+        "find the root cause",
+        "investigate this bug",
+        "trace this issue",
+        "why is this failing",
+        "why is this broken",
+        "diagnose",
+        "stack trace",
+        "write a spec",
+        "draft a spec",
+        "scope this feature",
+        "spec out",
+        "requirements doc",
+        "write up a ticket",
+        "turn this into an issue",
+        "weekly retro",
+        "engineering retro",
+        "sprint retro",
+        "give me a retro",
+        "do a retro",
+        "retrospective",
+        "post-mortem",
+        "what did we ship",
+        "engineering review",
+        "architecture review",
+        "review the architecture",
+        "review architecture",
+        "lock the architecture",
+        "eng plan review",
+        "technical review",
+        "new product idea",
+        "explore an idea",
+        "ideate",
+        "before i build",
+        "scope this concept",
+        "is this worth building",
+        "brainstorm something new",
+        "strategic review",
+        "ceo review",
+        "rethink this",
+        "10-star product",
+        "find the bigger product",
+        "strategic challenge",
+        "design plan review",
+        "rate this design plan",
+        "design critique",
+        "design quality check",
+        "plan-mode design review",
+        "autoplan",
+        "run the planning pipeline",
+        "full plan review",
+        "auto plan",
+        "plan everything",
+        "be careful",
+        "careful mode",
+        "destructive command warning",
+        "safety warning",
+        "freeze edits",
+        "lock to this directory",
+        "freeze the codebase",
+        "edit lock",
+        "guard mode",
+        "safety on",
+        "lock everything down",
+        "prod safety",
+        "unfreeze",
+        "remove lock",
+        "unlock edits",
+        "end freeze",
+        "canary monitor",
+        "post-deploy watch",
+        "after deploy check",
+        "monitor production",
+        "watch the deploy",
+        "benchmark",
+        "performance check",
+        "page speed",
+        "core web vitals",
+        "perf baseline",
+        "update docs",
+        "doc release",
+        "sync documentation",
+        "doc update after ship",
+        "refresh docs",
+        "update the docs",
+        "update documentation",
+        "documentation update",
+        "generate docs",
+        "create documentation",
+        "draft docs",
+        "diataxis",
+        "write missing docs",
+        "generate documentation",
+        "missing documentation",
+        "missing docs",
+        "skillify",
+        "make this a skill",
+        "turn into a skill",
+        "capture this pattern"
+      ],
+      "exclude": [],
+      "rules": [
+        {
+          "id": 1000,
+          "text": "For code review / PR review / find-bugs / audit-this-branch requests, invoke the gs-review skill (gstack staff-engineer review army). It may reference uninstalled gstack siblings (ship, qa); ignore those calls or install gstack upstream for full power.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1001,
+          "text": "For security audit / OWASP / STRIDE / vulnerability / threat-model requests, invoke the gs-cso skill (structured OWASP Top 10 + STRIDE pass). Complements the security-reviewer agent.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1002,
+          "text": "For debug-this / root-cause / why-is-this-failing / trace-this-issue requests, invoke the gs-investigate skill (scientific-method debugging). Carries a self-no-op freeze hook (safe when gs-freeze absent).",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1003,
+          "text": "For write/draft-a-spec / scope-this-feature / requirements-doc requests, invoke the gs-spec skill (five-phase spec). If you run GSD, prefer gsd-spec-phase for GSD-managed projects.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1004,
+          "text": "For weekly-retro / engineering-retro / sprint-retro / post-mortem requests, invoke the gs-retro skill.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1005,
+          "text": "For engineering-review / architecture-review / lock-the-architecture / eng-plan-review requests, invoke the gs-plan-eng skill (eng-manager plan review).",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1006,
+          "text": "For new-product-idea / ideate / is-this-worth-building / before-I-build requests, invoke the gs-office-hours skill (six forcing questions). Pure-prompt, works standalone.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1007,
+          "text": "For strategic-review / find-the-bigger-product / 10-star requests, invoke the gs-plan-ceo skill (request-specific product strategy). Complements the cs-ceo-advisor agent.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1008,
+          "text": "For design-plan-review / rate-this-design-plan / design-critique requests, invoke the gs-plan-design skill (rates design dimensions 0-10, flags AI slop).",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1009,
+          "text": "For autoplan / run-the-planning-pipeline / full-plan-review requests, invoke the gs-autoplan skill (runs CEO then design then eng review sequentially). FULL automation needs the gstack bin/ toolchain (install gstack upstream); otherwise invoke gs-plan-ceo, gs-plan-design, gs-plan-eng individually.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1010,
+          "text": "For be-careful / careful-mode / destructive-command-warning requests, invoke the gs-careful skill (advisory warnings before rm -rf, DROP TABLE, force-push).",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1011,
+          "text": "For freeze-edits / lock-to-this-directory / edit-lock requests, invoke the gs-freeze skill (restrict edits to one dir for the session). Coordinates with gs-unfreeze via a shared state file.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1012,
+          "text": "For guard-mode / lock-everything-down / prod-safety requests, invoke the gs-guard skill (gs-careful plus gs-freeze combined).",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1013,
+          "text": "For unfreeze / unlock-edits / end-freeze requests, invoke the gs-unfreeze skill (clears the gs-freeze boundary).",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1014,
+          "text": "For canary / post-deploy-watch / monitor-production requests, invoke the gs-canary skill. FULL automation needs the gstack browse daemon (install gstack upstream); otherwise use the playwright MCP / your host dashboard.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1015,
+          "text": "For benchmark / page-speed / core-web-vitals / perf-baseline requests, invoke the gs-benchmark skill. FULL automation needs the gstack browse daemon; otherwise use the playwright MCP or Lighthouse.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1016,
+          "text": "For update-docs / doc-update-after-ship / sync-documentation requests, invoke the gs-doc-release skill (post-ship doc sync + Diataxis coverage). Complements the doc-updater agent.",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1017,
+          "text": "For generate-docs / create-documentation / diataxis / write-missing-docs requests, invoke the gs-doc-generate skill (Diataxis doc generator).",
+          "source": "apex-gstack-v8"
+        },
+        {
+          "id": 1018,
+          "text": "For skillify requests: note gs-skillify is SCRAPE-SPECIFIC (codifies a gstack browser/scrape flow). For turning a generic workflow into a reusable skill, prefer the skill-creator plugin.",
+          "source": "apex-gstack-v8"
+        }
       ],
       "decisions": []
     }

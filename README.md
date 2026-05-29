@@ -16,13 +16,15 @@
 
 <div align="center">
 
-**V7 — Three-Layer Auto-Routing**
+**V8 - Three-Layer Auto-Routing + gstack Integration**
 
 **1,276+ skills. 108 agents. 182 commands. One unified intelligence.**
 
+**New in V8:** 19 gstack-integrated `gs-*` skills + the `GSTACK-INTEGRATED` CARL routing domain (19 rules, 117 triggers). See [CHANGELOG.md](CHANGELOG.md) and [docs/GSTACK-INTEGRATION.md](docs/GSTACK-INTEGRATION.md). Third-party credits in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
+
 *The most comprehensive Claude Code environment that exists.*
 
-![Version](https://img.shields.io/badge/version-7.0-blue)
+![Version](https://img.shields.io/badge/version-8.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-purple)
@@ -44,7 +46,7 @@ Zero technical background required. Ten step-by-step tutorials walk you from "I 
 
 Most Claude Code users run a vanilla setup — a few skills, default settings, no custom agents. They're using ~10% of what Claude Code can do. Every session starts cold. Every task is ad-hoc. There's no memory between sessions, no structured execution, no specialist agents, and no way to verify the system is even working.
 
-**Claude Apex V7** is an enterprise-grade environment built over multiple months. It adds 25 specialist agents, 9 JIT rule domains, structured execution loops, memory consolidation, 7 new custom skills, and — the V7 core innovation — a **three-layer auto-routing system** that reads your natural language and activates the right combination of tools automatically. You never need to type a slash command unless you want to.
+**Claude Apex V8** is an enterprise-grade environment built over multiple months. It adds 25 specialist agents, 9 JIT rule domains, structured execution loops, memory consolidation, 7 new custom skills, and — the V7 core innovation — a **three-layer auto-routing system** that reads your natural language and activates the right combination of tools automatically. You never need to type a slash command unless you want to.
 
 Every component is tested individually and as part of the whole. The system verifies itself with 15+ automated health checks.
 

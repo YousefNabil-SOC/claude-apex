@@ -1,7 +1,7 @@
 {
   "name": "claude-apex",
-  "version": "7.0.0",
-  "description": "1,276+ skills. 108 agents. 182 commands. Three-layer auto-routing. The most comprehensive Claude Code environment.",
+  "version": "8.0.0",
+  "description": "Three-layer auto-routing Claude Code environment. 19 gstack-integrated skills, 26 agents, CARL JIT routing, smart installer that pulls upstream powerhouses. The most comprehensive Claude Code environment.",
   "author": "Yousef Nabil (https://github.com/YousefNabil-SOC)",
   "license": "MIT",
   "repository": {

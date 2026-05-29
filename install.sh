@@ -150,13 +150,12 @@ for hook_file in "$SCRIPT_DIR"/hooks/*; do
 done
 echo ""
 
-# --- Install Skills (9 custom Apex skills) ---
-echo -e "${CYAN}Installing Apex skills (9 custom)...${NC}"
+# --- Install Skills (all vendored Apex skills, incl. 19 gstack-integrated gs-*) ---
+echo -e "${CYAN}Installing Apex skills (all vendored)...${NC}"
 mkdir -p "$CLAUDE_DIR/skills"
-for skill in dream-consolidation autoresearch premium-web-design 21st-dev-magic instagram-access graphify graphic-design-studio impeccable fireworks-tech-graph; do
-  if [[ -d "$SCRIPT_DIR/skills/$skill" ]]; then
-    install_dir "$SCRIPT_DIR/skills/$skill" "$CLAUDE_DIR/skills/$skill" "skill: $skill"
-  fi
+for skilldir in "$SCRIPT_DIR"/skills/*/; do
+  skill=$(basename "$skilldir")
+  install_dir "$SCRIPT_DIR/skills/$skill" "$CLAUDE_DIR/skills/$skill" "skill: $skill"
 done
 echo ""
 
