@@ -16,13 +16,15 @@
 
 <div align="center">
 
-**V7 — Three-Layer Auto-Routing**
+**V8 - Three-Layer Auto-Routing + gstack Integration**
 
 **1,276+ skills. 108 agents. 182 commands. One unified intelligence.**
 
+**New in V8:** 19 gstack-integrated `gs-*` skills + the `GSTACK-INTEGRATED` CARL routing domain (19 rules, 117 triggers). See [CHANGELOG.md](CHANGELOG.md) and [docs/GSTACK-INTEGRATION.md](docs/GSTACK-INTEGRATION.md). Third-party credits in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
+
 *The most comprehensive Claude Code environment that exists.*
 
-![Version](https://img.shields.io/badge/version-7.0-blue)
+![Version](https://img.shields.io/badge/version-8.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Mac%20%7C%20Linux-lightgrey)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-compatible-purple)
@@ -44,7 +46,7 @@ Zero technical background required. Ten step-by-step tutorials walk you from "I 
 
 Most Claude Code users run a vanilla setup — a few skills, default settings, no custom agents. They're using ~10% of what Claude Code can do. Every session starts cold. Every task is ad-hoc. There's no memory between sessions, no structured execution, no specialist agents, and no way to verify the system is even working.
 
-**Claude Apex V7** is an enterprise-grade environment built over multiple months. It adds 25 specialist agents, 9 JIT rule domains, structured execution loops, memory consolidation, 7 new custom skills, and — the V7 core innovation — a **three-layer auto-routing system** that reads your natural language and activates the right combination of tools automatically. You never need to type a slash command unless you want to.
+**Claude Apex V8** is an enterprise-grade environment built over multiple months. It adds 25 specialist agents, 9 JIT rule domains, structured execution loops, memory consolidation, 7 new custom skills, and the core innovation (introduced in V7, extended in V8) — a **three-layer auto-routing system** that reads your natural language and activates the right combination of tools automatically. You never need to type a slash command unless you want to.
 
 Every component is tested individually and as part of the whole. The system verifies itself with 15+ automated health checks.
 
@@ -52,7 +54,7 @@ One-command install. Non-destructive — your existing setup stays intact. Every
 
 ---
 
-## The V7 Innovation — Three-Layer Auto-Routing
+## The Core Innovation — Three-Layer Auto-Routing
 
 ```
 User prompt ("build me a premium landing page with scroll animations")
@@ -90,13 +92,13 @@ You never typed `/premium-web-design` or `/21st-dev-magic` or `/feature-dev`. Th
 After installing Apex, this is what `/healthcheck` looks like:
 
 ```
-System Health Check V7
+System Health Check V8
 
  #  | System              | Status | Details
 ----|---------------------|--------|--------------------------------
  1  | OMC Plugin          | OK     | oh-my-claudecode@omc enabled
  2  | PAUL Framework      | OK     | 28 commands
- 3  | CARL                | OK     | 9 domains, 40 rules configured
+ 3  | CARL                | OK     | 10 domains, 59 rules configured
  4  | Autoresearch        | OK     | SKILL.md present
  5  | SEED                | OK     | seed.md present
  6  | UserPromptSubmit    | OK     | carl-hook.py (UTF-8 fixed)
@@ -108,7 +110,8 @@ System Health Check V7
  12 | 21st.dev Magic      | OK     | Component generation active
  13 | Graphify            | OK     | Knowledge graph skill loaded
  14 | Premium Web Design  | OK     | 36 patterns, 10 references
- 15 | Skills Count        | OK     | 1,276+ skills
+ 15 | GSTACK-INTEGRATED   | OK     | 19 gs-* skills, 117 triggers
+ 16 | Skills Count        | OK     | 1,276+ skills (after plugins)
  16 | Agents Count        | OK     | 108 agents
  17 | effortLevel         | OK     | high (self-healing enforced)
  18 | Memory Health       | OK     | 112 lines (limit: 200)
@@ -145,7 +148,7 @@ Ready for your review.
 | Plugins Available | **20** (9 enabled by default) |
 | Slash Commands | **182** indexed |
 | PAUL Execution Commands | **28** |
-| CARL Rule Domains | **9** domains, **40** rules |
+| CARL Rule Domains | **10** domains, **59** rules (incl. GSTACK-INTEGRATED) |
 | Hook Events | **5** (PostCompact, Stop, Notification, UserPromptSubmit, SessionStart-chain) |
 | Automated Health Checks | **18+** |
 | Beginner Tutorials | **10** |
@@ -221,7 +224,7 @@ Wait for it to finish. Then restart Claude Code.
 **Step 2:** Open a new Claude Code session and paste this:
 
 ```
-I just installed Claude Apex V7. Please complete the setup by running these plugin installations:
+I just installed Claude Apex V8. Please complete the setup by running these plugin installations:
 1. Add the everything-claude-code marketplace and install it
 2. Add the oh-my-claudecode marketplace and install it
 3. Run the OMC setup
@@ -311,7 +314,8 @@ Apex installs these components to your `~/.claude/` directory:
 - ~45 custom slash commands + paul/ + seed/ + autoresearch/ subdirs
 - 7 hook scripts (post-compact-recovery, session-end-save, task-complete-sound, carl-hook.py, session-start-check, project-auto-graph, peers-auto-register)
 - 9 custom skills (premium-web-design, 21st-dev-magic, instagram-access, graphify, graphic-design-studio, impeccable, fireworks-tech-graph, dream-consolidation, autoresearch)
-- CARL domain configuration (9 domains, 40 rules)
+- 19 gstack-integrated gs-* skills (renamed gstack derivatives, MIT - see ATTRIBUTIONS.md and docs/GSTACK-INTEGRATION.md)
+- CARL domain configuration (10 domains, 59 rules, incl. GSTACK-INTEGRATED)
 - Orchestration engine
 - CAPABILITY-REGISTRY, COMMAND-REGISTRY, AGENTS.md, AUTO-ACTIVATION-MATRIX
 - CLAUDE.md and PRIMER.md templates
@@ -355,7 +359,7 @@ Without these plugins, you get the core Apex experience. With them, you get the 
 | [05-WHAT-ARE-AGENTS.md](docs/05-WHAT-ARE-AGENTS.md) | Agents = specialist coworkers (all 25 listed) |
 | [06-WHAT-ARE-MCP-SERVERS.md](docs/06-WHAT-ARE-MCP-SERVERS.md) | MCP = superpowers plugged in (all 4 defaults) |
 | [07-WHAT-ARE-HOOKS.md](docs/07-WHAT-ARE-HOOKS.md) | Hooks = automatic reflexes (all 7 explained) |
-| [08-WHAT-IS-CARL.md](docs/08-WHAT-IS-CARL.md) | CARL = librarian (9 domains, 40 rules, 117+ keywords) |
+| [08-WHAT-IS-CARL.md](docs/08-WHAT-IS-CARL.md) | CARL = librarian (10 domains, 59 rules, 117+ keywords) |
 | [09-GLOSSARY.md](docs/09-GLOSSARY.md) | 40+ terms, alphabetically sorted |
 | [10-TROUBLESHOOT-FOR-BEGINNERS.md](docs/10-TROUBLESHOOT-FOR-BEGINNERS.md) | Top 10 beginner problems with symptom/cause/fix |
 
@@ -365,7 +369,7 @@ Without these plugins, you get the core Apex experience. With them, you get the 
 |-------|-------------|
 | [Architecture](docs/ARCHITECTURE.md) | Three-layer routing explained in depth |
 | [Agents Guide](docs/AGENTS-GUIDE.md) | All 108 agents with model routing table |
-| [CARL Guide](docs/CARL-GUIDE.md) | All 9 domains, 40 rules, 3 routing examples |
+| [CARL Guide](docs/CARL-GUIDE.md) | All 10 domains, 59 rules, 3 routing examples |
 | [PAUL Integration](docs/PAUL-INTEGRATION.md) | Plan-Apply-Unify structured execution |
 | [OMC Integration](docs/OMC-INTEGRATION.md) | autopilot, ralph, team, deep-interview modes |
 | [Peers Setup](docs/PEERS-SETUP.md) | Multi-terminal coordination |
@@ -415,6 +419,7 @@ Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines
 - [PAUL Framework](https://github.com/ChristopherKahler/paul) by ChristopherKahler — structured execution
 - [SEED](https://github.com/ChristopherKahler/seed) by ChristopherKahler — project incubation
 - [Claude Peers](https://github.com/louislva/claude-peers-mcp) by louislva — inter-instance communication
+- [gstack](https://github.com/garrytan/gstack) by Garry Tan (MIT) — the 19 gs-* skills are renamed derivatives; see ATTRIBUTIONS.md
 - [21st.dev](https://21st.dev/) — the Magic MCP for premium UI component generation
 - The Claude Code community for skills, plugins, and inspiration
 

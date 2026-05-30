@@ -149,3 +149,14 @@ Trigger: `/graphify` → invokes the Skill tool with `skill: "graphify"`
 Build a knowledge graph per project to save ~90% of file-reading tokens.
 
 <!-- Claude Apex V7 by Engineer Yousef Nabil — https://github.com/YousefNabil-SOC/claude-apex -->
+
+## Gstack-derived skills (19 cherry-picked, on demand; CARL-wired via GSTACK-INTEGRATED)
+Fire from natural language, not slash commands:
+- Plan/ideate: gs-office-hours, gs-plan-ceo, gs-plan-design, gs-plan-eng, gs-autoplan
+- Review/quality: gs-review, gs-cso (OWASP+STRIDE), gs-spec
+- Debug: gs-investigate
+- Safety (advisory): gs-careful, gs-freeze, gs-guard, gs-unfreeze
+- Deploy watch: gs-canary, gs-benchmark (need gstack browse daemon for full power)
+- Docs: gs-doc-release, gs-doc-generate
+- Retro/meta: gs-retro, gs-skillify
+Source: garrytan/gstack (MIT). See docs/GSTACK-INTEGRATION.md and ATTRIBUTIONS.md.

@@ -128,35 +128,22 @@ Get-ChildItem "$ScriptDir\hooks\*" | Where-Object { $_.Name -ne "README.md" } | 
     Install-ApexFile $_.FullName "$ClaudeDir\hooks\$($_.Name)" $_.Name
 }
 
-# --- Install Skills (V7 -- 9 custom Apex skills) ---
-Write-Host "`nInstalling Apex skills (9 custom)..." -ForegroundColor Cyan
+# --- Install Skills (all vendored Apex skills, incl. 19 gstack-integrated gs-*) ---
+Write-Host "`nInstalling Apex skills (all vendored)..." -ForegroundColor Cyan
 New-Item -ItemType Directory -Path "$ClaudeDir\skills" -Force | Out-Null
-$skillDirs = @(
-    "dream-consolidation",
-    "autoresearch",
-    "premium-web-design",
-    "21st-dev-magic",
-    "instagram-access",
-    "graphify",
-    "graphic-design-studio",
-    "impeccable",
-    "fireworks-tech-graph"
-)
-foreach ($skill in $skillDirs) {
-    if (Test-Path "$ScriptDir\skills\$skill") {
-        Install-ApexDir "$ScriptDir\skills\$skill" "$ClaudeDir\skills\$skill" "skill: $skill"
-    }
+Get-ChildItem "$ScriptDir\skills" -Directory | ForEach-Object {
+    Install-ApexDir $_.FullName "$ClaudeDir\skills\$($_.Name)" "skill: $($_.Name)"
 }
 
 # --- Install CARL (V7 -- 9 domains, 40 rules) ---
-Write-Host "`nInstalling CARL domains (9 domains, 40 rules)..." -ForegroundColor Cyan
+Write-Host "`nInstalling CARL domains (10 domains, 59 rules)..." -ForegroundColor Cyan
 if (Test-Path "$CarlDir\carl.json") {
     Write-Host "  [SKIP] carl.json (already exists)" -ForegroundColor Yellow
     $skipped++
 } else {
     New-Item -ItemType Directory -Path $CarlDir -Force | Out-Null
     Copy-Item "$ScriptDir\config\carl-domains.json" "$CarlDir\carl.json"
-    Write-Host "  [INSTALL] carl.json (9 domains, 40 rules)" -ForegroundColor Green
+    Write-Host "  [INSTALL] carl.json (10 domains, 59 rules)" -ForegroundColor Green
     $installed++
 }
 
@@ -391,6 +378,10 @@ Write-Host ""
 Write-Host "  3. /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode"
 Write-Host "  4. /plugin install oh-my-claudecode"
 Write-Host "  5. /oh-my-claudecode:omc-setup"
+Write-Host ""
+Write-Host "  Optional full power (upstreams the gs-* skills build on):"
+Write-Host "  - gstack:  git clone https://github.com/garrytan/gstack  (browse daemon + bin toolchain for gs-autoplan/canary/benchmark)"
+Write-Host "  - GSD:     npm i -g get-shit-done-cc  (phase-based planning agents)"
 Write-Host ""
 Write-Host "  6. /healthcheck"
 Write-Host ""

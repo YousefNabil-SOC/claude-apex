@@ -62,7 +62,7 @@ User prompt ("build me a premium landing page with scroll animations")
 
 CARL is Python hook `carl-hook.py` registered on the `UserPromptSubmit` event. It runs *before* Claude processes each prompt.
 
-- Config: `~/.carl/carl.json` — 9 domains, 40 rules, 117+ recall keywords
+- Config: `~/.carl/carl.json` — 10 domains, 59 rules, 117+ recall keywords
 - Cost: ~200 tokens per prompt (only matching rules — typically 3-8 rules load)
 - UTF-8 fixed on all 4 `open()` calls to prevent non-Latin content corruption
 - Always-on: the `GLOBAL` domain (3 rules) injects on every prompt
