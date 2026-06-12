@@ -1,12 +1,14 @@
 <div align="center">
 
+<img src="https://readme-typing-svg.demolab.com/?font=JetBrains+Mono&weight=600&size=22&duration=2800&pause=900&color=A371F7&center=true&vCenter=true&width=760&height=55&lines=1%2C276+Skills+-+185+Agents+-+235+Commands;Three-Layer+Auto-Routing+for+Claude+Code;8+MCP+Servers%2C+Wired+and+Extensible;Install+in+Minutes+-+Built+to+be+Taught" alt="Claude Apex" />
+
 # Claude Apex
 
 ### A three-layer auto-routing environment for Claude Code
 
-**The public mirror and installer of a working, battle-tested Claude Code setup.**
+**The public mirror -- and the teaching install -- of a working, battle-tested setup.**
 Describe a task in plain language; Apex activates the right rules, skills, agents, and
-MCP servers automatically -- no slash command required.
+MCP servers automatically. No slash command required.
 
 ![version](https://img.shields.io/badge/version-8.0.0-6f42c1?style=for-the-badge)
 ![license](https://img.shields.io/badge/license-MIT-1f883d?style=for-the-badge)
@@ -15,9 +17,15 @@ MCP servers automatically -- no slash command required.
 ![skills](https://img.shields.io/badge/skills-1%2C276-6f42c1)
 ![agents](https://img.shields.io/badge/agents-185-0969da)
 ![commands](https://img.shields.io/badge/commands-235-1f883d)
-![MCP servers](https://img.shields.io/badge/MCP%20servers-6-cf222e)
+![MCP servers](https://img.shields.io/badge/MCP%20servers-8%20wired-cf222e)
 ![CARL domains](https://img.shields.io/badge/CARL%20domains-10-bf8700)
 ![auto-routing](https://img.shields.io/badge/auto--routing-3%20layers-fb8500)
+
+[Install](#install) -
+[Proof of concept](#proof-of-concept) -
+[How it works](#how-it-works) -
+[Docs](#documentation) -
+[Make it yours](#make-it-yours)
 
 </div>
 
@@ -27,13 +35,14 @@ MCP servers automatically -- no slash command required.
 
 A vanilla Claude Code install is stateless and ad-hoc: a few skills, default settings,
 no custom agents, no memory between sessions, no structured execution. **Apex is the
-public mirror and installer of my own daily-driver Claude Code environment** -- a
-routing brain plus a large, curated toolset that configures itself per task instead of
-being driven by hand.
+public mirror, and the step-by-step install, of my own daily-driver Claude Code
+environment** -- a routing brain plus a large, curated toolset that configures itself
+per task instead of being driven by hand.
 
-It is built for the world AI-coding agents actually live in -- Claude Code, and the
-MCP servers, skills, and sub-agents that extend it -- so the environment loads exactly
-what each task needs, the moment it needs it.
+It targets the world AI-coding agents actually live in -- Claude Code, plus the MCP
+servers, skills, and sub-agents that extend it -- so the environment loads exactly what
+each task needs, the moment it needs it. The goal of this README is not just to show you
+what I built: it is to teach you to run the same environment yourself, and then extend it.
 
 ---
 
@@ -44,26 +53,117 @@ These are the totals my live environment resolves to, counted directly from
 
 | Resource | Count | Where it lives |
 |----------|------:|----------------|
-| **Skills** | **1,276** | `~/.claude/skills/` (plus ~300 more from installed marketplaces) |
+| **Skills** | **1,276** | `~/.claude/skills/` (the clean floor; hundreds more across projects + marketplaces) |
 | **Agents** | **185** | own + claude-flow / swarm + plugin agents (distinct) |
 | **Slash commands** | **235** | own + plugin command suites (distinct) |
-| **MCP servers** | **6** | Playwright, GitHub, Exa, 21st.dev Magic, Claude Video Vision, Scrapling -- extensible |
+| **MCP servers** | **8 wired** | Playwright, GitHub, Exa, 21st.dev Magic, Claude Video Vision, Scrapling, context7, claude-flow |
+| **+ connectors** | **4** | Canva, Gmail, Google Calendar, Google Drive (account connectors) |
+| **+ installable** | **~15** | asana, discord, firebase, gitlab, linear, telegram, serena, terraform, greptile, ... from marketplaces |
 | **CARL rule domains** | **10** | just-in-time rule routing |
-| **Enabled plugins** | **10** | from a wider set of installable marketplaces |
 
 > **How to read these honestly.** This repository **vendors a curated original core**
 > -- 28 skills (9 original + 19 gstack-derived `gs-*`), 25 specialist agents, 108
 > command files, 7 hooks, and the routing brain (CARL + two registries). The larger
-> totals above are what my **full installed environment** resolves to: the original
-> core, plus the open Claude Code plugin/marketplace ecosystem the installer pulls in,
-> plus skills I have collected and authored over time. Everything upstream is credited
-> in [ATTRIBUTIONS.md](ATTRIBUTIONS.md). Clone the repo and you get the core + the
-> installer; run it and connect the marketplaces and you approach the full set. Nothing
-> here is invented -- the counts come from a real directory you can count yourself.
+> totals are what my **full installed environment** resolves to: the original core,
+> plus the open Claude Code plugin/marketplace ecosystem the installer pulls in, plus
+> skills I have collected and authored over time. Everything upstream is credited in
+> [ATTRIBUTIONS.md](ATTRIBUTIONS.md). Clone the repo and you get the core + the
+> installer; follow the walkthrough below and you build the rest. Nothing here is
+> invented -- the counts come from a real directory you can count yourself with one
+> command (shown below).
+
+<details>
+<summary><b>Count it yourself (copy/paste)</b></summary>
+
+<br>
+
+```bash
+# skills in your environment
+find ~/.claude/skills -name SKILL.md | wc -l
+# distinct agents
+find ~/.claude -path '*/agents/*.md' ! -name README.md | xargs -n1 basename | sort -u | wc -l
+# wired MCP servers (from settings + project configs)
+grep -ro '"mcpServers"' ~/.claude.json ~/.claude/settings.json | wc -l
+```
+</details>
 
 ---
 
-## The core innovation -- three-layer auto-routing
+## Proof of concept
+
+These are real prompts. Paste any one into a Claude Code session running Apex and watch
+the three layers fire -- no slash command typed. Each one exercises a different part of
+the environment.
+
+<details open>
+<summary><b>1. Build a UI from a sentence</b></summary>
+
+```
+> build me a premium pricing page with scroll-reveal animations
+```
+```
+Layer 1 (CARL):    WEB-DEVELOPMENT + DEVELOPMENT rules injected
+Layer 2 (REGISTRY): premium-web-design + react/tailwind skills,
+                    21st.dev Magic + Playwright MCP servers
+Layer 3 (COMMAND):  /feature-dev -> (later) /code-review
+=> components generated, scroll patterns applied, npm run build clean
+```
+</details>
+
+<details>
+<summary><b>2. Review a pull request, adversarially</b></summary>
+
+```
+> review this branch for bugs and security issues
+```
+```
+CARL routes GSTACK-INTEGRATED -> gs-review (staff-eng review) + gs-cso (OWASP/STRIDE)
++ the security-reviewer and code-reviewer agents, with findings verified before report.
+```
+</details>
+
+<details>
+<summary><b>3. Debug by root cause, not guesswork</b></summary>
+
+```
+> why is the webhook handler dropping events under load?
+```
+```
+CARL -> gs-investigate (scientific-method debugging): reproduce -> hypothesize ->
+instrument -> isolate -> fix, with the debugger agent and a written root-cause note.
+```
+</details>
+
+<details>
+<summary><b>4. Research with citations, then write the doc</b></summary>
+
+```
+> research OAuth 2.0 device-code flow for CRM connectors and draft the integration doc
+```
+```
+CARL RESEARCH-OSINT -> Exa MCP (semantic search) + context7 MCP (library docs),
+cross-referenced, then gs-doc-generate writes a Diataxis-structured doc.
+```
+</details>
+
+<details>
+<summary><b>5. Navigate a codebase for ~1/10th the tokens</b></summary>
+
+```
+> where is the auth middleware and how does session refresh work?
+```
+```
+CARL PROJECT-NAVIGATION -> Graphify queries the knowledge graph (~1k tokens)
+instead of raw file reads (~10k+), then answers with exact file:line.
+```
+</details>
+
+---
+
+## How it works
+
+**The core innovation: three-layer auto-routing.** You describe the task; Apex assembles
+the stack.
 
 ```
   User prompt: "build me a premium landing page with scroll animations"
@@ -91,53 +191,15 @@ These are the totals my live environment resolves to, counted directly from
 ```
 
 You never typed `/premium-web-design`, `/21st-dev-magic`, or `/feature-dev`. The system
-read your sentence and activated all of them. The same routing handles code review,
-debugging, deployment, document generation, research, and more.
-
----
-
-## Quick demo
-
-Natural language in -- Apex routes automatically, no slash command typed:
-
-```
-> build me a landing page for a luxury coffee brand
-
-[Apex routes automatically]
-  Layer 1 (CARL):                WEB-DEVELOPMENT + DEVELOPMENT rules injected
-  Layer 2 (CAPABILITY-REGISTRY): premium-web-design, react/tailwind skills loaded;
-                                 21st.dev Magic + Playwright MCP servers active
-  Layer 3 (COMMAND-REGISTRY):    /feature-dev invoked
-
-Generating components via 21st.dev Magic...
-Applying premium-web-design scroll patterns...
-Running npm run build... clean
-Ready for review.
-```
-
-A health snapshot (`/healthcheck` verifies the environment):
-
-```
-System Health Check
-
-  System              | Status | Detail
-  --------------------|--------|-------------------------------
-  CARL routing        | OK     | 10 domains configured
-  Skills              | OK     | 1,276 in ~/.claude/skills
-  Agents              | OK     | 185 available
-  Slash commands      | OK     | 235 indexed
-  MCP servers         | OK     | 6 wired (Playwright/GitHub/Exa/21st.dev/Video/Scrapling)
-  effortLevel         | OK     | high (self-healing enforced)
-  Settings JSON       | OK     | valid
-```
+read your sentence and activated all of them.
 
 ---
 
 ## MCP integration -- agents that reach real tools
 
-Apex wires MCP servers into `settings.json` and routes prompts to them automatically
-through the capability registry. This is the same surface modern AI-coding agents
-(Claude Code, Cursor, Codex) plug into -- MCP is how an agent reaches the outside world.
+MCP is how an AI-coding agent reaches the outside world. Apex wires MCP servers into
+`settings.json` and routes prompts to them automatically -- the same surface Claude Code,
+Cursor, and Codex plug into.
 
 | MCP server | What it gives the agent |
 |------------|-------------------------|
@@ -147,88 +209,70 @@ through the capability registry. This is the same surface modern AI-coding agent
 | **21st.dev Magic** | Generate React + TS + Tailwind UI from natural language |
 | **Claude Video Vision** | Frame-level video understanding |
 | **Scrapling** | Resilient, stealth web scraping |
+| **context7** | Up-to-date library/framework documentation |
+| **claude-flow** | Multi-agent swarm orchestration |
 
-API keys are referenced as `${VAR}` and resolved from `~/.claude/.env` -- nothing is
-hard-coded. Add a server to `settings.json` plus a capability-registry rule and it joins
-the auto-activation flow.
-
----
-
-<details>
-<summary><b>What is inside (click to expand)</b></summary>
-
-<br>
-
-| Layer / System | What it does | How you use it |
-|----------------|--------------|----------------|
-| **CARL** | Just-in-time rule injection -- loads only the rules relevant to your prompt | Automatic -- `carl-hook.py` on every UserPromptSubmit |
-| **CAPABILITY-REGISTRY** | Task-pattern routing -- "build website" -> skills + MCP + agents | Automatic -- consulted per task |
-| **COMMAND-REGISTRY** | Intent routing -- user intent -> the right slash commands | Automatic -- commands mapped to intent keywords |
-| **OMC** (oh-my-claudecode) | Multi-agent orchestration | `autopilot: [task]` for autonomous execution |
-| **claude-flow / swarm** | Large agent fleet for hierarchical/parallel work | Routed for multi-agent tasks |
-| **PAUL** framework | Structured Plan-Apply-Unify execution loop | `/paul:plan` -> `/paul:apply` -> `/paul:unify` |
-| **SEED** | Project incubator -- idea to structured plan | `/seed` |
-| **Autoresearch** | Autonomous optimize-measure-keep loops | `/autoresearch` |
-| **Premium Web Design** | Curated luxury animation patterns + references | Auto-activates on "premium", "luxury", "animation" |
-| **21st.dev Magic MCP** | Generate React+TS+Tailwind components | Auto-activates on "component", "ui", "generate" |
-| **Graphify** | Knowledge-graph navigation -- big token savings vs raw file reads | Auto-activates on "where is X" |
-| **Specialist agents** | architect, security, TDD, reviewers, SEO, and more | By name or auto-selected |
-| **Health monitor** | Verifies the environment | `/healthcheck` |
-
-</details>
-
-<details>
-<summary><b>Before vs after (click to expand)</b></summary>
-
-<br>
-
-| Capability | Without Apex | With Apex |
-|-----------|--------------|-----------|
-| Tool activation | You manually pick skills/agents | 3-layer routing activates the right tools from natural language |
-| Rule management | All rules loaded every session | CARL loads rules just-in-time by intent (saves tokens) |
-| Execution structure | Plans drift | PAUL enforces Plan-Apply-Unify with quality gates |
-| Memory hygiene | Grows forever, gets stale | Dream consolidates between sessions |
-| Codebase navigation | Raw file reads | Graphify graph queries (far cheaper per lookup) |
-| Component generation | Copy-paste from docs | 21st.dev Magic generates from language |
-| Agents | 0 custom specialists | 185 available across the environment |
-| Health monitoring | No way to check | `/healthcheck` |
-
-</details>
+Plus account connectors (Canva, Gmail, Google Calendar, Google Drive) and ~15 more
+installable from the marketplaces (asana, discord, firebase, gitlab, linear, telegram,
+serena, terraform, ...). Keys are referenced as `${VAR}` and resolved from
+`~/.claude/.env` -- nothing is hard-coded.
 
 ---
 
 ## Install
 
-> **Prerequisites:** Claude Code installed, plus `git` and `bash`. The installer is
-> **non-destructive** -- it backs up your existing `~/.claude/` first, never overwrites
-> files you already have, and ships an uninstaller.
+The aim here is not "run this and hope." It is: **understand each step, end up with the
+same environment I run, and know how to extend it.** Pick the path that fits you.
 
-### Option 1 -- ask your Claude Code (easiest, recommended)
+> **Prerequisites**
+> - **Claude Code** installed and working (run `claude` once).
+> - **git** and **bash** (built in on macOS/Linux; on Windows use Git Bash or WSL).
+> - That is all. No API keys are required to install -- you add your own later, only for
+>   the MCP servers you actually want.
+>
+> **What the installer guarantees**
+> - It **backs up** your entire `~/.claude/` to a timestamped folder first.
+> - It **never overwrites** a file you already have (your agents/skills stay yours).
+> - It **merges** settings -- it adds MCP servers and hooks, it removes nothing.
+> - It ships an **uninstaller** that restores your backup in one command.
 
-**Step 1** -- paste this into a Claude Code session:
+### Path A -- let Claude Code install it (recommended for everyone)
+
+This is the fastest path and the best demonstration of the environment: you ask in
+plain English, and Claude Code does the work.
+
+**Step 1.** Open Claude Code and paste this. It clones, reads the repo's own
+instructions, backs you up, and installs:
 
 ```
-Clone https://github.com/YousefNabil-SOC/claude-apex and install it to my Claude
-Code environment. Read CLAUDE.md in the repo for instructions. Back up my existing
-config first.
+Clone https://github.com/YousefNabil-SOC/claude-apex and install it into my Claude
+Code environment. Read CLAUDE.md in the repo and follow it exactly. Back up my
+existing ~/.claude first, and do not overwrite anything I already have.
 ```
 
-Wait for it to finish, then restart Claude Code.
+When it finishes, **restart Claude Code** (close and reopen the session) so the new
+hooks and settings load.
 
-**Step 2** -- open a fresh session and paste this to pull in the community plugin set:
+**Step 2.** In a fresh session, paste this to pull in the community plugin set -- this is
+where the bulk of the 1,276 skills and 185 agents come from:
 
 ```
-Complete the Apex setup:
+Finish my Claude Apex setup:
 1. /plugin marketplace add https://github.com/anthropic-community/everything-claude-code
 2. /plugin install everything-claude-code
 3. /plugin marketplace add https://github.com/Yeachan-Heo/oh-my-claudecode
 4. /plugin install oh-my-claudecode
 5. /oh-my-claudecode:omc-setup
-6. /healthcheck   (verify everything is green)
+6. /healthcheck     (confirm every system reports OK)
 ```
 
+> **Tip.** If `/healthcheck` flags anything, paste the exact line back to Claude Code and
+> say "fix this." The environment is self-healing by design.
+
+### Path B -- one command (you prefer the terminal)
+
 <details>
-<summary><b>Option 2 -- one command (macOS / Linux)</b></summary>
+<summary><b>macOS / Linux</b></summary>
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/install.sh | bash
@@ -236,7 +280,7 @@ curl -fsSL https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/
 </details>
 
 <details>
-<summary><b>Option 3 -- one command (Windows PowerShell)</b></summary>
+<summary><b>Windows (PowerShell)</b></summary>
 
 ```powershell
 irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/install.ps1 | iex
@@ -244,7 +288,7 @@ irm https://raw.githubusercontent.com/YousefNabil-SOC/claude-apex/master/install
 </details>
 
 <details>
-<summary><b>Option 4 -- interactive (all platforms)</b></summary>
+<summary><b>Interactive (asks before each step)</b></summary>
 
 ```bash
 git clone https://github.com/YousefNabil-SOC/claude-apex.git
@@ -253,7 +297,20 @@ bash install-interactive.sh
 ```
 </details>
 
-### Verify
+### Step 3 -- turn on the MCP servers you want
+
+MCP servers need their own keys. Copy the template and fill in only the ones you use:
+
+```bash
+cp ~/.claude/.env.template ~/.claude/.env
+# then edit ~/.claude/.env -- e.g. GITHUB_PERSONAL_ACCESS_TOKEN, EXA_API_KEY,
+# TWENTY_FIRST_DEV_API_KEY -- leave the rest blank; unused servers simply stay off.
+```
+
+> **Why it is safe.** No key is ever committed: `.gitignore` excludes `.env`, and the repo
+> ships only the template (variable names, no values). See [SECURITY.md](SECURITY.md).
+
+### Step 4 -- verify
 
 ```bash
 cd claude-apex
@@ -261,34 +318,97 @@ bash verify.sh
 ```
 
 `verify.sh` runs 30+ checks across agents, commands, hooks, skills, configuration, MCP
-servers, third-party tools, backup status, and conflicts. Full walkthrough in
-[INSTALL.md](INSTALL.md).
+servers, third-party tools, backup status, and conflict detection. Green across the
+board means your environment matches mine. Full walkthrough: [INSTALL.md](INSTALL.md).
 
 <details>
-<summary><b>What gets installed (click to expand)</b></summary>
+<summary><b>What exactly gets installed (transparency)</b></summary>
 
 <br>
 
-**From this repository (original work):**
-- 25 specialist agent definitions
-- ~45 top-level commands + the `paul/`, `seed/`, and `autoresearch/` suites
-- 7 hook scripts (carl-hook.py, session-start-check, session-end-save, post-compact-recovery, project-auto-graph, peers-auto-register, task-complete-sound)
-- 9 original skills (premium-web-design, graphify, 21st-dev-magic, autoresearch, dream-consolidation, graphic-design-studio, impeccable, fireworks-tech-graph, instagram-access)
-- 19 gstack-derived `gs-*` skills (MIT -- see ATTRIBUTIONS.md)
-- CARL configuration (10 domains), CAPABILITY-REGISTRY, COMMAND-REGISTRY, orchestration engine
-- CLAUDE.md / PRIMER templates and a `.env` template (key names only, no secrets)
+**From this repository (original work):** 25 specialist agents; ~45 top-level commands
+plus the `paul/`, `seed/`, `autoresearch/` suites; 7 hook scripts; 9 original skills; 19
+gstack-derived `gs-*` skills (MIT); CARL config (10 domains), CAPABILITY-REGISTRY,
+COMMAND-REGISTRY, orchestration engine; CLAUDE.md / PRIMER templates; a `.env` template
+(key names only).
 
-**Pulled from their official sources (third-party, open source, credited):**
-- [oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode), [PAUL](https://github.com/ChristopherKahler/paul), [SEED](https://github.com/ChristopherKahler/seed), the everything-claude-code marketplace, and more.
-
-This split is why the repo shows a curated core while the running environment resolves
-to the larger totals at the top.
+**Pulled from official sources (third-party, open source, credited):**
+[oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode),
+[PAUL](https://github.com/ChristopherKahler/paul),
+[SEED](https://github.com/ChristopherKahler/seed), the everything-claude-code
+marketplace, and the MCP servers above. This split is why the repo shows a curated core
+while the running environment resolves to the larger totals.
 
 </details>
 
 ---
 
-## Documentation -- three tiers
+## Make it yours
+
+The environment is meant to be extended. Here is the whole pattern.
+
+<details>
+<summary><b>Add a skill</b> (a reusable recipe Claude reads on demand)</summary>
+
+<br>
+
+```bash
+mkdir -p ~/.claude/skills/my-skill
+cat > ~/.claude/skills/my-skill/SKILL.md <<'EOF'
+---
+name: my-skill
+description: One line on when this skill should fire.
+---
+# My Skill
+Steps, examples, and rules go here. Claude loads this only when relevant.
+EOF
+```
+Then add a recall keyword for it in `config/capability-registry.md` so the router knows
+when to load it.
+</details>
+
+<details>
+<summary><b>Add an agent</b> (a specialist sub-agent)</summary>
+
+<br>
+
+```bash
+cat > ~/.claude/agents/my-reviewer.md <<'EOF'
+---
+name: my-reviewer
+description: When to use this agent.
+model: sonnet
+tools: Read, Grep, Glob, Bash
+---
+You are a focused reviewer. Your job is ...
+EOF
+```
+Apex auto-discovers it; reference it by name or let the registry select it per task.
+</details>
+
+<details>
+<summary><b>Add an MCP server</b> (a new tool the agent can reach)</summary>
+
+<br>
+
+Add to `~/.claude/settings.json` under `mcpServers`, and one recall rule in the
+capability registry:
+
+```json
+"mcpServers": {
+  "my-server": {
+    "command": "npx",
+    "args": ["-y", "my-mcp-package"],
+    "env": { "MY_API_KEY": "${MY_API_KEY}" }
+  }
+}
+```
+Put the real `MY_API_KEY` in `~/.claude/.env`. Done -- it joins the auto-activation flow.
+</details>
+
+---
+
+## Documentation
 
 Pick your level. Every link points to a file that ships in this repo's `docs/`.
 
